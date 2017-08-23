@@ -19,7 +19,7 @@ public class MapMain extends JavaPlugin {
     public void onEnable() {
         MapMain.plugin = this;
         Bukkit.getPluginManager().registerEvents(new ScoreManager(), MapMain.getPlugin());
-        MapClassGetter.loadListeners("br.com.introcdc.mapmeelv4.level", MapMain.class);
+        MapClassGetter.loadListeners("br.com.introcdc.mapmeelv4.histories", MapMain.class);
         MapClassGetter.loadListeners("br.com.introcdc.mapmeelv4.listeners", MapMain.class);
         MapClassGetter.loadCommands("br.com.introcdc.mapmeelv4.commands", MapMain.class);
         MapUtils.loadWorlds();

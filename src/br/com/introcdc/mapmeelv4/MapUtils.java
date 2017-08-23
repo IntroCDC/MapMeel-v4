@@ -1,26 +1,28 @@
 package br.com.introcdc.mapmeelv4;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Calendar;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
+import java.io.*;
+import java.net.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.SignStyle;
+import java.util.*;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.npc.skin.SkinnableEntity;
+import net.citizensnpcs.util.NMS;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -37,7 +39,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.gson.JsonParser;
 import com.sk89q.worldedit.CuboidClipboard;
@@ -48,8 +49,6 @@ import com.sk89q.worldedit.world.DataException;
 
 import br.com.introcdc.mapmeelv4.bases.ItemBuilder;
 import br.com.introcdc.mapmeelv4.enums.Warp;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
 import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_12_R1.MinecraftServer;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
@@ -58,74 +57,132 @@ import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTitle.EnumTitleAction;
 import net.minecraft.server.v1_12_R1.PlayerConnection;
 
+import static java.time.temporal.ChronoField.*;
+import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
+import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
+
 public class MapUtils {
 
     public static final Calendar calendar = Calendar.getInstance();
 
-    public static final Color[] colors = new Color[] { Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.WHITE, Color.YELLOW };
+    public static final Color[] colors = new Color[]{Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.WHITE, Color.YELLOW};
     public static final JsonParser parser = new JsonParser();
 
     public static final String PREFIX = "§5§l§oMap§f§l§oMeel §5§l§o>§f§l§o> §f";
 
     public static final Random random = new Random();
 
+    private static DateTimeFormatter TIME_FORMATTER = new DateTimeFormatterBuilder().appendValue(DAY_OF_MONTH, 2).appendLiteral('/').appendValue(MONTH_OF_YEAR, 2).appendLiteral('/').appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD).appendLiteral(" - ").appendValue(HOUR_OF_DAY, 2).appendLiteral(':').appendValue(MINUTE_OF_HOUR, 2).appendLiteral(':').appendValue(SECOND_OF_MINUTE, 2).toFormatter();
+
     public static void broadcastMessage(final String message) {
         Bukkit.broadcastMessage(message);
     }
 
-    public static String convertToDate(final long number) {
-        calendar.setTimeInMillis(number);
-        return placeZero(calendar.get(Calendar.DAY_OF_MONTH)) + "/" + placeZero(calendar.get(Calendar.MONTH) + 1) + "/" + placeZero(calendar.get(Calendar.YEAR)) + " - " + placeZero(calendar.get(Calendar.HOUR_OF_DAY)) + ":" + placeZero(calendar.get(Calendar.MINUTE)) + ":" + placeZero(calendar.get(Calendar.SECOND));
-    }
-
-    public static long convertToMilliSeconds(long tempo, final String tipo) {
-        tempo = tempo * 1000;
-        if (tipo.equalsIgnoreCase("s")) {
-            return tempo;
-        }
-        tempo = tempo * 60;
-        if (tipo.equalsIgnoreCase("m")) {
-            return tempo;
-        }
-        tempo = tempo * 60;
-        if (tipo.equalsIgnoreCase("h")) {
-            return tempo;
-        }
-        tempo = tempo * 24;
-        if (tipo.equalsIgnoreCase("d")) {
-            return tempo;
-        } else if (tipo.equalsIgnoreCase("semana")) {
-            tempo = tempo * 7;
-            return tempo;
-        }
-        tempo = tempo * 31;
-        if (tipo.equalsIgnoreCase("mes")) {
-            return tempo;
-        }
-        tempo = tempo * 12;
-        if (tipo.equalsIgnoreCase("a")) {
-            return tempo;
-        } else {
-            return Long.parseLong("ERROR");
-        }
-    }
-
-    public static NPC createNPC(final EntityType type, final String name, final Location location, final String skin) {
-        final NPC npc = CitizensAPI.getNPCRegistry().createNPC(type, name);
+    public static NPC createNPC(EntityType type, String name, Location location) {
+        NPC npc = CitizensAPI.getNPCRegistry().createNPC(type, name);
         npc.spawn(location);
         return npc;
     }
 
-    public static void createZipFile(final HashMap<String, String> files, final File destiny) throws IOException {
-        final int BUFFER = 2048;
+    public static String convertToBarProgress(long max, long use, int size) {
+        double currentHealth = Math.max(use, 0);
+        double healthPercentage = currentHealth / max * 100.0D;
+        String spacer = "|";
+        int coloredDisplay = (int) Math.ceil(size * (healthPercentage / 100.0D));
+        StringBuilder healthbar = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            if (coloredDisplay > 0) {
+                healthbar.append("§a").append(spacer);
+                coloredDisplay--;
+            } else {
+                healthbar.append("§8").append(spacer);
+            }
+        }
+        healthbar = new StringBuilder("§f[" + healthbar + "§f]");
+        return healthbar.toString();
+    }
+
+    public static String convertToDate(long number) {
+        return TIME_FORMATTER.format(Instant.ofEpochMilli(number).atZone(ZoneId.systemDefault()).toLocalDateTime());
+    }
+
+    public static long convertToMilliSeconds(long tempo, String tipo) {
+        tempo = tempo * 1000;
+        if (tipo.equalsIgnoreCase("s") || tipo.toLowerCase().contains("segundo") || tipo.toLowerCase().contains("segundos")) {
+            return tempo;
+        }
+        tempo = tempo * 60;
+        if (tipo.equalsIgnoreCase("m") || tipo.toLowerCase().contains("minuto") || tipo.toLowerCase().contains("minutos")) {
+            return tempo;
+        }
+        tempo = tempo * 60;
+        if (tipo.equalsIgnoreCase("h") || tipo.toLowerCase().contains("hora") || tipo.toLowerCase().contains("horas")) {
+            return tempo;
+        }
+        tempo = tempo * 24;
+        if (tipo.equalsIgnoreCase("d") || tipo.toLowerCase().contains("dia") || tipo.toLowerCase().contains("dias")) {
+            return tempo;
+        } else if (tipo.toLowerCase().contains("semana") || tipo.toLowerCase().contains("semanas")) {
+            tempo = tempo * 7;
+            return tempo;
+        }
+        tempo = tempo * 31;
+        if (tipo.toLowerCase().contains("mes") || tipo.toLowerCase().contains("meses")) {
+            return tempo;
+        }
+        tempo = tempo * 12;
+        if (tipo.equalsIgnoreCase("a") || tipo.toLowerCase().contains("ano") || tipo.toLowerCase().contains("anos")) {
+            return tempo;
+        } else {
+            return -1;
+        }
+    }
+
+    public static int convertToPercent(int current, int max) {
+        return max <= 0 ? 0 : current * 100 / max;
+    }
+
+    public static void copy(File sourceLocation, File targetLocation) throws IOException {
+        if (sourceLocation.isDirectory()) {
+            copyDirectory(sourceLocation, targetLocation);
+        } else {
+            copyFile(sourceLocation, targetLocation);
+        }
+    }
+
+    private static void copyDirectory(File source, File target) throws IOException {
+        if (!target.exists()) {
+            target.mkdirs();
+        }
+        for (String file : source.list()) {
+            copy(new File(source, file), new File(target, file));
+        }
+    }
+
+    private static void copyFile(File source, File target) throws IOException {
+        try (InputStream in = new FileInputStream(source); OutputStream out = new FileOutputStream(target)) {
+            byte[] buf = new byte[1024];
+            int length;
+            while ((length = in.read(buf)) > 0) {
+                out.write(buf, 0, length);
+            }
+        }
+    }
+
+    public static void createZipFile(HashMap<String, String> files, File destiny) throws IOException {
+        destiny.getParentFile().mkdirs();
+        if (!destiny.exists()) {
+            destiny.createNewFile();
+        }
+        int BUFFER = 2048;
         BufferedInputStream origin = null;
-        final FileOutputStream dest = new FileOutputStream(destiny);
-        final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
-        for (final String file : files.keySet()) {
-            final byte data[] = new byte[BUFFER];
-            final FileInputStream fileInput = new FileInputStream(file);
+        FileOutputStream dest = new FileOutputStream(destiny);
+        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
+        for (String file : files.keySet()) {
+            byte data[] = new byte[BUFFER];
+            FileInputStream fileInput = new FileInputStream(file);
             origin = new BufferedInputStream(fileInput, BUFFER);
-            final ZipEntry entry = new ZipEntry(files.get(file));
+            ZipEntry entry = new ZipEntry(files.get(file));
             out.putNextEntry(entry);
             int count;
             while ((count = origin.read(data, 0, BUFFER)) != -1) {
@@ -138,15 +195,58 @@ public class MapUtils {
         out.close();
     }
 
-    public static void downloadFile(final String URL, final File destiny) throws Exception {
+    public static void deleteFileOrFolder(Path path) {
+        try {
+            Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
+
+                private FileVisitResult handleException(IOException e) {
+                    return FileVisitResult.TERMINATE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException e) throws IOException {
+                    if (e != null) {
+                        return this.handleException(e);
+                    }
+                    try {
+                        Files.delete(dir);
+                    } catch (Exception ignored) {
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    try {
+                        Files.delete(file);
+                    } catch (Exception ignored) {
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult visitFileFailed(Path file, IOException e) {
+                    return this.handleException(e);
+                }
+            });
+        } catch (Exception ignored) {
+        }
+    }
+
+    public static void downloadFile(String URL, File destiny) throws Exception {
+        destiny.getParentFile().mkdirs();
+        if (!destiny.exists()) {
+            destiny.createNewFile();
+        }
         BufferedInputStream in = null;
         FileOutputStream fout = null;
         try {
-            final URL url = new URL(URL);
-            in = new BufferedInputStream(url.openStream());
+            URLConnection connection = new URL(URL).openConnection();
+            connection.addRequestProperty("User-Agent", "Kindome/IntroCDC");
+            in = new BufferedInputStream(connection.getInputStream());
             fout = new FileOutputStream(destiny);
 
-            final byte data[] = new byte[1024];
+            byte data[] = new byte[1024];
             int count;
             while ((count = in.read(data, 0, 1024)) != -1) {
                 fout.write(data, 0, count);
@@ -162,22 +262,22 @@ public class MapUtils {
         }
     }
 
-    public static void extractZipFile(final File fsrc, final File fdest) throws IOException {
-        final int BUFFER = (int) fsrc.length();
-        final ZipFile zip = new ZipFile(fsrc);
-        final Enumeration<?> zipFileEntries = zip.entries();
+    public static void extractZipFile(File fsrc, File fdest) throws IOException {
+        int BUFFER = (int) fsrc.length();
+        ZipFile zip = new ZipFile(fsrc);
+        Enumeration<?> zipFileEntries = zip.entries();
         while (zipFileEntries.hasMoreElements()) {
-            final ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
-            final String currentEntry = entry.getName();
-            final File destFile = new File(fdest, currentEntry);
-            final File destinationParent = destFile.getParentFile();
+            ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
+            String currentEntry = entry.getName();
+            File destFile = new File(fdest, currentEntry);
+            File destinationParent = destFile.getParentFile();
             destinationParent.mkdirs();
             if (!entry.isDirectory()) {
-                final BufferedInputStream is = new BufferedInputStream(zip.getInputStream(entry));
+                BufferedInputStream is = new BufferedInputStream(zip.getInputStream(entry));
                 int currentByte;
-                final byte data[] = new byte[BUFFER];
-                final FileOutputStream fos = new FileOutputStream(destFile);
-                final BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER);
+                byte data[] = new byte[BUFFER];
+                FileOutputStream fos = new FileOutputStream(destFile);
+                BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER);
                 while ((currentByte = is.read(data, 0, BUFFER)) != -1) {
                     dest.write(data, 0, currentByte);
                 }
@@ -249,6 +349,68 @@ public class MapUtils {
         CuboidClipboard.loadSchematic(file).paste(es, new com.sk89q.worldedit.Vector(location.getX(), location.getY(), location.getZ()), noAir);
     }
 
+    public static String getServerIP() throws SocketException {
+        String IP = "127.0.0.1 (NF)";
+        Enumeration e = NetworkInterface.getNetworkInterfaces();
+        while (e.hasMoreElements()) {
+            NetworkInterface n = (NetworkInterface) e.nextElement();
+            Enumeration ee = n.getInetAddresses();
+            while (ee.hasMoreElements()) {
+                InetAddress i = (InetAddress) ee.nextElement();
+                if (i.getHostAddress().contains("192.168.0")) {
+                    return i.getHostAddress();
+                } else if (!i.getHostAddress().contains(":") && !i.getHostAddress().contains("127.0.0.1")) {
+                    IP = i.getHostAddress();
+                }
+            }
+        }
+        return IP;
+    }
+
+    public static String hashSha512(String passwordToHash, String salt) {
+        String generatedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt.getBytes("UTF-8"));
+            byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            for (byte b : bytes) {
+                sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return generatedPassword;
+    }
+
+    public static String getServerKey() throws UnknownHostException {
+        byte[] bytesHost = Base64.getEncoder().encode(InetAddress.getLocalHost().toString().getBytes());
+        return new String(bytesHost).replace("=", "");
+    }
+
+    public static boolean isNumber(String integer) {
+        if (integer.length() >= 18) {
+            return false;
+        }
+        try {
+            Integer.parseInt(integer);
+            return true;
+        } catch (Exception ignored) {
+        }
+        try {
+            Double.parseDouble(integer);
+            return true;
+        } catch (Exception ignored) {
+        }
+        try {
+            Long.parseLong(integer);
+            return true;
+        } catch (Exception ignored) {
+        }
+        return false;
+    }
+
     public static void loadWorlds() {
         for (final Warp warp : Warp.values()) {
             if (!warp.getWorld().equalsIgnoreCase("world")) {
@@ -271,10 +433,6 @@ public class MapUtils {
         return blocks;
     }
 
-    public static String placeZero(final long number) {
-        return number >= 10 ? Long.toString(number) : String.format("0%s", Long.toString(number));
-    }
-
     public static void playSound(final Player player, final Sound sound) {
         player.playSound(player.getLocation(), sound, 50000, 1);
     }
@@ -286,16 +444,6 @@ public class MapUtils {
     public static void sendActionBar(final Player player, final String message) {
         final PacketPlayOutChat chat = new PacketPlayOutChat(ChatSerializer.a("{\"text\":\"" + message + "\"}"));
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(chat);
-    }
-
-    public static void sendLobbyAleatorio(final Player player) {
-        new BukkitRunnable() {
-
-            @Override
-            public void run() {
-                sendPluginMessage(player, "SendLobby");
-            }
-        }.runTaskAsynchronously(getPlugin());
     }
 
     public static void sendPlayer(final Player player, final String server) {
@@ -344,24 +492,76 @@ public class MapUtils {
         playerConnection.sendPacket(subtitlePacket);
     }
 
-    public static String sToTime(long seconds) {
-        final long years = seconds / 32140800;
-        final long months = seconds % 32140800 / 2678400;
-        final long days = seconds % 2678400 / 86400;
-        final long hours = seconds % 86400 / 3600;
-        final long minutes = seconds % 3600 / 60;
-        seconds = seconds % 60;
-        return (years > 0 ? placeZero(years) + "A " : "") + (months > 0 ? placeZero(months) + "M " : "") + (days > 0 ? placeZero(days) + "d " : "") + (hours > 0 ? placeZero(hours) + "h " : "") + (minutes > 0 ? placeZero(minutes) + "m " : "") + placeZero(seconds) + "s";
+    public static String placeZero(long number) {
+        return number >= 10 ? Long.toString(number) : String.format("0%s", Long.toString(number));
     }
 
-    public static String sToTimeComplete(long seconds) {
-        final long years = seconds / 32140800;
-        final long months = seconds % 32140800 / 2678400;
-        final long days = seconds % 2678400 / 86400;
-        final long hours = seconds % 86400 / 3600;
-        final long minutes = seconds % 3600 / 60;
-        seconds = seconds % 60;
-        return (years > 0 ? years + (years == 1 ? " ano, " : " anos, ") : "") + (months > 0 ? months + (months == 1 ? " mês, " : " meses, ") : "") + (days > 0 ? days + (days == 1 ? " dia, " : " dias, ") : "") + (hours > 0 ? hours + (hours == 1 ? " hora, " : " horas, ") : "") + (minutes > 0 ? minutes + (minutes == 1 ? " minuto e " : " minutos e ") : "") + seconds + (seconds == 1 ? " segundo" : " segundos");
+    public static String sToTime(long totalTime) {
+        long years = totalTime / 32140800;
+        long months = totalTime % 32140800 / 2678400;
+        long days = totalTime % 2678400 / 86400;
+        long hours = totalTime % 86400 / 3600;
+        long minutes = totalTime % 3600 / 60;
+        long seconds = totalTime % 60;
+        if (totalTime > 0) {
+            return (years > 0 ? placeZero(years) + "A " : "") + (months > 0 ? placeZero(months) + "M " : "") + (days > 0 ? placeZero(days) + "d " : "") + (hours > 0 ? placeZero(hours) + "h " : "") + (minutes > 0 ? placeZero(minutes) + "m " : "") + (seconds > 0 ? placeZero(seconds) + "s " : "");
+        }
+        return "0s";
+    }
+
+    public static String sToTimeComplete(long totalTime) {
+        long years = totalTime / 32140800;
+        long months = totalTime % 32140800 / 2678400;
+        long days = totalTime % 2678400 / 86400;
+        long hours = totalTime % 86400 / 3600;
+        long minutes = totalTime % 3600 / 60;
+        long seconds = totalTime % 60;
+        if (totalTime > 0) {
+            String result = "";
+            if (years > 0) {
+                result += years + " ano" + (years == 1 ? "" : "s");
+                if (months > 0 || days > 0 || hours > 0 || minutes > 0) {
+                    result += ", ";
+                } else if (seconds > 0) {
+                    result += " e ";
+                }
+            }
+            if (months > 0) {
+                result += months + " " + (months == 1 ? "mês" : "meses");
+                if (days > 0 || hours > 0 || minutes > 0) {
+                    result += ", ";
+                } else if (seconds > 0) {
+                    result += " e ";
+                }
+            }
+            if (days > 0) {
+                result += days + " dia" + (days == 1 ? "" : "s");
+                if (hours > 0 || minutes > 0) {
+                    result += ", ";
+                } else if (seconds > 0) {
+                    result += " e ";
+                }
+            }
+            if (hours > 0) {
+                result += hours + " hora" + (hours == 1 ? "" : "s");
+                if (minutes > 0) {
+                    result += ", ";
+                } else if (seconds > 0) {
+                    result += " e ";
+                }
+            }
+            if (minutes > 0) {
+                result += minutes + " minuto" + (minutes == 1 ? "" : "s");
+                if (seconds > 0) {
+                    result += " e ";
+                }
+            }
+            if (seconds > 0) {
+                result += seconds + " segundo" + (seconds == 1 ? "" : "s");
+            }
+            return result;
+        }
+        return "0 segundos";
     }
 
 }

@@ -1,4 +1,4 @@
-package br.com.introcdc.mapmeelv4.level;
+package br.com.introcdc.mapmeelv4.histories;
 
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
