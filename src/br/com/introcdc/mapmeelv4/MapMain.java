@@ -1,5 +1,6 @@
 package br.com.introcdc.mapmeelv4;
 
+import br.com.introcdc.mapmeelv4.level.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,6 +25,7 @@ public class MapMain extends JavaPlugin {
         MapClassGetter.loadCommands("br.com.introcdc.mapmeelv4.commands", MapMain.class);
         MapUtils.loadWorlds();
         UpdateEventStarter.startAll();
+        Level.loadLeveis();
     }
 
 }

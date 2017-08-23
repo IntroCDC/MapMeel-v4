@@ -1,5 +1,34 @@
 package br.com.introcdc.mapmeelv4;
 
+import br.com.introcdc.mapmeelv4.bases.ItemBuilder;
+import br.com.introcdc.mapmeelv4.bases.MapCoin;
+import br.com.introcdc.mapmeelv4.enums.CoinType;
+import br.com.introcdc.mapmeelv4.enums.Music;
+import br.com.introcdc.mapmeelv4.enums.Warp;
+import br.com.introcdc.mapmeelv4.level.Level;
+import com.google.gson.JsonParser;
+import com.sk89q.worldedit.CuboidClipboard;
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.MaxChangedBlocksException;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.world.DataException;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_R1.PacketPlayOutTitle.EnumTitleAction;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.plugin.Plugin;
+
 import java.io.*;
 import java.net.*;
 import java.nio.file.FileVisitResult;
@@ -19,47 +48,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.npc.skin.SkinnableEntity;
-import net.citizensnpcs.util.NMS;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.WorldCreator;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.plugin.Plugin;
-
-import com.google.gson.JsonParser;
-import com.sk89q.worldedit.CuboidClipboard;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.MaxChangedBlocksException;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.world.DataException;
-
-import br.com.introcdc.mapmeelv4.bases.ItemBuilder;
-import br.com.introcdc.mapmeelv4.enums.Warp;
-import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_12_R1.MinecraftServer;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
-import net.minecraft.server.v1_12_R1.PacketPlayOutTitle.EnumTitleAction;
-import net.minecraft.server.v1_12_R1.PlayerConnection;
-
 import static java.time.temporal.ChronoField.*;
-import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
-import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
 public class MapUtils {
 
@@ -82,6 +71,14 @@ public class MapUtils {
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(type, name);
         npc.spawn(location);
         return npc;
+    }
+
+    public static MapCoin coin(Level level, double x, double y, double z, CoinType coinType) {
+        Location location = level.getWarp().getLocation().clone();
+        location.setX(x);
+        location.setY(y);
+        location.setZ(z);
+        return new MapCoin(location, coinType);
     }
 
     public static String convertToBarProgress(long max, long use, int size) {
@@ -437,8 +434,8 @@ public class MapUtils {
         player.playSound(player.getLocation(), sound, 50000, 1);
     }
 
-    public static void playSound(final Player player, final String sound) {
-        player.playSound(player.getLocation(), sound, 50000, 1);
+    public static void playSound(final Player player, final Music music) {
+        player.playSound(player.getLocation(), music.getFile(), 50000, 1);
     }
 
     public static void sendActionBar(final Player player, final String message) {

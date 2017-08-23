@@ -27,7 +27,7 @@ public class MapHologram extends MapUtils implements Listener {
         this.text = text;
         this.location = location;
         this.visible = true;
-        final NPC armorStand = createNPC(EntityType.ARMOR_STAND, text, location, null);
+        final NPC armorStand = createNPC(EntityType.ARMOR_STAND, text, location);
         final ArmorStand dasdsadsadassda = (ArmorStand) armorStand.getEntity();
         dasdsadsadassda.setVisible(false);
         dasdsadsadassda.setGravity(false);

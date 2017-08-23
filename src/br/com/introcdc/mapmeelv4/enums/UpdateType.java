@@ -5,7 +5,5 @@ public enum UpdateType {
     HOURS,
     MINUTES,
     SECONDS,
-    TICK;
-    UpdateType() {
-    }
+    TICK
 }
