@@ -28,6 +28,15 @@ public abstract class Level extends MapUtils {
         return leveis;
     }
 
+    public static Level getLevel(String name) {
+        for(Level level : leveis.values()) {
+            if(level.getWarp().getName().equalsIgnoreCase(name)) {
+                return level;
+            }
+        }
+        return null;
+    }
+
     public static Level currentLevel;
 
     private String name;
@@ -39,10 +48,11 @@ public abstract class Level extends MapUtils {
     public List<LevelObjective> objectives;
     public MapCoin[] mapCoins;
 
-    public Level(String name, BlockId blockId, Warp warp, LevelObjective[] objectives, MapCoin... mapCoins) {
+    public Level(String name, BlockId blockId, Warp warp, Music backgroundMusic, LevelObjective[] objectives, MapCoin... mapCoins) {
         this.name = name;
         this.blockId = blockId;
         this.warp = warp;
+        this.backgroundMusic = backgroundMusic;
         this.objectives = Arrays.asList(objectives);
         this.loadedCoins = Arrays.asList(mapCoins);
         leveis.remove(this.getName());
@@ -63,6 +73,10 @@ public abstract class Level extends MapUtils {
 
     public Warp getWarp() {
         return warp;
+    }
+
+    public Music getBackgroundMusic() {
+        return backgroundMusic;
     }
 
     public List<LevelObjective> getObjectives() {

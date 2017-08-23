@@ -4,15 +4,23 @@ package br.com.introcdc.mapmeelv4.enums;
  */
 
 public enum Music {
-    STARTING("mapmeelv4.music.starting");
+    STOP("mapmeelv4.effect.null", 1),
+    STARTING("mapmeelv4.music.starting", 1),
+    MUSIC_ONE("mapmeelv4.music.music_one", 2);
 
     private String file;
+    private int minutes;
 
-    Music(String file) {
+    Music(String file, int minutes) {
         this.file = file;
+        this.minutes = minutes;
     }
 
     public String getFile() {
         return file;
+    }
+
+    public int getMinutes() {
+        return minutes;
     }
 }

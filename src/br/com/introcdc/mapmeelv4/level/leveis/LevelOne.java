@@ -4,6 +4,7 @@ package br.com.introcdc.mapmeelv4.level.leveis;
  */
 
 import br.com.introcdc.mapmeelv4.bases.BlockId;
+import br.com.introcdc.mapmeelv4.enums.Music;
 import br.com.introcdc.mapmeelv4.enums.Warp;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
@@ -13,12 +14,11 @@ import org.bukkit.entity.Player;
 public class LevelOne extends Level {
 
     public LevelOne() {
-        super("Mountain Village", new BlockId(Material.STAINED_GLASS_PANE), Warp.L_1A, new LevelObjective[]{});
+        super("Mountain Village", new BlockId(Material.STAINED_GLASS_PANE), Warp.L_1A, Music.MUSIC_ONE, new LevelObjective[]{});
     }
 
     @Override
     public void onJoinPortal(Player player) {
-
     }
 
     @Override
