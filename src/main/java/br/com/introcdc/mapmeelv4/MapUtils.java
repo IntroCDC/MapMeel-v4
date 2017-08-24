@@ -6,6 +6,7 @@ import br.com.introcdc.mapmeelv4.enums.CoinType;
 import br.com.introcdc.mapmeelv4.enums.Music;
 import br.com.introcdc.mapmeelv4.enums.Warp;
 import br.com.introcdc.mapmeelv4.level.Level;
+import br.com.introcdc.mapmeelv4.utils.ReflectionManager;
 import com.google.gson.JsonParser;
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.EditSession;
@@ -461,22 +462,13 @@ public class MapUtils {
         player.sendPluginMessage(getPlugin(), "BungeeCord", byteArray.toByteArray());
     }
 
-    public static void sendTablist(final Player player, final String Header, final String Footer) {
-        // try {
-        // final IChatBaseComponent header =
-        // IChatBaseComponent.ChatSerializer.a("{'text': '" + Header + "'}");
-        // final IChatBaseComponent footer =
-        // IChatBaseComponent.ChatSerializer.a("{'text': '" + Footer + "'}");
-        // final PacketPlayOutPlayerListHeaderFooter packetPlayOut = new
-        // PacketPlayOutPlayerListHeaderFooter(header);
-        // final Field field = packetPlayOut.getClass().getDeclaredField("b");
-        // field.setAccessible(true);
-        // field.set(packetPlayOut, footer);
-        // ((CraftPlayer)
-        // player).getHandle().playerConnection.sendPacket(packetPlayOut);
-        // } catch (final Exception e) {
-        // e.printStackTrace();
-        // }
+    public static void sendTablist(Player player, String header, String footer) {
+        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+        ReflectionManager reflectionManager = new ReflectionManager();
+        reflectionManager.begin(packet);
+        reflectionManager.setObject("a", new ChatComponentText(header));
+        reflectionManager.setObject("b", new ChatComponentText(footer));
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
     public static void sendTitle(final Player player, final String title, final String subtitle, final int fadeIn, final int duration, final int fadeOut) {
