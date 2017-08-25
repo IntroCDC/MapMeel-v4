@@ -1,19 +1,17 @@
 package br.com.introcdc.mapmeelv4;
 
-import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.google.gson.JsonElement;
+import br.com.introcdc.mapmeelv4.enums.Cargo;
+import br.com.introcdc.mapmeelv4.enums.CoinType;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 
-import br.com.introcdc.mapmeelv4.enums.Cargo;
-import br.com.introcdc.mapmeelv4.enums.CoinType;
+import java.io.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MapProfile extends MapUtils {
 
@@ -61,9 +59,7 @@ public class MapProfile extends MapUtils {
     }
 
     public void createFile() throws IOException {
-        for (Map.Entry<String, JsonElement> property : getConfig().entrySet()) {
-            getConfig().remove(property.getKey());
-        }
+        this.config = new JsonObject();
         for (String award : allAwards) {
             getConfig().addProperty(award, 0);
         }
@@ -72,7 +68,7 @@ public class MapProfile extends MapUtils {
     }
 
     public void saveConfig() throws FileNotFoundException {
-        this.getConfigFile().mkdirs();
+        this.getConfigFile().getParentFile().mkdirs();
         PrintWriter writer = new PrintWriter(this.getConfigFile());
         writer.println(this.getConfig() != null ? this.getConfig().toString() : "{}");
         writer.flush();
@@ -85,6 +81,13 @@ public class MapProfile extends MapUtils {
 
     public HashMap<String, Long> getAwards() {
         return this.awards;
+    }
+
+    public long getAward(String award) {
+        if (this.getAwards().containsKey(award)) {
+            return this.getAwards().get(award);
+        }
+        return 0;
     }
 
     public Cargo getCargo() {
@@ -123,8 +126,9 @@ public class MapProfile extends MapUtils {
             return this;
         }
         this.config = parser.parse(new FileReader(configFile)).getAsJsonObject();
+        this.getAwards().clear();
         for (String award : allAwards) {
-            this.getAwards().replace(award, this.getConfig().get(award).getAsLong());
+            this.getAwards().put(award, this.getConfig().get(award).getAsLong());
         }
         this.cargo = Cargo.valueOf(this.getConfig().get("cargo").getAsString());
         this.loaded = true;
@@ -146,10 +150,8 @@ public class MapProfile extends MapUtils {
     }
 
     public void setAward(final String award, final long amount) throws IOException {
-        if (!this.getAwards().containsKey(award)) {
-            this.getAwards().put(award, amount);
-        }
-        this.getAwards().replace(award, amount);
+        this.getAwards().remove(award);
+        this.getAwards().put(award, amount);
         this.getConfig().remove(award);
         this.getConfig().addProperty(award, amount);
         saveConfig();

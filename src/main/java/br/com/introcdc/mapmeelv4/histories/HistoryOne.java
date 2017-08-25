@@ -18,7 +18,7 @@ public class HistoryOne extends MapUtils implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) throws Exception {
         MapProfile profile = getProfile(event.getPlayer().getName());
-        if (profile.getAwards().get("level") == 1) {
+        if (profile.getAward("level") == 1) {
             event.getPlayer().teleport(Warp.LOBBY.getLocation());
             playSound(event.getPlayer(), MapSound.STARTING);
             profile.setAward("level", 2);

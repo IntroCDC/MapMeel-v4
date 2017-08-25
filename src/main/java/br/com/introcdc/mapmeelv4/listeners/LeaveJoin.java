@@ -8,7 +8,6 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import br.com.introcdc.mapmeelv4.MapProfile;
 import br.com.introcdc.mapmeelv4.MapUtils;
 
 public class LeaveJoin extends MapUtils implements Listener {
@@ -18,13 +17,7 @@ public class LeaveJoin extends MapUtils implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(final PlayerJoinEvent event) throws Exception {
         event.setJoinMessage(null);
-        MapProfile profile = getProfile(event.getPlayer().getName());
-        if (!profile.existsProfile()) {
-            profile.createFile();
-        }
-        if (!profile.getAwards().containsKey("Level")) {
-            profile.setAward("level", 1);
-        }
+        getProfile(event.getPlayer().getName());
     }
 
     @EventHandler(priority = EventPriority.LOW)

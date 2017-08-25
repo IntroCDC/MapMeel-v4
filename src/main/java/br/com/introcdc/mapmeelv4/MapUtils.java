@@ -74,8 +74,8 @@ public class MapUtils {
         return npc;
     }
 
-    public static MapCoin coin(Level level, double x, double y, double z, CoinType coinType) {
-        Location location = level.getWarp().getLocation().clone();
+    public static MapCoin coin(Warp warp, double x, double y, double z, CoinType coinType) {
+        Location location = warp.getLocation().clone();
         location.setX(x);
         location.setY(y);
         location.setZ(z);

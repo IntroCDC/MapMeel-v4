@@ -12,15 +12,15 @@ import br.com.introcdc.mapmeelv4.enums.MapSound;
 import br.com.introcdc.mapmeelv4.enums.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@SuppressWarnings("EmptyMethod")
 public abstract class Level extends MapUtils {
 
     private static Map<String, Level> leveis = new HashMap<>();
@@ -88,16 +88,63 @@ public abstract class Level extends MapUtils {
     public static PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 100, 100);
 
     public void joinPortal(Player player) {
+        LevelObjective.reload();
+        int current = 0;
+        for (LevelObjective objective : getObjectives()) {
+            current++;
+            if (current == 1) {
+                ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(2, objective.getStringObjective());
+                LevelObjective.OBJ1.getBlock().getState().update();
+            }
+            if (current == 2) {
+                ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(2, objective.getStringObjective());
+                LevelObjective.OBJ2.getBlock().getState().update();
+            }
+            if (current == 3) {
+                ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(2, objective.getStringObjective());
+                LevelObjective.OBJ3.getBlock().getState().update();
+            }
+            if (current == 4) {
+                ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(2, objective.getStringObjective());
+                LevelObjective.OBJ4.getBlock().getState().update();
+            }
+            if (current == 5) {
+                ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(2, objective.getStringObjective());
+                LevelObjective.OBJ5.getBlock().getState().update();
+            }
+        }
         player.addPotionEffect(blindness);
         player.teleport(LISTOBJECTIVES);
+        playSound(player, MapSound.EFFECT_STARTING);
     }
 
     public abstract void onJoinPortal(Player player);
 
-    public void loadLevel() {
+    public static List<UUID> loadCooldown = new ArrayList<>();
+
+    public void loadLevel(Player player) {
+        if (loadCooldown.contains(player.getUniqueId())) {
+            return;
+        }
+        loadCooldown.add(player.getUniqueId());
         this.unloadCoins();
         this.loadCoins();
-        this.onLoadLevel();
+        this.onLoadLevel(player);
+        player.addPotionEffect(blindness);
+        sendTitle(player, "§l§oCarregando...", "§f§oAguarde", 0, 40, 20);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.teleport(getWarp().getLocation());
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        playSound(player, getBackgroundMapSound());
+                        loadCooldown.remove(player.getUniqueId());
+                    }
+                }.runTaskLater(getPlugin(), 10);
+            }
+        }.runTaskLater(getPlugin(), 20);
     }
 
     public void loadCoins() {
@@ -113,7 +160,7 @@ public abstract class Level extends MapUtils {
         this.onUnloadLevel();
     }
 
-    public abstract void onLoadLevel();
+    public abstract void onLoadLevel(Player player);
 
     public abstract void onUnloadLevel();
 

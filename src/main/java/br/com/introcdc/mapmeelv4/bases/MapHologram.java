@@ -40,6 +40,7 @@ public class MapHologram extends MapUtils implements Listener {
     }
 
     public void customUnload() {
+        this.isVisible();
     }
 
     public NPC getArmorStand() {

@@ -17,7 +17,7 @@ public class InteractEvent implements Listener {
         if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if(event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.WOOD_BUTTON) && Level.currentLevel != null) {
                 event.setCancelled(true);
-                Level.currentLevel.loadLevel();
+                Level.currentLevel.loadLevel(event.getPlayer());
             }
         }
     }
