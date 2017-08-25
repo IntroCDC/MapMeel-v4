@@ -1,16 +1,15 @@
 package br.com.introcdc.mapmeelv4;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import br.com.introcdc.mapmeelv4.enums.Cargo;
@@ -28,8 +27,8 @@ public class MapProfile extends MapUtils {
 
     private HashMap<String, Long> awards;
     private Cargo cargo;
-    private final YamlConfiguration config;
-    private final File configFile;
+    private JsonObject config;
+    private File configFile;
     private boolean loaded;
     private final String name;
     private long tempCoins;
@@ -37,8 +36,14 @@ public class MapProfile extends MapUtils {
     public MapProfile(final String name) {
         this.name = name;
         this.loaded = false;
-        this.configFile = new File(getPlugin().getDataFolder().getAbsolutePath() + "/profiles/" + this.getName() + ".yml");
-        this.config = new YamlConfiguration();
+        this.configFile = new File(getPlugin().getDataFolder().getAbsolutePath() + "/profiles/" + this.getName() + ".json");
+        if (this.configFile.exists()) {
+            try {
+                this.config = parser.parse(new FileReader(configFile)).getAsJsonObject();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         this.tempCoins = 0;
         this.cargo = Cargo.CONVIDADO;
         this.awards = new HashMap<>();
@@ -56,11 +61,22 @@ public class MapProfile extends MapUtils {
     }
 
     public void createFile() throws IOException {
-        for (String award : allAwards) {
-            this.getConfig().set(award, 0);
+        for (Map.Entry<String, JsonElement> property : getConfig().entrySet()) {
+            getConfig().remove(property.getKey());
         }
-        this.getConfig().set("cargo", Cargo.CONVIDADO.toString());
-        this.getConfig().save(this.getConfigFile());
+        for (String award : allAwards) {
+            getConfig().addProperty(award, 0);
+        }
+        getConfig().addProperty("cargo", Cargo.CONVIDADO.toString());
+        saveConfig();
+    }
+
+    public void saveConfig() throws FileNotFoundException {
+        this.getConfigFile().mkdirs();
+        PrintWriter writer = new PrintWriter(this.getConfigFile());
+        writer.println(this.getConfig() != null ? this.getConfig().toString() : "{}");
+        writer.flush();
+        writer.close();
     }
 
     public boolean existsProfile() {
@@ -75,7 +91,7 @@ public class MapProfile extends MapUtils {
         return this.cargo;
     }
 
-    public YamlConfiguration getConfig() {
+    public JsonObject getConfig() {
         return this.config;
     }
 
@@ -106,11 +122,11 @@ public class MapProfile extends MapUtils {
         if (!this.existsProfile()) {
             return this;
         }
-        this.config.load(this.getConfigFile());
+        this.config = parser.parse(new FileReader(configFile)).getAsJsonObject();
         for (String award : allAwards) {
-            this.getAwards().replace(award, this.getConfig().getLong(award));
+            this.getAwards().replace(award, this.getConfig().get(award).getAsLong());
         }
-        this.cargo = Cargo.valueOf(this.getConfig().getString("cargo"));
+        this.cargo = Cargo.valueOf(this.getConfig().get("cargo").getAsString());
         this.loaded = true;
         if (!getProfiles().containsKey(this.getName())) {
             getProfiles().put(this.getName(), this);
@@ -134,14 +150,16 @@ public class MapProfile extends MapUtils {
             this.getAwards().put(award, amount);
         }
         this.getAwards().replace(award, amount);
-        this.getConfig().set(award, amount);
-        this.getConfig().save(this.getConfigFile());
+        this.getConfig().remove(award);
+        this.getConfig().addProperty(award, amount);
+        saveConfig();
     }
 
     public void setCargo(Cargo cargo) throws IOException {
         this.cargo = cargo;
-        this.getConfig().set("cargo", cargo.toString());
-        this.getConfig().save(this.getConfigFile());
+        this.getConfig().remove("cargo");
+        this.getConfig().addProperty("cargo", cargo.toString());
+        saveConfig();
     }
 
     public void unload() {
