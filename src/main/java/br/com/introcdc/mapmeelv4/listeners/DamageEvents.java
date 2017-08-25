@@ -18,6 +18,7 @@ public class DamageEvents extends MapUtils implements Listener {
             if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
                 if (MoveEvent.spongeDamage.contains(event.getEntity().getUniqueId())) {
                     event.setCancelled(true);
+                    MoveEvent.spongeDamage.remove(event.getEntity().getUniqueId());
                 }
                 if (event.getEntity().getLocation().clone().add(0, -1, 0).getBlock().getType().equals(Material.SPONGE)) {
                     event.setCancelled(true);

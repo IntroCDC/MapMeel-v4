@@ -51,14 +51,15 @@ public abstract class Level extends MapUtils {
     public MapCoin[] mapCoins;
 
     public Level(String name, BlockId blockId, Warp warp, MapSound backgroundMapSound, LevelObjective[] objectives, MapCoin... mapCoins) {
+        Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fRegistrando level §a" + name + "§f...");
         this.name = name;
         this.blockId = blockId;
         this.warp = warp;
         this.backgroundMapSound = backgroundMapSound;
         this.objectives = Arrays.asList(objectives);
         this.loadedCoins = Arrays.asList(mapCoins);
-        leveis.remove(this.getName());
         leveis.put(this.getName(), this);
+        Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fLevel §a" + name + "§f registrado!");
     }
 
     public String getName() {
@@ -85,7 +86,7 @@ public abstract class Level extends MapUtils {
         return objectives;
     }
 
-    public static PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 100, 100);
+    public static PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 50, 100);
 
     public void joinPortal(Player player) {
         LevelObjective.reload();
@@ -165,14 +166,16 @@ public abstract class Level extends MapUtils {
     public abstract void onUnloadLevel();
 
     public static void loadLeveis() {
+        Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fRegistrando leveis...");
         for (Class<?> clazz : MapClassGetter.getClassesForPackage("br.com.introcdc.mapmeelv4.level.leveis", MapMain.class)) {
-            if (Level.class.isAssignableFrom(clazz)) {
-                try {
-                    clazz.newInstance();
-                } catch (Exception ignored) {
-                }
+            Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fLevel encontrado: §a" + clazz.getName());
+            try {
+                clazz.newInstance();
+            } catch (Exception ignored) {
+                ignored.printStackTrace();
             }
         }
+        Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fLeveis registrados!");
     }
 
 }

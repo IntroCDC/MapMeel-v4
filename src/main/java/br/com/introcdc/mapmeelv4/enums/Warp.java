@@ -3,6 +3,7 @@ package br.com.introcdc.mapmeelv4.enums;
 import br.com.introcdc.mapmeelv4.MapMain;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.PortalType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public enum Warp {
@@ -145,22 +146,30 @@ public enum Warp {
     private final String name;
     private final long time;
     private final String world;
+    private final double X;
+    private final double Y;
+    private final double Z;
+    private final float Yaw;
+    private final float Pitch;
 
     Warp(final String name, final String world, final double X, final double Y, final double Z, final float Yaw, final float Pitch, final long time) {
         this.name = name;
         this.world = world;
         this.time = time;
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Warp.this.location = new Location(Bukkit.getWorld(world), X, Y, Z, Yaw, Pitch);
-                Warp.this.updater();
-            }
-        }.runTaskLater(MapMain.getPlugin(), 20);
+        this.X = X;
+        this.Y = Y;
+        this.Z = Z;
+        this.Yaw = Yaw;
+        this.Pitch = Pitch;
     }
 
     public Location getLocation() {
         return this.location;
+    }
+
+    public void setup() {
+        Warp.this.location = new Location(Bukkit.getWorld(world), X, Y, Z, Yaw, Pitch);
+        Warp.this.updater();
     }
 
     public String getName() {
@@ -179,7 +188,12 @@ public enum Warp {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Warp.this.getLocation().getWorld().setTime(Warp.this.getTime());
+                if (Warp.this.getLocation().getWorld() != null) {
+                    if (Warp.this.getLocation().getWorld().getTime() != Warp.this.getTime()) {
+                        Warp.this.getLocation().getWorld().setTime(Warp.this.getTime());
+                        Warp.this.getLocation().getWorld().setGameRuleValue("doDayCycle", "false");
+                    }
+                }
             }
         }.runTaskTimer(MapMain.getPlugin(), 0, 20);
     }

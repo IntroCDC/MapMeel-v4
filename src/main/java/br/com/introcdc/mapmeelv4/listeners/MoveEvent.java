@@ -5,6 +5,7 @@ package br.com.introcdc.mapmeelv4.listeners;
 
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,12 +23,6 @@ public class MoveEvent implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        if (event.getTo().clone().add(0, -1, -0).getBlock().getType().equals(Material.SPONGE)) {
-            if (!spongeDamage.contains(event.getPlayer().getUniqueId())) {
-                spongeDamage.add(event.getPlayer().getUniqueId());
-            }
-            event.getPlayer().setVelocity(vector);
-        }
         if (event.getTo().getWorld().getName().equalsIgnoreCase("world")) {
             for (Level level : Level.getLeveis().values()) {
                 if (event.getTo().getBlock().getType().equals(level.getBlockId().getMaterial()) && event.getTo().getBlock().getData() == level.getBlockId().getData()) {
@@ -41,6 +36,12 @@ public class MoveEvent implements Listener {
                     Level.currentLevel.unloadLevel();
                 }
             }
+        }
+        if (event.getTo().clone().add(0, -1, -0).getBlock().getType().equals(Material.SPONGE)) {
+            if (!spongeDamage.contains(event.getPlayer().getUniqueId())) {
+                spongeDamage.add(event.getPlayer().getUniqueId());
+            }
+            event.getPlayer().setVelocity(vector);
         }
     }
 

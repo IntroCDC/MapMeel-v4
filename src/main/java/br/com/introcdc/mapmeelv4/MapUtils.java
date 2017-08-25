@@ -5,7 +5,6 @@ import br.com.introcdc.mapmeelv4.bases.MapCoin;
 import br.com.introcdc.mapmeelv4.enums.CoinType;
 import br.com.introcdc.mapmeelv4.enums.MapSound;
 import br.com.introcdc.mapmeelv4.enums.Warp;
-import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.utils.ReflectionManager;
 import com.google.gson.JsonParser;
 import com.sk89q.worldedit.CuboidClipboard;
@@ -15,8 +14,8 @@ import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.world.DataException;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTitle.EnumTitleAction;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -75,11 +74,7 @@ public class MapUtils {
     }
 
     public static MapCoin coin(Warp warp, double x, double y, double z, CoinType coinType) {
-        Location location = warp.getLocation().clone();
-        location.setX(x);
-        location.setY(y);
-        location.setZ(z);
-        return new MapCoin(location, coinType);
+        return new MapCoin(new Location(warp.getLocation().getWorld(), x, y, z), coinType);
     }
 
     public static String convertToBarProgress(long max, long use, int size) {
@@ -436,6 +431,7 @@ public class MapUtils {
     }
 
     public static void playSound(final Player player, final MapSound mapSound) {
+        Bukkit.broadcastMessage("Playing sound " + mapSound.toString() + " to " + player.getName());
         player.playSound(player.getLocation(), mapSound.getFile(), 50000, 1);
     }
 
