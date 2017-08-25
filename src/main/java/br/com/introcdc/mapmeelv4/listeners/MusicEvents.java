@@ -4,7 +4,7 @@ package br.com.introcdc.mapmeelv4.listeners;
  */
 
 import br.com.introcdc.mapmeelv4.MapUtils;
-import br.com.introcdc.mapmeelv4.enums.Music;
+import br.com.introcdc.mapmeelv4.enums.MapSound;
 import br.com.introcdc.mapmeelv4.enums.UpdateType;
 import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 import br.com.introcdc.mapmeelv4.level.Level;
@@ -20,7 +20,7 @@ public class MusicEvents extends MapUtils implements Listener {
     public void onUpdate(UpdateEvent event) {
         if (event.getType().equals(UpdateType.MINUTES)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (Level.getLevel(player.getWorld().getName()) != null) {
+                if (Level.getLevel(player.getWorld().getName()) != null && event.getTimes() == Level.getLevel(player.getWorld().getName()).getBackgroundMapSound().getMinutes()) {
                     new BukkitRunnable() {
                         int times = 0;
 
@@ -28,7 +28,7 @@ public class MusicEvents extends MapUtils implements Listener {
                         public void run() {
                             times++;
                             if (times <= 20) {
-                                playSound(player, Music.STOP);
+                                playSound(player, MapSound.STOP);
                             } else {
                                 cancel();
                             }
@@ -37,9 +37,9 @@ public class MusicEvents extends MapUtils implements Listener {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            playSound(player, Level.getLevel(player.getWorld().getName()).getBackgroundMusic());
+                            playSound(player, Level.getLevel(player.getWorld().getName()).getBackgroundMapSound());
                         }
-                    }.runTaskLater(getPlugin(), 25);
+                    }.runTaskLater(getPlugin(), 30);
                 }
             }
         }

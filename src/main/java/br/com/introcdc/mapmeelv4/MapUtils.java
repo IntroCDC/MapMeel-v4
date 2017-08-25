@@ -3,7 +3,7 @@ package br.com.introcdc.mapmeelv4;
 import br.com.introcdc.mapmeelv4.bases.ItemBuilder;
 import br.com.introcdc.mapmeelv4.bases.MapCoin;
 import br.com.introcdc.mapmeelv4.enums.CoinType;
-import br.com.introcdc.mapmeelv4.enums.Music;
+import br.com.introcdc.mapmeelv4.enums.MapSound;
 import br.com.introcdc.mapmeelv4.enums.Warp;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.utils.ReflectionManager;
@@ -435,8 +435,8 @@ public class MapUtils {
         player.playSound(player.getLocation(), sound, 50000, 1);
     }
 
-    public static void playSound(final Player player, final Music music) {
-        player.playSound(player.getLocation(), music.getFile(), 50000, 1);
+    public static void playSound(final Player player, final MapSound mapSound) {
+        player.playSound(player.getLocation(), mapSound.getFile(), 50000, 1);
     }
 
     public static void sendActionBar(final Player player, final String message) {

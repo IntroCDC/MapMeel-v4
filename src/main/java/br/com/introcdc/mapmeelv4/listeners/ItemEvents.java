@@ -1,5 +1,6 @@
 package br.com.introcdc.mapmeelv4.listeners;
 
+import br.com.introcdc.mapmeelv4.enums.MapSound;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,7 +14,7 @@ public class ItemEvents extends MapUtils implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onPick(final PlayerPickupItemEvent event) {
         if (event.getItem().getItemStack().getType().equals(Material.WOOD) && event.getItem().getItemStack().getDurability() == 4) {
-            playSound(event.getPlayer(), "mapmeelv4.effect.coin");
+            playSound(event.getPlayer(), MapSound.EFFECT_COIN);
             event.setCancelled(true);
             event.getItem().remove();
         }

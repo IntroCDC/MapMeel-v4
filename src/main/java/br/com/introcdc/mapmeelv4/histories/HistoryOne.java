@@ -1,7 +1,6 @@
 package br.com.introcdc.mapmeelv4.histories;
 
-import br.com.introcdc.mapmeelv4.enums.Music;
-import org.bukkit.Sound;
+import br.com.introcdc.mapmeelv4.enums.MapSound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -21,7 +20,7 @@ public class HistoryOne extends MapUtils implements Listener {
         MapProfile profile = getProfile(event.getPlayer().getName());
         if (profile.getAwards().get("level") == 1) {
             event.getPlayer().teleport(Warp.LOBBY.getLocation());
-            playSound(event.getPlayer(), Music.STARTING);
+            playSound(event.getPlayer(), MapSound.STARTING);
             profile.setAward("level", 2);
         }
     }

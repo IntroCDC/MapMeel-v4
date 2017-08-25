@@ -8,11 +8,13 @@ import br.com.introcdc.mapmeelv4.MapUtils;
 import br.com.introcdc.mapmeelv4.bases.BlockId;
 import br.com.introcdc.mapmeelv4.bases.MapClassGetter;
 import br.com.introcdc.mapmeelv4.bases.MapCoin;
-import br.com.introcdc.mapmeelv4.enums.Music;
+import br.com.introcdc.mapmeelv4.enums.MapSound;
 import br.com.introcdc.mapmeelv4.enums.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,8 +31,8 @@ public abstract class Level extends MapUtils {
     }
 
     public static Level getLevel(String name) {
-        for(Level level : leveis.values()) {
-            if(level.getWarp().getName().equalsIgnoreCase(name)) {
+        for (Level level : leveis.values()) {
+            if (level.getWarp().getName().equalsIgnoreCase(name)) {
                 return level;
             }
         }
@@ -43,16 +45,16 @@ public abstract class Level extends MapUtils {
     private boolean finished;
     private BlockId blockId;
     private Warp warp;
-    private Music backgroundMusic;
+    private MapSound backgroundMapSound;
     public List<MapCoin> loadedCoins;
     public List<LevelObjective> objectives;
     public MapCoin[] mapCoins;
 
-    public Level(String name, BlockId blockId, Warp warp, Music backgroundMusic, LevelObjective[] objectives, MapCoin... mapCoins) {
+    public Level(String name, BlockId blockId, Warp warp, MapSound backgroundMapSound, LevelObjective[] objectives, MapCoin... mapCoins) {
         this.name = name;
         this.blockId = blockId;
         this.warp = warp;
-        this.backgroundMusic = backgroundMusic;
+        this.backgroundMapSound = backgroundMapSound;
         this.objectives = Arrays.asList(objectives);
         this.loadedCoins = Arrays.asList(mapCoins);
         leveis.remove(this.getName());
@@ -75,15 +77,18 @@ public abstract class Level extends MapUtils {
         return warp;
     }
 
-    public Music getBackgroundMusic() {
-        return backgroundMusic;
+    public MapSound getBackgroundMapSound() {
+        return backgroundMapSound;
     }
 
     public List<LevelObjective> getObjectives() {
         return objectives;
     }
 
+    public static PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 100, 100);
+
     public void joinPortal(Player player) {
+        player.addPotionEffect(blindness);
         player.teleport(LISTOBJECTIVES);
     }
 
