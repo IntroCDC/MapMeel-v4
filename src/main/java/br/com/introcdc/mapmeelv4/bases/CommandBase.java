@@ -14,8 +14,8 @@ import br.com.introcdc.mapmeelv4.MapUtils;
 
 public abstract class CommandBase extends Command {
 
-    private static List<String> toList(final String[] array) {
-        final ArrayList<String> aliases = new ArrayList<>();
+    private static List<String> toList(String[] array) {
+        ArrayList<String> aliases = new ArrayList<>();
         Collections.addAll(aliases, array);
         return aliases;
     }
@@ -24,20 +24,20 @@ public abstract class CommandBase extends Command {
 
     public String PREFIX = MapUtils.PREFIX;
 
-    public CommandBase(final String name) {
+    public CommandBase(String name) {
         super(name);
     }
 
-    public CommandBase(final String name, final String... aliases) {
+    public CommandBase(String name, String... aliases) {
         super(name, "", "", CommandBase.toList(aliases));
     }
 
-    public void connectUse(final CommandSender sender, final String command) {
+    public void connectUse(CommandSender sender, String command) {
         sender.sendMessage(MapUtils.PREFIX + "§fUso correto: §a/" + command);
     }
 
     @Override
-    public boolean execute(final CommandSender sender, final String label, final String[] args) {
+    public boolean execute(CommandSender sender, String label, String[] args) {
         if (this.onlyStaff) {
             if (!this.isStaff(sender)) {
                 return false;
@@ -55,7 +55,7 @@ public abstract class CommandBase extends Command {
         return Bukkit.getPlayer(name);
     }
 
-    public Player getPlayerSender(final CommandSender sender) {
+    public Player getPlayerSender(CommandSender sender) {
         return (Player) sender;
     }
 
@@ -80,7 +80,7 @@ public abstract class CommandBase extends Command {
         return this.isOnlinePlayer(null, name, false);
     }
 
-    public boolean isPlayer(final CommandSender sender) {
+    public boolean isPlayer(CommandSender sender) {
         if (sender instanceof Player) {
             return true;
         }

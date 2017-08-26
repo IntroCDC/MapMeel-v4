@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class MapProfile extends MapUtils {
 
-    public static final List<String> allAwards = Arrays.asList("stars", "level");
+    public static List<String> allAwards = Arrays.asList("stars", "level");
 
     private static Map<String, MapProfile> profiles = new HashMap<>();
 
@@ -28,10 +28,10 @@ public class MapProfile extends MapUtils {
     private JsonObject config;
     private File configFile;
     private boolean loaded;
-    private final String name;
+    private String name;
     private long tempCoins;
 
-    public MapProfile(final String name) {
+    public MapProfile(String name) {
         this.name = name;
         this.loaded = false;
         this.configFile = new File(getPlugin().getDataFolder().getAbsolutePath() + "/profiles/" + this.getName() + ".json");
@@ -50,11 +50,11 @@ public class MapProfile extends MapUtils {
         }
     }
 
-    public void addTempCoin(final CoinType type) {
+    public void addTempCoin(CoinType type) {
         this.addTempCoins(type.getCoins());
     }
 
-    public void addTempCoins(final int amount) {
+    public void addTempCoins(int amount) {
         this.tempCoins += amount;
     }
 
@@ -149,7 +149,7 @@ public class MapProfile extends MapUtils {
         }
     }
 
-    public void setAward(final String award, final long amount) throws IOException {
+    public void setAward(String award, long amount) throws IOException {
         this.getAwards().remove(award);
         this.getAwards().put(award, amount);
         this.getConfig().remove(award);

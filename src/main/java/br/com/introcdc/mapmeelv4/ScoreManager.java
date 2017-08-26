@@ -14,12 +14,12 @@ import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 public class ScoreManager extends MapUtils implements Listener {
 
     @SuppressWarnings("UnusedAssignment")
-    private static void scoreboard(final MapProfile profile) {
+    private static void scoreboard(MapProfile profile) {
         if (profile.getPlayer() == null) {
             return;
         }
-        final Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        final Objective objective = scoreboard.registerNewObjective("dummy", "dummy");
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective objective = scoreboard.registerNewObjective("dummy", "dummy");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName("§5§l§oMap§f§l§oMeel");
 
@@ -33,9 +33,9 @@ public class ScoreManager extends MapUtils implements Listener {
     }
 
     @EventHandler
-    public void onUpdate(final UpdateEvent event) throws Exception {
+    public void onUpdate(UpdateEvent event) throws Exception {
         if (event.getType().equals(UpdateType.SECONDS) && event.getTimes() == 1) {
-            for (final Player player : Bukkit.getOnlinePlayers()) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 scoreboard(getProfile(player.getName()));
             }
         }

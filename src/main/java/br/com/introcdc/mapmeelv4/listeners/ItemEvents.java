@@ -12,9 +12,9 @@ import br.com.introcdc.mapmeelv4.MapUtils;
 public class ItemEvents extends MapUtils implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onPick(final PlayerPickupItemEvent event) {
+    public void onPick(PlayerPickupItemEvent event) {
         if (event.getItem().getItemStack().getType().equals(Material.WOOD) && event.getItem().getItemStack().getDurability() == 4) {
-            playSound(event.getPlayer(), MapSound.EFFECT_COIN);
+            playSound(event.getPlayer(), MapSound.EFFECT_COIN, -2);
             event.setCancelled(true);
             event.getItem().remove();
         }

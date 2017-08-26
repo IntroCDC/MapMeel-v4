@@ -15,111 +15,111 @@ import org.bukkit.potion.PotionEffect;
 
 public class ItemBuilder {
 
-    private final ItemStack item;
+    private ItemStack item;
 
-    public ItemBuilder(final ItemStack item) {
+    public ItemBuilder(ItemStack item) {
         this.item = item;
     }
 
-    public ItemBuilder addCustonEffect(final PotionEffect effect) {
+    public ItemBuilder addCustonEffect(PotionEffect effect) {
         if (!this.item.getType().equals(Material.POTION)) {
             return this;
         }
-        final PotionMeta meta = (PotionMeta) this.item.getItemMeta();
+        PotionMeta meta = (PotionMeta) this.item.getItemMeta();
         meta.addCustomEffect(effect, true);
         this.item.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder addEnchantment(final Enchantment ench, final int level) {
+    public ItemBuilder addEnchantment(Enchantment ench, int level) {
         this.item.addEnchantment(ench, level);
         return this;
     }
 
-    public ItemBuilder setAmount(final int amount) {
+    public ItemBuilder setAmount(int amount) {
         this.item.setAmount(amount);
         return this;
     }
 
-    public ItemBuilder setBookAuthor(final String author) {
+    public ItemBuilder setBookAuthor(String author) {
         if (!this.item.getType().toString().toUpperCase().contains("BOOK")) {
             return this;
         }
-        final BookMeta meta = (BookMeta) this.item.getItemMeta();
+        BookMeta meta = (BookMeta) this.item.getItemMeta();
         meta.setAuthor(author);
         this.item.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setBookTitle(final String title) {
+    public ItemBuilder setBookTitle(String title) {
         if (!this.item.getType().toString().toUpperCase().contains("BOOK")) {
             return this;
         }
-        final BookMeta meta = (BookMeta) this.item.getItemMeta();
+        BookMeta meta = (BookMeta) this.item.getItemMeta();
         meta.setTitle(title);
         this.item.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setData(final MaterialData data) {
+    public ItemBuilder setData(MaterialData data) {
         this.item.setData(data);
         return this;
     }
 
-    public ItemBuilder setDurability(final short dur) {
+    public ItemBuilder setDurability(short dur) {
         this.item.setDurability(dur);
         return this;
     }
 
-    public ItemBuilder setItemMeta(final ItemMeta meta) {
+    public ItemBuilder setItemMeta(ItemMeta meta) {
         this.item.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setLore(final ArrayList<String> lore) {
-        final ItemMeta meta = this.item.getItemMeta();
+    public ItemBuilder setLore(ArrayList<String> lore) {
+        ItemMeta meta = this.item.getItemMeta();
         meta.setLore(lore);
         this.item.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setLore(final String[] lore) {
-        final ItemMeta meta = this.item.getItemMeta();
-        final ArrayList<String> Lore = new ArrayList<>();
+    public ItemBuilder setLore(String[] lore) {
+        ItemMeta meta = this.item.getItemMeta();
+        ArrayList<String> Lore = new ArrayList<>();
         Collections.addAll(Lore, lore);
         meta.setLore(Lore);
         this.item.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setName(final String name) {
-        final ItemMeta meta = this.item.getItemMeta();
+    public ItemBuilder setName(String name) {
+        ItemMeta meta = this.item.getItemMeta();
         meta.setDisplayName(name);
         this.item.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setOwner(final String owner) {
+    public ItemBuilder setOwner(String owner) {
         if (!this.item.getType().equals(Material.SKULL_ITEM)) {
             return this;
         }
-        final SkullMeta meta = (SkullMeta) this.item.getItemMeta();
+        SkullMeta meta = (SkullMeta) this.item.getItemMeta();
         meta.setOwner(owner);
         this.item.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setPagesBook(final String... pages) {
+    public ItemBuilder setPagesBook(String... pages) {
         if (!this.item.getType().toString().toUpperCase().contains("BOOK")) {
             return this;
         }
-        final BookMeta meta = (BookMeta) this.item.getItemMeta();
+        BookMeta meta = (BookMeta) this.item.getItemMeta();
         meta.setPages(pages);
         this.item.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder setType(final Material mat) {
+    public ItemBuilder setType(Material mat) {
         this.item.setType(mat);
         return this;
     }

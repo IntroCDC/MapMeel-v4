@@ -1,5 +1,7 @@
 package br.com.introcdc.mapmeelv4.listeners;
 
+import br.com.introcdc.mapmeelv4.enums.Warp;
+import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -15,13 +17,15 @@ public class LeaveJoin extends MapUtils implements Listener {
     public static boolean onlyStaff = true;
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onJoin(final PlayerJoinEvent event) throws Exception {
+    public void onJoin(PlayerJoinEvent event) throws Exception {
         event.setJoinMessage(null);
         getProfile(event.getPlayer().getName());
+        event.getPlayer().teleport(Warp.LOBBY.getLocation());
+        event.getPlayer().setGameMode(GameMode.ADVENTURE);
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onLogin(final AsyncPlayerPreLoginEvent event) throws Exception {
+    public void onLogin(AsyncPlayerPreLoginEvent event) throws Exception {
         if (!getProfile(event.getName()).existsProfile()) {
             event.disallow(Result.KICK_OTHER, PREFIX + "§cO projeto MapMeel v4 é um projeto privado e não liberado para pessoas de fora!\n\n§c§o(Sua conta não foi encontrada!)");
             return;
@@ -32,7 +36,7 @@ public class LeaveJoin extends MapUtils implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onQuit(final PlayerQuitEvent event) throws Exception {
+    public void onQuit(PlayerQuitEvent event) throws Exception {
         event.setQuitMessage(null);
         getProfile(event.getPlayer().getName()).unload();
     }

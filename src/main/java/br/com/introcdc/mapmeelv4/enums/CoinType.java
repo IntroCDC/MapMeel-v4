@@ -17,7 +17,7 @@ public enum CoinType {
     private int coins;
     private Material material;
 
-    CoinType(final Material material, final int bytes, final int coins) {
+    CoinType(Material material, int bytes, int coins) {
         this.material = material;
         this.bytes = (byte) bytes;
         this.coins = coins;

@@ -143,16 +143,16 @@ public enum Warp {
             6000),;
 
     private Location location;
-    private final String name;
-    private final long time;
-    private final String world;
-    private final double X;
-    private final double Y;
-    private final double Z;
-    private final float Yaw;
-    private final float Pitch;
+    private String name;
+    private long time;
+    private String world;
+    private double X;
+    private double Y;
+    private double Z;
+    private float Yaw;
+    private float Pitch;
 
-    Warp(final String name, final String world, final double X, final double Y, final double Z, final float Yaw, final float Pitch, final long time) {
+    Warp(String name, String world, double X, double Y, double Z, float Yaw, float Pitch, long time) {
         this.name = name;
         this.world = world;
         this.time = time;

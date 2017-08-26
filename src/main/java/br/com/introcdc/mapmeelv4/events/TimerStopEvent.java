@@ -4,17 +4,17 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class TimerStopEvent extends Event {
-    private static final HandlerList handlers = new HandlerList();
+    private static HandlerList handlers = new HandlerList();
 
     public static HandlerList getHandlerList() {
         return TimerStopEvent.handlers;
     }
 
-    private final String name;
+    private String name;
 
-    private final int time;
+    private int time;
 
-    public TimerStopEvent(final String name, final int time) {
+    public TimerStopEvent(String name, int time) {
         this.name = name;
         this.time = time;
     }

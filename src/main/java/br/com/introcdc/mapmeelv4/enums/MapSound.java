@@ -6,7 +6,10 @@ package br.com.introcdc.mapmeelv4.enums;
 public enum MapSound {
     STOP("mapmeelv4.effect.stop", 1),
     EFFECT_COIN("mapmeelv4.effect.coin", 1),
+    EFFECT_BACKGROUND("mapmeelv4.effect.background", 1),
     EFFECT_STARTING("mapmeelv4.effect.starting", 1),
+    EFFECT_JOINING("mapmeelv4.effect.joining", 1),
+    EFFECT_LETSGO("mapmeelv4.effect.lets_go", 1),
     CASTLE_MUSIC("mapmeelv4.music.castle_music", 2),
     STARTING("mapmeelv4.music.starting", 1),
     MUSIC_ONE("mapmeelv4.music.music_one", 2);

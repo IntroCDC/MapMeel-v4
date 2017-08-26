@@ -10,7 +10,7 @@ public class UpdateEventStarter extends MapUtils {
 
     private static void days() {
         for (int i = 1; i < 60; i++) {
-            final UpdateEvent event = new UpdateEvent(UpdateType.DAYS, i);
+            UpdateEvent event = new UpdateEvent(UpdateType.DAYS, i);
             new BukkitRunnable() {
 
                 @Override
@@ -23,7 +23,7 @@ public class UpdateEventStarter extends MapUtils {
 
     private static void hours() {
         for (int i = 1; i < 60; i++) {
-            final UpdateEvent event = new UpdateEvent(UpdateType.HOURS, i);
+            UpdateEvent event = new UpdateEvent(UpdateType.HOURS, i);
             new BukkitRunnable() {
 
                 @Override
@@ -36,7 +36,7 @@ public class UpdateEventStarter extends MapUtils {
 
     private static void minutes() {
         for (int i = 1; i < 60; i++) {
-            final UpdateEvent event = new UpdateEvent(UpdateType.MINUTES, i);
+            UpdateEvent event = new UpdateEvent(UpdateType.MINUTES, i);
             new BukkitRunnable() {
 
                 @Override
@@ -49,7 +49,7 @@ public class UpdateEventStarter extends MapUtils {
 
     private static void seconds() {
         for (int i = 1; i < 60; i++) {
-            final UpdateEvent event = new UpdateEvent(UpdateType.SECONDS, i);
+            UpdateEvent event = new UpdateEvent(UpdateType.SECONDS, i);
             new BukkitRunnable() {
 
                 @Override
@@ -70,7 +70,7 @@ public class UpdateEventStarter extends MapUtils {
 
     private static void tick() {
         for (int i = 1; i < 60; i++) {
-            final UpdateEvent event = new UpdateEvent(UpdateType.TICK, i);
+            UpdateEvent event = new UpdateEvent(UpdateType.TICK, i);
             new BukkitRunnable() {
 
                 @Override

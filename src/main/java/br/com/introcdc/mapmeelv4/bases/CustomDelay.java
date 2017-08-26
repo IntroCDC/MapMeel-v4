@@ -13,7 +13,7 @@ public class CustomDelay {
     private Thread thread;
     private Timer timer;
 
-    public CustomDelay(final Runnable runnable, final long minutes, final long seconds, final long milliseconds) {
+    public CustomDelay(Runnable runnable, long minutes, long seconds, long milliseconds) {
         if (runnable == null) {
             return;
         }

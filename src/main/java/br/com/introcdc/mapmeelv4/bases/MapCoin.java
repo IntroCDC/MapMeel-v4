@@ -11,10 +11,10 @@ public class MapCoin extends MapUtils {
 
     private boolean geted;
     private Item item;
-    private final Location location;
-    private final CoinType type;
+    private Location location;
+    private CoinType type;
 
-    public MapCoin(final Location location, final CoinType type) {
+    public MapCoin(Location location, CoinType type) {
         this.location = location;
         this.type = type;
     }
@@ -44,7 +44,7 @@ public class MapCoin extends MapUtils {
 
     public void spawn() {
         this.despawn();
-        final Item item = this.location.getWorld().dropItem(this.location, itemBuilder(new ItemStack(this.type.getMaterial(), this.type.getBytes())).setName("§fMoeda").toItem());
+        Item item = this.location.getWorld().dropItem(this.location, itemBuilder(new ItemStack(this.type.getMaterial(), this.type.getBytes())).setName("§fMoeda").toItem());
         item.setGravity(false);
         item.setInvulnerable(true);
         this.item = item;

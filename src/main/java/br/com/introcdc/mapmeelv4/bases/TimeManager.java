@@ -14,10 +14,10 @@ import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 public class TimeManager implements Listener {
 
     private boolean actived;
-    private final String name;
+    private String name;
     private int time;
 
-    public TimeManager(final String name, final int time) {
+    public TimeManager(String name, int time) {
         this.name = name;
         this.time = time;
         this.actived = false;
@@ -37,7 +37,7 @@ public class TimeManager implements Listener {
     }
 
     @EventHandler
-    public void onUpdate(final UpdateEvent event) {
+    public void onUpdate(UpdateEvent event) {
         if (event.getType().equals(UpdateType.SECONDS) && event.getTimes() == 1) {
             if (this.isActived()) {
                 this.time++;
@@ -46,7 +46,7 @@ public class TimeManager implements Listener {
         }
     }
 
-    public void setActived(final boolean actived) {
+    public void setActived(boolean actived) {
         if (actived) {
             if (!this.isActived()) {
                 Bukkit.getPluginManager().callEvent(new TimerStartEvent(this.getName(), this.getTime()));
@@ -59,7 +59,7 @@ public class TimeManager implements Listener {
         this.actived = actived;
     }
 
-    public void setTime(final int time) {
+    public void setTime(int time) {
         this.time = time;
     }
 

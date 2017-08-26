@@ -28,6 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.net.*;
@@ -52,18 +53,18 @@ import static java.time.temporal.ChronoField.*;
 
 public class MapUtils {
 
-    public static final Calendar calendar = Calendar.getInstance();
+    public static Calendar calendar = Calendar.getInstance();
 
-    public static final Color[] colors = new Color[]{Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.WHITE, Color.YELLOW};
-    public static final JsonParser parser = new JsonParser();
+    public static Color[] colors = new Color[]{Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.WHITE, Color.YELLOW};
+    public static JsonParser parser = new JsonParser();
 
-    public static final String PREFIX = "§5§l§oMap§f§l§oMeel §5§l§o>§f§l§o> §f";
+    public static String PREFIX = "§5§l§oMap§f§l§oMeel §5§l§o>§f§l§o> §f";
 
-    public static final Random random = new Random();
+    public static Random random = new Random();
 
     private static DateTimeFormatter TIME_FORMATTER = new DateTimeFormatterBuilder().appendValue(DAY_OF_MONTH, 2).appendLiteral('/').appendValue(MONTH_OF_YEAR, 2).appendLiteral('/').appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD).appendLiteral(" - ").appendValue(HOUR_OF_DAY, 2).appendLiteral(':').appendValue(MINUTE_OF_HOUR, 2).appendLiteral(':').appendValue(SECOND_OF_MINUTE, 2).toFormatter();
 
-    public static void broadcastMessage(final String message) {
+    public static void broadcastMessage(String message) {
         Bukkit.broadcastMessage(message);
     }
 
@@ -282,16 +283,16 @@ public class MapUtils {
         zip.close();
     }
 
-    public static Entity freezeEntity(final Entity entity) {
-        final net.minecraft.server.v1_12_R1.Entity nmsEn = ((CraftEntity) entity).getHandle();
-        final NBTTagCompound compound = new NBTTagCompound();
+    public static Entity freezeEntity(Entity entity) {
+        net.minecraft.server.v1_12_R1.Entity nmsEn = ((CraftEntity) entity).getHandle();
+        NBTTagCompound compound = new NBTTagCompound();
         nmsEn.c(compound);
         compound.setByte("NoAI", (byte) 1);
         nmsEn.f(compound);
         return entity;
     }
 
-    public static int getPing(final Player player) {
+    public static int getPing(Player player) {
         return ((CraftPlayer) player).getHandle().ping;
     }
 
@@ -299,7 +300,7 @@ public class MapUtils {
         return MapMain.getPlugin();
     }
 
-    public static MapProfile getProfile(final String name) throws Exception {
+    public static MapProfile getProfile(String name) throws Exception {
         if (MapProfile.getProfiles().containsKey(name)) {
             return MapProfile.getProfiles().get(name).loadSync();
         }
@@ -310,35 +311,35 @@ public class MapUtils {
         return getTPS(0);
     }
 
-    public static double getTPS(final int type) {
+    public static double getTPS(int type) {
         return MinecraftServer.getServer().recentTps[type];
     }
 
-    public static synchronized boolean isOriginalNick(final String name) throws IOException {
-        final URL url = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
-        final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    public static synchronized boolean isOriginalNick(String name) throws IOException {
+        URL url = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.connect();
         return connection.getResponseCode() == 200;
     }
 
-    public static ItemBuilder itemBuilder(final ItemStack item) {
+    public static ItemBuilder itemBuilder(ItemStack item) {
         return new ItemBuilder(item);
     }
 
-    public static void launchFireworks(final Location location) {
+    public static void launchFireworks(Location location) {
         try {
-            final Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
-            final FireworkMeta fMeta = firework.getFireworkMeta();
-            final FireworkEffect effect = FireworkEffect.builder().withFade(colors[random.nextInt(colors.length)], colors[random.nextInt(colors.length)]).withColor(colors[random.nextInt(colors.length)], colors[random.nextInt(colors.length)]).flicker(true).trail(true).build();
+            Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
+            FireworkMeta fMeta = firework.getFireworkMeta();
+            FireworkEffect effect = FireworkEffect.builder().withFade(colors[random.nextInt(colors.length)], colors[random.nextInt(colors.length)]).withColor(colors[random.nextInt(colors.length)], colors[random.nextInt(colors.length)]).flicker(true).trail(true).build();
             fMeta.addEffect(effect);
             firework.setFireworkMeta(fMeta);
             firework.setCustomName("Kindome");
-        } catch (final Exception ignored) {
+        } catch (Exception ignored) {
         }
     }
 
-    public static void loadSchematic(final Location location, final File file, final boolean noAir) throws MaxChangedBlocksException, DataException, IOException {
-        final EditSession es = new EditSession(new BukkitWorld(location.getWorld()), 999999999);
+    public static void loadSchematic(Location location, File file, boolean noAir) throws MaxChangedBlocksException, DataException, IOException {
+        EditSession es = new EditSession(new BukkitWorld(location.getWorld()), 999999999);
         CuboidClipboard.loadSchematic(file).paste(es, new com.sk89q.worldedit.Vector(location.getX(), location.getY(), location.getZ()), noAir);
     }
 
@@ -405,7 +406,7 @@ public class MapUtils {
     }
 
     public static void loadWorlds() {
-        for (final Warp warp : Warp.values()) {
+        for (Warp warp : Warp.values()) {
             if (!warp.getWorld().equalsIgnoreCase("world")) {
                 if (Bukkit.getWorld(warp.getWorld()) == null) {
                     Bukkit.createWorld(new WorldCreator(warp.getWorld()));
@@ -414,8 +415,8 @@ public class MapUtils {
         }
     }
 
-    public static HashSet<Block> nearBlocks(final Location loc, final int radius) {
-        final HashSet<Block> blocks = new HashSet<>();
+    public static HashSet<Block> nearBlocks(Location loc, int radius) {
+        HashSet<Block> blocks = new HashSet<>();
         for (int x = -radius; x <= radius; ++x) {
             for (int z = -radius; z <= radius; ++z) {
                 for (int y = -radius; y <= radius; ++y) {
@@ -426,32 +427,78 @@ public class MapUtils {
         return blocks;
     }
 
-    public static void playSound(final Player player, final Sound sound) {
+    public static void playSound(Player player, Sound sound) {
         player.playSound(player.getLocation(), sound, 50000, 1);
     }
 
-    public static void playSound(final Player player, final MapSound mapSound) {
-        Bukkit.broadcastMessage("Playing sound " + mapSound.toString() + " to " + player.getName());
+    public static void playSound(Player player, MapSound mapSound) {
+        playSound(player, mapSound, -1);
+    }
+
+    public static List<UUID> cooldownPlay = new ArrayList<>();
+
+    public static void playSound(Player player, MapSound mapSound, int wait) {
+        if (cooldownPlay.contains(player.getUniqueId()) && wait == -1) {
+            return;
+        }
+        if(mapSound.equals(MapSound.STOP)) {
+            new BukkitRunnable() {
+                int times = 0;
+
+                @Override
+                public void run() {
+                    times++;
+                    if (times <= 20) {
+                        playSound(player, MapSound.STOP);
+                    } else {
+                        cancel();
+                    }
+                }
+            }.runTaskTimer(getPlugin(), 0, 1);
+        }
+        if (wait > 0) {
+            cooldownPlay.add(player.getUniqueId());
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    cooldownPlay.remove(player.getUniqueId());
+                }
+            }.runTaskLater(getPlugin(), wait * 20);
+        }
         player.playSound(player.getLocation(), mapSound.getFile(), 50000, 1);
     }
 
-    public static void sendActionBar(final Player player, final String message) {
-        final PacketPlayOutChat chat = new PacketPlayOutChat(ChatSerializer.a("{\"text\":\"" + message + "\"}"));
+    public static Location getLocation(String world, double x, double y, double z, float yaw, float pitch) {
+        return new Location(Bukkit.getWorld("world"), x, y, z, yaw, pitch);
+    }
+
+    public static Location getLocation(String world, double x, double y, double z) {
+        return getLocation(world, x, y, z, 0, 0);
+    }
+
+    public static Location getLocation(String world, double x, double y, double z, Location lookingAt) {
+        Location loc = getLocation(world, x, y, z, 0, 0);
+        loc.setDirection(lookingAt.toVector().subtract(loc.toVector()));
+        return loc;
+    }
+
+    public static void sendActionBar(Player player, String message) {
+        PacketPlayOutChat chat = new PacketPlayOutChat(ChatSerializer.a("{\"text\":\"" + message + "\"}"));
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(chat);
     }
 
-    public static void sendPlayer(final Player player, final String server) {
+    public static void sendPlayer(Player player, String server) {
         sendPluginMessage(player, "Connect", server);
     }
 
-    public static void sendPluginMessage(final Player player, final String... messages) {
-        final ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-        final DataOutputStream output = new DataOutputStream(byteArray);
+    public static void sendPluginMessage(Player player, String... messages) {
+        ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+        DataOutputStream output = new DataOutputStream(byteArray);
         try {
-            for (final String message : messages) {
+            for (String message : messages) {
                 output.writeUTF(message);
             }
-        } catch (final IOException ex) {
+        } catch (IOException ex) {
             player.sendMessage("§cErro ao executar o evento de plugin message...");
             ex.printStackTrace();
         }
@@ -467,11 +514,11 @@ public class MapUtils {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
-    public static void sendTitle(final Player player, final String title, final String subtitle, final int fadeIn, final int duration, final int fadeOut) {
-        final PacketPlayOutTitle timingsPacket = new PacketPlayOutTitle(EnumTitleAction.TIMES, null, fadeIn, duration, fadeOut);
-        final PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(EnumTitleAction.TITLE, ChatSerializer.a("{\"text\":\"" + title + "\"}"));
-        final PacketPlayOutTitle subtitlePacket = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, ChatSerializer.a("{\"text\":\"" + subtitle + "\"}"));
-        final PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
+    public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int duration, int fadeOut) {
+        PacketPlayOutTitle timingsPacket = new PacketPlayOutTitle(EnumTitleAction.TIMES, null, fadeIn, duration, fadeOut);
+        PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(EnumTitleAction.TITLE, ChatSerializer.a("{\"text\":\"" + title + "\"}"));
+        PacketPlayOutTitle subtitlePacket = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, ChatSerializer.a("{\"text\":\"" + subtitle + "\"}"));
+        PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
         playerConnection.sendPacket(timingsPacket);
         playerConnection.sendPacket(titlePacket);
         playerConnection.sendPacket(subtitlePacket);

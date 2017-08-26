@@ -18,13 +18,13 @@ public class CommandWarp extends CommandBase {
     }
 
     @Override
-    public void onExecute(final CommandSender sender, final String label, final String[] args) throws Exception {
+    public void onExecute(CommandSender sender, String label, String[] args) throws Exception {
         if (!this.isPlayer(sender)) {
             return;
         }
         if (args.length > 0) {
             Warp selected = null;
-            for (final Warp warp : Warp.values()) {
+            for (Warp warp : Warp.values()) {
                 if (warp.getName().equalsIgnoreCase(args[0])) {
                     selected = warp;
                     break;
@@ -41,14 +41,15 @@ public class CommandWarp extends CommandBase {
                     this.getPlayerSender(sender).teleport(selected.getLocation());
                     sender.sendMessage(MapUtils.PREFIX + "§fVocê teleportou-se para a warp §a" + selected.getName() + "§f com sucesso!");
                 }
+                return;
             } else {
                 sender.sendMessage(MapUtils.PREFIX + "§cWarp não encontrada!");
             }
         }
         this.connectUse(sender, label + " [warp]");
-        final TextComponent warps = new TextComponent(MapUtils.PREFIX + "§fWarps: §a");
-        for (final Warp warp : Warp.values()) {
-            final TextComponent warpp = new TextComponent("§a" + warp.getName() + "§f, ");
+        TextComponent warps = new TextComponent(MapUtils.PREFIX + "§fWarps: §a");
+        for (Warp warp : Warp.values()) {
+            TextComponent warpp = new TextComponent("§a" + warp.getName() + "§f, ");
             warpp.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§fClique para teleportar-se para a warp!").create()));
             warpp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/warp " + warp.getName()));
             warps.addExtra(warpp);

@@ -6,16 +6,16 @@ import org.bukkit.event.HandlerList;
 import br.com.introcdc.mapmeelv4.enums.UpdateType;
 
 public class UpdateEvent extends Event {
-    private static final HandlerList handlers = new HandlerList();
+    private static HandlerList handlers = new HandlerList();
 
     public static HandlerList getHandlerList() {
         return UpdateEvent.handlers;
     }
 
-    private final int times;
-    private final UpdateType type;
+    private int times;
+    private UpdateType type;
 
-    public UpdateEvent(final UpdateType type, final int times) {
+    public UpdateEvent(UpdateType type, int times) {
         this.type = type;
         this.times = times;
     }

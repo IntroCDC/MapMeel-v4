@@ -17,29 +17,29 @@ public class MapClassGetter {
 
 
 
-    public static void loadCommands(final String packageName, final Class Class) {
+    public static void loadCommands(String packageName, Class Class) {
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fCarregando comandos...");
-        for (final Class<?> theClass : MapClassGetter.getClassesForPackage(packageName, Class)) {
+        for (Class<?> theClass : MapClassGetter.getClassesForPackage(packageName, Class)) {
             if (CommandBase.class.isAssignableFrom(theClass)) {
                 try {
-                    final CommandBase command = (CommandBase) theClass.newInstance();
+                    CommandBase command = (CommandBase) theClass.newInstance();
                     ((org.bukkit.craftbukkit.v1_12_R1.CraftServer) Bukkit.getServer()).getCommandMap().register(command.getName(), command);
                     Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fComando §a" + command.getName() + "§f carregado com sucesso!");
-                } catch (final Exception exception) {
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
         }
     }
 
-    public static void loadListeners(final String packageName, final Class Class) {
+    public static void loadListeners(String packageName, Class Class) {
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fCarregando listeners...");
-        for (final Class<?> theClass : MapClassGetter.getClassesForPackage(packageName, Class)) {
+        for (Class<?> theClass : MapClassGetter.getClassesForPackage(packageName, Class)) {
             if (Listener.class.isAssignableFrom(theClass)) {
                 try {
                     Bukkit.getPluginManager().registerEvents((Listener) theClass.newInstance(), MapUtils.getPlugin());
                     Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fListener §a" + theClass.getName() + "§f carregado com sucesso!");
-                } catch (final Exception exception) {
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }

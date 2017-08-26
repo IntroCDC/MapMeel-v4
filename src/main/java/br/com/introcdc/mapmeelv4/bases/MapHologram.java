@@ -18,17 +18,17 @@ import net.citizensnpcs.api.npc.NPC;
 
 public class MapHologram extends MapUtils implements Listener {
 
-    private final NPC armorStand;
+    private NPC armorStand;
     private Location location;
     private String text;
     private boolean visible;
 
-    public MapHologram(final String text, final Location location) {
+    public MapHologram(String text, Location location) {
         this.text = text;
         this.location = location;
         this.visible = true;
-        final NPC armorStand = createNPC(EntityType.ARMOR_STAND, text, location);
-        final ArmorStand dasdsadsadassda = (ArmorStand) armorStand.getEntity();
+        NPC armorStand = createNPC(EntityType.ARMOR_STAND, text, location);
+        ArmorStand dasdsadsadassda = (ArmorStand) armorStand.getEntity();
         dasdsadsadassda.setVisible(false);
         dasdsadsadassda.setGravity(false);
         dasdsadsadassda.setMaxHealth(20);
@@ -60,7 +60,7 @@ public class MapHologram extends MapUtils implements Listener {
     }
 
     @EventHandler
-    public void onDamage(final EntityDamageEvent event) {
+    public void onDamage(EntityDamageEvent event) {
         if (event.getEntity().equals(this.getArmorStand())) {
             event.setCancelled(true);
             ((ArmorStand) event.getEntity()).setHealth(20);
@@ -68,14 +68,14 @@ public class MapHologram extends MapUtils implements Listener {
     }
 
     @EventHandler
-    public void onInteractAtEntity(final PlayerInteractAtEntityEvent event) {
+    public void onInteractAtEntity(PlayerInteractAtEntityEvent event) {
         if (event.getRightClicked().equals(this.getArmorStand())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
-    public void onInteractEntity(final PlayerInteractEntityEvent event) {
+    public void onInteractEntity(PlayerInteractEntityEvent event) {
         if (event.getRightClicked().equals(this.getArmorStand())) {
             event.setCancelled(true);
         }
@@ -90,17 +90,17 @@ public class MapHologram extends MapUtils implements Listener {
         }
     }
 
-    public void setLocation(final Location location) {
+    public void setLocation(Location location) {
         this.location = location;
         this.reloadCustomName();
     }
 
-    public void setText(final String text) {
+    public void setText(String text) {
         this.text = text;
         this.reloadCustomName();
     }
 
-    public void setVisible(final boolean visible) {
+    public void setVisible(boolean visible) {
         this.visible = visible;
         this.reloadCustomName();
     }

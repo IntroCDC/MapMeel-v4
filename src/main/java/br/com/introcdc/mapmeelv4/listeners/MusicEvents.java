@@ -33,19 +33,7 @@ public class MusicEvents extends MapUtils implements Listener {
                         if (location.getBlock().getType().equals(Material.DIAMOND_BLOCK)) {
                             if (inside.contains(player.getUniqueId())) {
                                 if (event.getType().equals(UpdateType.MINUTES)) {
-                                    new BukkitRunnable() {
-                                        int times = 0;
-
-                                        @Override
-                                        public void run() {
-                                            times++;
-                                            if (times <= 20) {
-                                                playSound(player, MapSound.STOP);
-                                            } else {
-                                                cancel();
-                                            }
-                                        }
-                                    }.runTaskTimer(getPlugin(), 0, 1);
+                                    playSound(player, MapSound.STOP);
                                     new BukkitRunnable() {
                                         @Override
                                         public void run() {
@@ -56,19 +44,7 @@ public class MusicEvents extends MapUtils implements Listener {
                             } else {
                                 if (event.getType().equals(UpdateType.SECONDS)) {
                                     inside.add(player.getUniqueId());
-                                    new BukkitRunnable() {
-                                        int times = 0;
-
-                                        @Override
-                                        public void run() {
-                                            times++;
-                                            if (times <= 20) {
-                                                playSound(player, MapSound.STOP);
-                                            } else {
-                                                cancel();
-                                            }
-                                        }
-                                    }.runTaskTimer(getPlugin(), 0, 1);
+                                    playSound(player, MapSound.STOP);
                                     new BukkitRunnable() {
                                         @Override
                                         public void run() {
@@ -81,45 +57,21 @@ public class MusicEvents extends MapUtils implements Listener {
                             if (inside.contains(player.getUniqueId())) {
                                 if (event.getType().equals(UpdateType.SECONDS)) {
                                     inside.remove(player.getUniqueId());
-                                    new BukkitRunnable() {
-                                        int times = 0;
-
-                                        @Override
-                                        public void run() {
-                                            times++;
-                                            if (times <= 20) {
-                                                playSound(player, MapSound.STOP);
-                                            } else {
-                                                cancel();
-                                            }
-                                        }
-                                    }.runTaskTimer(getPlugin(), 0, 1);
+                                    playSound(player, MapSound.STOP);
                                     new BukkitRunnable() {
                                         @Override
                                         public void run() {
-                                            playSound(player, MapSound.STOP);
+                                            playSound(player, MapSound.EFFECT_BACKGROUND);
                                         }
                                     }.runTaskLater(getPlugin(), 30);
                                 }
                             } else if (event.getType().equals(UpdateType.MINUTES)) {
                                 if (event.getType().equals(UpdateType.MINUTES)) {
-                                    new BukkitRunnable() {
-                                        int times = 0;
-
-                                        @Override
-                                        public void run() {
-                                            times++;
-                                            if (times <= 20) {
-                                                playSound(player, MapSound.STOP);
-                                            } else {
-                                                cancel();
-                                            }
-                                        }
-                                    }.runTaskTimer(getPlugin(), 0, 1);
+                                    playSound(player, MapSound.STOP);
                                     new BukkitRunnable() {
                                         @Override
                                         public void run() {
-                                            playSound(player, MapSound.STOP);
+                                            playSound(player, MapSound.EFFECT_BACKGROUND);
                                         }
                                     }.runTaskLater(getPlugin(), 30);
                                 }
@@ -129,19 +81,7 @@ public class MusicEvents extends MapUtils implements Listener {
                 } else {
                     if (event.getType().equals(UpdateType.MINUTES)) {
                         if (Level.getLevel(player.getWorld().getName()) != null && event.getTimes() == Level.getLevel(player.getWorld().getName()).getBackgroundMapSound().getMinutes()) {
-                            new BukkitRunnable() {
-                                int times = 0;
-
-                                @Override
-                                public void run() {
-                                    times++;
-                                    if (times <= 20) {
-                                        playSound(player, MapSound.STOP);
-                                    } else {
-                                        cancel();
-                                    }
-                                }
-                            }.runTaskTimer(getPlugin(), 0, 1);
+                            playSound(player, MapSound.STOP);
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {

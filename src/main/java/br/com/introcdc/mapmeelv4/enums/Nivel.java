@@ -6,7 +6,7 @@ public enum Nivel {
     private boolean cleared;
     private String name;
 
-    Nivel(final String name) {
+    Nivel(String name) {
         this.name = name;
     }
 
@@ -18,7 +18,7 @@ public enum Nivel {
         return this.cleared;
     }
 
-    public void setCleared(final boolean cleared) {
+    public void setCleared(boolean cleared) {
         this.cleared = cleared;
     }
 

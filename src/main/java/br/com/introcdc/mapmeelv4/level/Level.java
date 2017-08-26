@@ -11,6 +11,7 @@ import br.com.introcdc.mapmeelv4.bases.MapCoin;
 import br.com.introcdc.mapmeelv4.enums.MapSound;
 import br.com.introcdc.mapmeelv4.enums.Warp;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -49,13 +50,15 @@ public abstract class Level extends MapUtils {
     public List<MapCoin> loadedCoins;
     public List<LevelObjective> objectives;
     public MapCoin[] mapCoins;
+    private Location portalSpec;
 
-    public Level(String name, BlockId blockId, Warp warp, MapSound backgroundMapSound, LevelObjective[] objectives, MapCoin... mapCoins) {
+    public Level(String name, BlockId blockId, Warp warp, MapSound backgroundMapSound, Location portalSpec, LevelObjective[] objectives, MapCoin... mapCoins) {
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fRegistrando level §a" + name + "§f...");
         this.name = name;
         this.blockId = blockId;
         this.warp = warp;
         this.backgroundMapSound = backgroundMapSound;
+        this.portalSpec = portalSpec;
         this.objectives = Arrays.asList(objectives);
         this.loadedCoins = Arrays.asList(mapCoins);
         leveis.put(this.getName(), this);
@@ -78,6 +81,10 @@ public abstract class Level extends MapUtils {
         return warp;
     }
 
+    public Location getPortalSpec() {
+        return portalSpec;
+    }
+
     public MapSound getBackgroundMapSound() {
         return backgroundMapSound;
     }
@@ -89,34 +96,49 @@ public abstract class Level extends MapUtils {
     public static PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 50, 100);
 
     public void joinPortal(Player player) {
-        LevelObjective.reload();
-        int current = 0;
-        for (LevelObjective objective : getObjectives()) {
-            current++;
-            if (current == 1) {
-                ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(2, objective.getStringObjective());
-                LevelObjective.OBJ1.getBlock().getState().update();
+        player.setGameMode(GameMode.SPECTATOR);
+        player.teleport(getPortalSpec());
+        playSound(player, MapSound.EFFECT_JOINING);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                playSound(player, MapSound.STOP);
             }
-            if (current == 2) {
-                ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(2, objective.getStringObjective());
-                LevelObjective.OBJ2.getBlock().getState().update();
+        }.runTaskLater(getPlugin(), 20);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                LevelObjective.reload();
+                int current = 0;
+                for (LevelObjective objective : getObjectives()) {
+                    current++;
+                    if (current == 1) {
+                        ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        LevelObjective.OBJ1.getBlock().getState().update();
+                    }
+                    if (current == 2) {
+                        ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        LevelObjective.OBJ2.getBlock().getState().update();
+                    }
+                    if (current == 3) {
+                        ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        LevelObjective.OBJ3.getBlock().getState().update();
+                    }
+                    if (current == 4) {
+                        ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        LevelObjective.OBJ4.getBlock().getState().update();
+                    }
+                    if (current == 5) {
+                        ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        LevelObjective.OBJ5.getBlock().getState().update();
+                    }
+                }
+                player.setGameMode(GameMode.ADVENTURE);
+                player.addPotionEffect(blindness);
+                player.teleport(LISTOBJECTIVES);
+                playSound(player, MapSound.EFFECT_STARTING);
             }
-            if (current == 3) {
-                ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(2, objective.getStringObjective());
-                LevelObjective.OBJ3.getBlock().getState().update();
-            }
-            if (current == 4) {
-                ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(2, objective.getStringObjective());
-                LevelObjective.OBJ4.getBlock().getState().update();
-            }
-            if (current == 5) {
-                ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(2, objective.getStringObjective());
-                LevelObjective.OBJ5.getBlock().getState().update();
-            }
-        }
-        player.addPotionEffect(blindness);
-        player.teleport(LISTOBJECTIVES);
-        playSound(player, MapSound.EFFECT_STARTING);
+        }.runTaskLater(getPlugin(), 40);
     }
 
     public abstract void onJoinPortal(Player player);
@@ -132,6 +154,7 @@ public abstract class Level extends MapUtils {
         this.loadCoins();
         this.onLoadLevel(player);
         player.addPotionEffect(blindness);
+        playSound(player, MapSound.EFFECT_LETSGO);
         sendTitle(player, "§l§oCarregando...", "§f§oAguarde", 0, 40, 20);
         new BukkitRunnable() {
             @Override
