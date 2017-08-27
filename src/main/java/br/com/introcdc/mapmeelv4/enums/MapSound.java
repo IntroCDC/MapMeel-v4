@@ -12,7 +12,14 @@ public enum MapSound {
     EFFECT_LETSGO("mapmeelv4.effect.lets_go", 1),
     CASTLE_MUSIC("mapmeelv4.music.castle_music", 2),
     STARTING("mapmeelv4.music.starting", 1),
-    MUSIC_ONE("mapmeelv4.music.music_one", 2);
+    MUSIC_ONE("mapmeelv4.music.music_one", 2),
+    MUSIC_TWO("mapmeelv4.music.music_two", 3),
+    MUSIC_THREE("mapmeelv4.music.music_three", 3),
+    MUSIC_FOUR("mapmeelv4.music.music_four", 3),
+    MUSIC_FIVE("mapmeelv4.music.music_five", 3),
+    MUSIC_SIX("mapmeelv4.music.music_six", 3),
+    MUSIC_SEVEN("mapmeelv4.music.music_seven", 3),
+    ;
 
     private String file;
     private int minutes;

@@ -449,7 +449,7 @@ public class MapUtils {
                 public void run() {
                     times++;
                     if (times <= 20) {
-                        playSound(player, MapSound.STOP);
+                        player.playSound(player.getLocation(), mapSound.getFile(), 50000, 1);
                     } else {
                         cancel();
                     }

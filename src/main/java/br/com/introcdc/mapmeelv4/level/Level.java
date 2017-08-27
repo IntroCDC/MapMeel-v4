@@ -96,6 +96,8 @@ public abstract class Level extends MapUtils {
     public static PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 50, 100);
 
     public void joinPortal(Player player) {
+        float fly = player.getFlySpeed();
+        player.setFlySpeed(0.0f);
         player.setGameMode(GameMode.SPECTATOR);
         player.teleport(getPortalSpec());
         playSound(player, MapSound.EFFECT_JOINING);
@@ -136,6 +138,7 @@ public abstract class Level extends MapUtils {
                 player.setGameMode(GameMode.ADVENTURE);
                 player.addPotionEffect(blindness);
                 player.teleport(LISTOBJECTIVES);
+                player.setFlySpeed(fly);
                 playSound(player, MapSound.EFFECT_STARTING);
             }
         }.runTaskLater(getPlugin(), 40);
@@ -155,7 +158,7 @@ public abstract class Level extends MapUtils {
         this.onLoadLevel(player);
         player.addPotionEffect(blindness);
         playSound(player, MapSound.EFFECT_LETSGO);
-        sendTitle(player, "§l§oCarregando...", "§f§oAguarde", 0, 40, 20);
+        sendTitle(player, "§l§oCarregando...", "§f§oAguarde", 0, 20, 20);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -165,6 +168,7 @@ public abstract class Level extends MapUtils {
                     public void run() {
                         playSound(player, getBackgroundMapSound());
                         loadCooldown.remove(player.getUniqueId());
+                        sendTitle(player, "§a§l" + getName(), "§f§oSeja bem-vindo ao level §a" + getWarp().toString().replace("LV_", ""), 20, 40, 20);
                     }
                 }.runTaskLater(getPlugin(), 10);
             }
