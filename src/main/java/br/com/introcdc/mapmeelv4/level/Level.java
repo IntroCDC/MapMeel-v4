@@ -6,6 +6,7 @@ package br.com.introcdc.mapmeelv4.level;
 import br.com.introcdc.mapmeelv4.MapMain;
 import br.com.introcdc.mapmeelv4.MapUtils;
 import br.com.introcdc.mapmeelv4.bases.BlockId;
+import br.com.introcdc.mapmeelv4.bases.InventoryBase;
 import br.com.introcdc.mapmeelv4.bases.MapClassGetter;
 import br.com.introcdc.mapmeelv4.bases.MapCoin;
 import br.com.introcdc.mapmeelv4.enums.MapSound;
@@ -103,6 +104,7 @@ public abstract class Level extends MapUtils {
         player.setGameMode(GameMode.SPECTATOR);
         player.teleport(getPortalSpec());
         playSound(player, MapSound.EFFECT_JOINING);
+        InventoryBase.clearInventory(player);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -117,23 +119,48 @@ public abstract class Level extends MapUtils {
                 for (LevelObjective objective : getObjectives()) {
                     current++;
                     if (current == 1) {
-                        ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        if (objective.getStringObjective().length() > 15) {
+                            ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
+                            ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(3, objective.getStringObjective().substring(15, objective.getStringObjective().length()));
+                        } else {
+                            ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        }
                         LevelObjective.OBJ1.getBlock().getState().update();
                     }
                     if (current == 2) {
-                        ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        if (objective.getStringObjective().length() > 15) {
+                            ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
+                            ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(3, objective.getStringObjective().substring(15, objective.getStringObjective().length()));
+                        } else {
+                            ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        }
                         LevelObjective.OBJ2.getBlock().getState().update();
                     }
                     if (current == 3) {
-                        ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        if (objective.getStringObjective().length() > 15) {
+                            ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
+                            ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(3, objective.getStringObjective().substring(15, objective.getStringObjective().length()));
+                        } else {
+                            ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        }
                         LevelObjective.OBJ3.getBlock().getState().update();
                     }
                     if (current == 4) {
-                        ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        if (objective.getStringObjective().length() > 15) {
+                            ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
+                            ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(3, objective.getStringObjective().substring(15, objective.getStringObjective().length()));
+                        } else {
+                            ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        }
                         LevelObjective.OBJ4.getBlock().getState().update();
                     }
                     if (current == 5) {
-                        ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        if (objective.getStringObjective().length() > 15) {
+                            ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
+                            ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(3, objective.getStringObjective().substring(15, objective.getStringObjective().length()));
+                        } else {
+                            ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(2, objective.getStringObjective());
+                        }
                         LevelObjective.OBJ5.getBlock().getState().update();
                     }
                 }
@@ -154,6 +181,7 @@ public abstract class Level extends MapUtils {
         if (loadCooldown.contains(player.getUniqueId())) {
             return;
         }
+        InventoryBase.clearInventory(player);
         loadCooldown.add(player.getUniqueId());
         this.unloadCoins();
         this.loadCoins();
@@ -190,9 +218,47 @@ public abstract class Level extends MapUtils {
         }
     }
 
-    public void unloadLevel() {
+    public void unloadLevel(Player player, LevelObjective objective) {
         this.unloadCoins();
         this.onUnloadLevel();
+        playSound(player, MapSound.EFFECT_STARTING);
+        playSound(player, MapSound.STOP);
+        objective.setFinished(true);
+        player.setGameMode(GameMode.SPECTATOR);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                playSound(player, MapSound.EFFECT_GETSTAR);
+                float fly = player.getFlySpeed();
+                player.setFlySpeed(0.0f);
+                InventoryBase.clearInventory(player);
+                player.teleport(getLocation(player.getLocation().getWorld().getName(), player.getLocation().getX() + 5, player.getLocation().getY() + 5, player.getLocation().getZ() + 5, player.getLocation()));
+                new BukkitRunnable() {
+                    int times = 0;
+
+                    @Override
+                    public void run() {
+                        times++;
+                        if (times <= 35) {
+                            player.setVelocity(player.getLocation().getDirection().multiply(-1));
+                        } else if (times == 36) {
+                            player.addPotionEffect(blindness);
+                        } else if (times == 40) {
+                            cancel();
+                            player.setFlySpeed(fly);
+                            player.teleport(FRONTCASTLE);
+                            player.setGameMode(GameMode.ADVENTURE);
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    playSound(player, MapSound.CASTLE_MUSIC);
+                                }
+                            }.runTaskLater(getPlugin(), 10);
+                        }
+                    }
+                }.runTaskTimer(getPlugin(), 0, 2);
+            }
+        }.runTaskLater(getPlugin(), 20);
     }
 
     public abstract void onLoadLevel(Player player);

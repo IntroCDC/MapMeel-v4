@@ -58,23 +58,9 @@ public class MusicEvents extends MapUtils implements Listener {
                                 if (event.getType().equals(UpdateType.SECONDS)) {
                                     inside.remove(player.getUniqueId());
                                     playSound(player, MapSound.STOP);
-                                    new BukkitRunnable() {
-                                        @Override
-                                        public void run() {
-                                            playSound(player, MapSound.EFFECT_BACKGROUND);
-                                        }
-                                    }.runTaskLater(getPlugin(), 30);
                                 }
-                            } else if (event.getType().equals(UpdateType.MINUTES)) {
-                                if (event.getType().equals(UpdateType.MINUTES)) {
-                                    playSound(player, MapSound.STOP);
-                                    new BukkitRunnable() {
-                                        @Override
-                                        public void run() {
-                                            playSound(player, MapSound.EFFECT_BACKGROUND);
-                                        }
-                                    }.runTaskLater(getPlugin(), 30);
-                                }
+                            } else if (event.getType().equals(UpdateType.SECONDS)) {
+                                playSound(player, (random.nextBoolean() ? MapSound.EFFECT_BIRD_ONE : MapSound.EFFECT_BIRD_TWO), Double.parseDouble((random.nextBoolean() ? "1" : "0") + "." + random.nextInt(10)));
                             }
                         }
                     }
@@ -85,7 +71,9 @@ public class MusicEvents extends MapUtils implements Listener {
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
-                                    playSound(player, Level.getLevel(player.getWorld().getName()).getBackgroundMapSound());
+                                    if (Level.getLevel(player.getWorld().getName()) != null && event.getTimes() == Level.getLevel(player.getWorld().getName()).getBackgroundMapSound().getMinutes()) {
+                                        playSound(player, Level.getLevel(player.getWorld().getName()).getBackgroundMapSound());
+                                    }
                                 }
                             }.runTaskLater(getPlugin(), 30);
                         }

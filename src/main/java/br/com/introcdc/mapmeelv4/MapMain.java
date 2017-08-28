@@ -32,6 +32,14 @@ public class MapMain extends JavaPlugin {
             world.setDifficulty(Difficulty.PEACEFUL);
             world.setGameRuleValue("doMobSpawning", "false");
             world.setGameRuleValue("mobGriefing", "false");
+            world.setGameRuleValue("doDaylightCycle", "false");
+            world.setGameRuleValue("doEntityDrops", "false");
+            world.setGameRuleValue("doFireTick", "false");
+            world.setGameRuleValue("doMobLoot", "false");
+            world.setGameRuleValue("doTileDrops", "false");
+            world.setGameRuleValue("doWeatherCycle", "false");
+            world.setGameRuleValue("keepInventory", "true");
+            world.setGameRuleValue("doWeatherCycle", "false");
         }
         Level.loadLeveis();
         UpdateEventStarter.startAll();

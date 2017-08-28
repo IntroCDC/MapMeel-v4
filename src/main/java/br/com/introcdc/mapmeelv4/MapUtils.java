@@ -59,6 +59,7 @@ public class MapUtils {
     public static JsonParser parser = new JsonParser();
 
     public static String PREFIX = "§5§l§oMap§f§l§oMeel §5§l§o>§f§l§o> §f";
+    public static Location FRONTCASTLE = new Location(Bukkit.getWorld("world"), -16, 50, 46, 145, 0);
 
     public static Random random = new Random();
 
@@ -432,12 +433,16 @@ public class MapUtils {
     }
 
     public static void playSound(Player player, MapSound mapSound) {
-        playSound(player, mapSound, -1);
+        playSound(player, mapSound, 1);
+    }
+
+    public static void playSound(Player player, MapSound mapSound, double tom) {
+        playSound(player, mapSound, -1, tom);
     }
 
     public static List<UUID> cooldownPlay = new ArrayList<>();
 
-    public static void playSound(Player player, MapSound mapSound, int wait) {
+    public static void playSound(Player player, MapSound mapSound, int wait, double tom) {
         if (cooldownPlay.contains(player.getUniqueId()) && wait == -1) {
             return;
         }
@@ -448,7 +453,7 @@ public class MapUtils {
                 @Override
                 public void run() {
                     times++;
-                    if (times <= 20) {
+                    if (times <= 15) {
                         player.playSound(player.getLocation(), mapSound.getFile(), 50000, 1);
                     } else {
                         cancel();
@@ -469,7 +474,7 @@ public class MapUtils {
     }
 
     public static Location getLocation(String world, double x, double y, double z, float yaw, float pitch) {
-        return new Location(Bukkit.getWorld("world"), x, y, z, yaw, pitch);
+        return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
     }
 
     public static Location getLocation(String world, double x, double y, double z) {

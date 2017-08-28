@@ -33,14 +33,14 @@ public class MoveEvent implements Listener {
                     }
                 }
             }
-        } else if (Level.currentLevel != null) {
+        } else if (Level.currentLevel != null && event.getPlayer().getGameMode().equals(GameMode.ADVENTURE)) {
             for (LevelObjective levelObjective : Level.currentLevel.getObjectives()) {
                 if (event.getTo().getBlock().getType().equals(levelObjective.getBlockId().getMaterial()) && event.getTo().getBlock().getData() == levelObjective.getBlockId().getData()) {
-                    Level.currentLevel.unloadLevel();
+                    Level.currentLevel.unloadLevel(event.getPlayer(), levelObjective);
                 }
             }
         }
-        if (event.getTo().clone().add(0, -1, -0).getBlock().getType().equals(Material.SPONGE)) {
+        if (event.getTo().clone().add(0, -1, -0).getBlock().getType().equals(Material.SPONGE) && event.getPlayer().getGameMode().equals(GameMode.ADVENTURE)) {
             if (!spongeDamage.contains(event.getPlayer().getUniqueId())) {
                 spongeDamage.add(event.getPlayer().getUniqueId());
             }
