@@ -1,11 +1,13 @@
 package br.com.introcdc.mapmeelv4.bases;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 import br.com.introcdc.mapmeelv4.MapUtils;
 import br.com.introcdc.mapmeelv4.enums.CoinType;
+import org.bukkit.util.Vector;
 
 public class MapCoin extends MapUtils {
 
@@ -44,9 +46,11 @@ public class MapCoin extends MapUtils {
 
     public void spawn() {
         this.despawn();
-        Item item = this.location.getWorld().dropItem(this.location, itemBuilder(new ItemStack(this.type.getMaterial(), this.type.getBytes())).setName("§fMoeda").toItem());
+        this.location.getChunk().load();
+        Item item = this.location.getWorld().dropItem(this.location, itemBuilder(new ItemStack(this.type.getMaterial(), 1, this.type.getBytes())).setName("§fMoeda").toItem());
         item.setGravity(false);
         item.setInvulnerable(true);
+        item.setVelocity(new Vector(0, 0, 0));
         this.item = item;
     }
 

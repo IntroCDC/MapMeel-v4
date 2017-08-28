@@ -31,6 +31,7 @@ public class MapMain extends JavaPlugin {
         for (World world : Bukkit.getWorlds()) {
             world.setDifficulty(Difficulty.PEACEFUL);
             world.setGameRuleValue("doMobSpawning", "false");
+            world.setGameRuleValue("mobGriefing", "false");
         }
         Level.loadLeveis();
         UpdateEventStarter.startAll();

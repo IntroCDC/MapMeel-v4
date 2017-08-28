@@ -14,6 +14,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -168,7 +170,7 @@ public abstract class Level extends MapUtils {
                     public void run() {
                         playSound(player, getBackgroundMapSound());
                         loadCooldown.remove(player.getUniqueId());
-                        sendTitle(player, "§a§l" + getName(), "§f§oSeja bem-vindo ao level §a" + getWarp().toString().replace("LV_", ""), 20, 40, 20);
+                        sendTitle(player, "§a§l" + getName(), "§f§oSeja bem-vindo ao level §a" + getWarp().toString().replace("L_", ""), 20, 40, 20);
                     }
                 }.runTaskLater(getPlugin(), 10);
             }
@@ -181,6 +183,11 @@ public abstract class Level extends MapUtils {
 
     public void unloadCoins() {
         this.loadedCoins.forEach(MapCoin::despawn);
+        for (Entity entity : this.getWarp().getLocation().getWorld().getEntities()) {
+            if (entity instanceof Item) {
+                entity.remove();
+            }
+        }
     }
 
     public void unloadLevel() {

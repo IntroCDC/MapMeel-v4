@@ -4,6 +4,7 @@ package br.com.introcdc.mapmeelv4.level.leveis;
  */
 
 import br.com.introcdc.mapmeelv4.bases.BlockId;
+import br.com.introcdc.mapmeelv4.enums.CoinType;
 import br.com.introcdc.mapmeelv4.enums.MapSound;
 import br.com.introcdc.mapmeelv4.enums.Warp;
 import br.com.introcdc.mapmeelv4.level.Level;
@@ -16,7 +17,7 @@ import org.bukkit.entity.Player;
 public class Level1A extends Level {
 
     public Level1A() {
-        super("Mountain Village", new BlockId(Material.STAINED_GLASS_PANE), Warp.L_1A, MapSound.MUSIC_ONE, new Location(Bukkit.getWorld("world"), -33.5, 51.5, 48.5, 27.0f, 10.0f), new LevelObjective[]{});
+        super("Mountain Village", new BlockId(Material.STAINED_GLASS_PANE), Warp.L_1A, MapSound.MUSIC_ONE, new Location(Bukkit.getWorld("world"), -33.5, 51.5, 48.5, 27.0f, 10.0f), new LevelObjective[]{}, coin(Warp.L_1A, -87, 43, -164, CoinType.X1));
     }
 
     @Override
@@ -30,4 +31,5 @@ public class Level1A extends Level {
     @Override
     public void onUnloadLevel() {
     }
+
 }
