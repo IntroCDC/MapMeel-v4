@@ -1,6 +1,6 @@
 package br.com.introcdc.mapmeelv4.level;
 /*
- * Writter by IntroCDC, Bruno Coêlho at 23/08/2017 - 08:04
+ * Written by IntroCDC, Bruno Coêlho at 23/08/2017 - 08:04
  */
 
 import br.com.introcdc.mapmeelv4.MapUtils;

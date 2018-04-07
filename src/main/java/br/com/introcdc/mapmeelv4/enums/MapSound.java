@@ -1,6 +1,6 @@
 package br.com.introcdc.mapmeelv4.enums;
 /*
- * Writter by IntroCDC, Bruno Coêlho at 23/08/2017 - 17:07
+ * Written by IntroCDC, Bruno Coêlho at 23/08/2017 - 17:07
  */
 
 public enum MapSound {

@@ -1,17 +1,19 @@
 package br.com.introcdc.mapmeelv4;
 
+import br.com.introcdc.mapmeelv4.bases.MapClassGetter;
 import br.com.introcdc.mapmeelv4.enums.Warp;
+import br.com.introcdc.mapmeelv4.events.UpdateEventStarter;
 import br.com.introcdc.mapmeelv4.level.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Parrot;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import br.com.introcdc.mapmeelv4.bases.MapClassGetter;
-import br.com.introcdc.mapmeelv4.events.UpdateEventStarter;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class MapMain extends JavaPlugin {
 
@@ -28,6 +30,7 @@ public class MapMain extends JavaPlugin {
         for (Warp warp : Warp.values()) {
             warp.setup();
         }
+        Location DEFAULT = new Location(Bukkit.getWorld("world"), 0, 80, 0);
         for (World world : Bukkit.getWorlds()) {
             world.setDifficulty(Difficulty.PEACEFUL);
             world.setGameRuleValue("doMobSpawning", "false");
@@ -40,6 +43,16 @@ public class MapMain extends JavaPlugin {
             world.setGameRuleValue("doWeatherCycle", "false");
             world.setGameRuleValue("keepInventory", "true");
             world.setGameRuleValue("doWeatherCycle", "false");
+            for (Entity entity : world.getEntities()) {
+                if (entity instanceof Parrot || entity instanceof Item) {
+                    entity.remove();
+                }
+            }
+            if (world.getName().equalsIgnoreCase("world")) {
+                for (int i = 0; i < 1000; i++) {
+                    world.spawnEntity(DEFAULT.clone().add((MapUtils.random.nextInt(500) - 250), 0, (MapUtils.random.nextInt(500) - 250)), EntityType.PARROT);
+                }
+            }
         }
         Level.loadLeveis();
         UpdateEventStarter.startAll();

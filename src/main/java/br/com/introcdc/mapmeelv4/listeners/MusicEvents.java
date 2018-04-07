@@ -1,6 +1,6 @@
 package br.com.introcdc.mapmeelv4.listeners;
 /*
- * Writter by IntroCDC, Bruno Coêlho at 23/08/2017 - 17:17
+ * Written by IntroCDC, Bruno Coêlho at 23/08/2017 - 17:17
  */
 
 import br.com.introcdc.mapmeelv4.MapUtils;
@@ -24,13 +24,13 @@ public class MusicEvents extends MapUtils implements Listener {
 
     @EventHandler
     public void onUpdate(UpdateEvent event) {
-        if (event.getType().equals(UpdateType.MINUTES) || event.getType().equals(UpdateType.SECONDS)) {
+        if (event.getType().equals(UpdateType.MINUTES) || event.getType().equals(UpdateType.SECONDS) || event.getType().equals(UpdateType.TICK)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getWorld().getName().equalsIgnoreCase("world")) {
                     Location location = player.getLocation().clone();
                     location.setY(20);
-                    if (event.getTimes() == MapSound.CASTLE_MUSIC.getMinutes()) {
-                        if (location.getBlock().getType().equals(Material.DIAMOND_BLOCK)) {
+                    if (location.getBlock().getType().equals(Material.DIAMOND_BLOCK)) {
+                        if (event.getTimes() == MapSound.CASTLE_MUSIC.getMinutes()) {
                             if (inside.contains(player.getUniqueId())) {
                                 if (event.getType().equals(UpdateType.MINUTES)) {
                                     playSound(player, MapSound.STOP);
@@ -53,14 +53,17 @@ public class MusicEvents extends MapUtils implements Listener {
                                     }.runTaskLater(getPlugin(), 30);
                                 }
                             }
-                        } else {
-                            if (inside.contains(player.getUniqueId())) {
-                                if (event.getType().equals(UpdateType.SECONDS)) {
-                                    inside.remove(player.getUniqueId());
-                                    playSound(player, MapSound.STOP);
-                                }
-                            } else if (event.getType().equals(UpdateType.SECONDS)) {
-                                playSound(player, (random.nextBoolean() ? MapSound.EFFECT_BIRD_ONE : MapSound.EFFECT_BIRD_TWO), Double.parseDouble((random.nextBoolean() ? "1" : "0") + "." + random.nextInt(10)));
+                        }
+                    } else {
+                        int tick = random.nextInt(50);
+                        if (inside.contains(player.getUniqueId())) {
+                            if (event.getType().equals(UpdateType.SECONDS)) {
+                                inside.remove(player.getUniqueId());
+                                playSound(player, MapSound.STOP);
+                            }
+                        } else if (event.getType().equals(UpdateType.TICK) && event.getTimes() == tick) {
+                            if (random.nextBoolean()) {
+                                playSound(player, (random.nextBoolean() ? MapSound.EFFECT_BIRD_ONE : MapSound.EFFECT_BIRD_TWO), Float.parseFloat((random.nextBoolean() ? "1" : "0") + "." + random.nextInt(10)));
                             }
                         }
                     }

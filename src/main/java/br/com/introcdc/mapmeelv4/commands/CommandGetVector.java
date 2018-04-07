@@ -1,6 +1,6 @@
 package br.com.introcdc.mapmeelv4.commands;
 /*
- * Writter by IntroCDC, Bruno Coêlho at 26/08/2017 - 06:37
+ * Written by IntroCDC, Bruno Coêlho at 26/08/2017 - 06:37
  */
 
 import br.com.introcdc.mapmeelv4.bases.CommandBase;

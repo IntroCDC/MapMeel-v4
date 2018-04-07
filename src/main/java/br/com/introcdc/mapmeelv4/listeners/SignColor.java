@@ -1,6 +1,6 @@
 package br.com.introcdc.mapmeelv4.listeners;
 /*
- * Writter by IntroCDC, Bruno Coêlho at 23/08/2017 - 08:34
+ * Written by IntroCDC, Bruno Coêlho at 23/08/2017 - 08:34
  */
 
 import br.com.introcdc.mapmeelv4.MapUtils;

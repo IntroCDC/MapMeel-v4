@@ -436,13 +436,13 @@ public class MapUtils {
         playSound(player, mapSound, 1);
     }
 
-    public static void playSound(Player player, MapSound mapSound, double tom) {
+    public static void playSound(Player player, MapSound mapSound, float tom) {
         playSound(player, mapSound, -1, tom);
     }
 
     public static List<UUID> cooldownPlay = new ArrayList<>();
 
-    public static void playSound(Player player, MapSound mapSound, int wait, double tom) {
+    public static void playSound(Player player, MapSound mapSound, int wait, float tom) {
         if (cooldownPlay.contains(player.getUniqueId()) && wait == -1) {
             return;
         }
@@ -454,7 +454,7 @@ public class MapUtils {
                 public void run() {
                     times++;
                     if (times <= 15) {
-                        player.playSound(player.getLocation(), mapSound.getFile(), 50000, 1);
+                        player.playSound(player.getLocation(), mapSound.getFile(), 50000, tom);
                     } else {
                         cancel();
                     }
