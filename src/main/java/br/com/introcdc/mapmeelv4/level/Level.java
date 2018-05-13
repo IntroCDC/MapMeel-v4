@@ -273,7 +273,7 @@ public abstract class Level extends MapUtils {
 
     public static void loadLeveis() {
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fRegistrando leveis...");
-        for (Class<?> clazz : MapClassGetter.getClassesForPackage("br.com.introcdc.mapmeelv4.level.leveis", MapMain.class)) {
+        for (Class<?> clazz : MapClassGetter.getClassesForPackage("br.com.introcdc.mapmeelv4.level.levels", MapMain.class)) {
             Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fLevel encontrado: §a" + clazz.getName());
             try {
                 clazz.newInstance();

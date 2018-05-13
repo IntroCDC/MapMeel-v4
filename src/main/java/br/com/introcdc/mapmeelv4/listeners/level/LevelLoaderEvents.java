@@ -39,6 +39,7 @@ public class LevelLoaderEvents implements Listener {
         } else if (Level.currentLevel != null && event.getPlayer().getGameMode().equals(GameMode.ADVENTURE)) {
             for (LevelObjective levelObjective : Level.currentLevel.getObjectives()) {
                 if (event.getTo().getBlock().getType().equals(levelObjective.getBlockId().getMaterial()) && event.getTo().getBlock().getData() == levelObjective.getBlockId().getData()) {
+                    event.getPlayer().getActivePotionEffects().forEach(effect -> event.getPlayer().removePotionEffect(effect.getType()));
                     Level.currentLevel.unloadLevel(event.getPlayer(), levelObjective);
                 }
             }
