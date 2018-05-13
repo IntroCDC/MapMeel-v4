@@ -54,13 +54,15 @@ public abstract class Level extends MapUtils {
     public List<LevelObjective> objectives;
     public MapCoin[] mapCoins;
     private Location portalSpec;
+    private PotionEffect potionEffect;
 
-    public Level(String name, BlockId blockId, Warp warp, MapSound backgroundMapSound, Location portalSpec, LevelObjective[] objectives, MapCoin... mapCoins) {
+    public Level(String name, BlockId blockId, Warp warp, MapSound backgroundMapSound, PotionEffect potionEffect, Location portalSpec, LevelObjective[] objectives, MapCoin... mapCoins) {
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fRegistrando level §a" + name + "§f...");
         this.name = name;
         this.blockId = blockId;
         this.warp = warp;
         this.backgroundMapSound = backgroundMapSound;
+        this.potionEffect = potionEffect;
         this.portalSpec = portalSpec;
         this.objectives = Arrays.asList(objectives);
         this.loadedCoins = Arrays.asList(mapCoins);
@@ -90,6 +92,10 @@ public abstract class Level extends MapUtils {
 
     public MapSound getBackgroundMapSound() {
         return backgroundMapSound;
+    }
+
+    public PotionEffect getPotionEffect() {
+        return potionEffect;
     }
 
     public List<LevelObjective> getObjectives() {
@@ -272,7 +278,6 @@ public abstract class Level extends MapUtils {
             try {
                 clazz.newInstance();
             } catch (Exception ignored) {
-                ignored.printStackTrace();
             }
         }
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fLeveis registrados!");

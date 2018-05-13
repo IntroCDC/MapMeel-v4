@@ -1,4 +1,4 @@
-package br.com.introcdc.mapmeelv4.listeners;
+package br.com.introcdc.mapmeelv4.listeners.fly;
 /*
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 03:46
  */
@@ -29,26 +29,30 @@ public class PlayerFlyEvents implements Listener {
                 event.getPlayer().setAllowFlight(true);
                 event.getPlayer().setFlying(false);
             }
-        }.runTaskLater(MapMain.getPlugin(), 10);
+        }.runTaskLater(MapMain.getPlugin(), 5);
     }
 
     @EventHandler
     public void onGameMode(PlayerGameModeChangeEvent event) {
         if (event.getNewGameMode().equals(GameMode.SURVIVAL)) {
-            event.getPlayer().setGameMode(GameMode.ADVENTURE);
+            event.setCancelled(true);
         }
         new BukkitRunnable() {
             @Override
             public void run() {
+                if (event.getNewGameMode().equals(GameMode.SURVIVAL)) {
+                    event.getPlayer().setGameMode(GameMode.ADVENTURE);
+                }
                 event.getPlayer().setAllowFlight(true);
                 event.getPlayer().setFlying(false);
             }
-        }.runTaskLater(MapMain.getPlugin(), 10);
+        }.runTaskLater(MapMain.getPlugin(), 5);
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         if (event.getPlayer().isOnGround()) {
+            event.getPlayer().setAllowFlight(true);
             cooldownToFly.remove(event.getPlayer().getUniqueId());
         }
     }
@@ -59,6 +63,7 @@ public class PlayerFlyEvents implements Listener {
             if (event.isFlying()) {
                 event.setCancelled(true);
                 if (!cooldownToFly.contains(event.getPlayer().getUniqueId())) {
+                    event.getPlayer().setAllowFlight(false);
                     event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().multiply(3));
                     cooldownToFly.add(event.getPlayer().getUniqueId());
                 }

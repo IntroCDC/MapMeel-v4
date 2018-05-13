@@ -1,5 +1,7 @@
-package br.com.introcdc.mapmeelv4;
+package br.com.introcdc.mapmeelv4.scoreboard;
 
+import br.com.introcdc.mapmeelv4.MapProfile;
+import br.com.introcdc.mapmeelv4.MapUtils;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import org.bukkit.Bukkit;

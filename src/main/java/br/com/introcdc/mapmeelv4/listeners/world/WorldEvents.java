@@ -1,16 +1,15 @@
-package br.com.introcdc.mapmeelv4.listeners;
+package br.com.introcdc.mapmeelv4.listeners.world;
 /*
  * Written by IntroCDC, Bruno Coêlho at 26/08/2017 - 22:36
  */
 
-import br.com.introcdc.mapmeelv4.MapUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldSaveEvent;
 
-public class WorldEvents extends MapUtils implements Listener {
+public class WorldEvents implements Listener {
 
     @EventHandler
     public void onWeather(WeatherChangeEvent event) {

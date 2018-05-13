@@ -1,6 +1,6 @@
-package br.com.introcdc.mapmeelv4.listeners;
+package br.com.introcdc.mapmeelv4.listeners.music;
 /*
- * Written by IntroCDC, Bruno Coêlho at 23/08/2017 - 17:17
+ * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 08:39
  */
 
 import br.com.introcdc.mapmeelv4.MapUtils;
@@ -16,9 +16,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-public class MusicEvents extends MapUtils implements Listener {
+public class MusicUpdaterEvents implements Listener {
 
     public static List<UUID> inside = new ArrayList<>();
 
@@ -33,52 +35,52 @@ public class MusicEvents extends MapUtils implements Listener {
                         if (event.getTimes() == MapSound.CASTLE_MUSIC.getMinutes()) {
                             if (inside.contains(player.getUniqueId())) {
                                 if (event.getType().equals(UpdateType.MINUTES)) {
-                                    playSound(player, MapSound.STOP);
+                                    MapUtils.playSound(player, MapSound.STOP);
                                     new BukkitRunnable() {
                                         @Override
                                         public void run() {
-                                            playSound(player, MapSound.CASTLE_MUSIC);
+                                            MapUtils.playSound(player, MapSound.CASTLE_MUSIC);
                                         }
-                                    }.runTaskLater(getPlugin(), 30);
+                                    }.runTaskLater(MapUtils.getPlugin(), 30);
                                 }
                             } else {
                                 if (event.getType().equals(UpdateType.SECONDS)) {
                                     inside.add(player.getUniqueId());
-                                    playSound(player, MapSound.STOP);
+                                    MapUtils.playSound(player, MapSound.STOP);
                                     new BukkitRunnable() {
                                         @Override
                                         public void run() {
-                                            playSound(player, MapSound.CASTLE_MUSIC);
+                                            MapUtils.playSound(player, MapSound.CASTLE_MUSIC);
                                         }
-                                    }.runTaskLater(getPlugin(), 30);
+                                    }.runTaskLater(MapUtils.getPlugin(), 30);
                                 }
                             }
                         }
                     } else {
-                        int tick = random.nextInt(50);
+                        int tick = MapUtils.random.nextInt(50);
                         if (inside.contains(player.getUniqueId())) {
                             if (event.getType().equals(UpdateType.SECONDS)) {
                                 inside.remove(player.getUniqueId());
-                                playSound(player, MapSound.STOP);
+                                MapUtils.playSound(player, MapSound.STOP);
                             }
                         } else if (event.getType().equals(UpdateType.TICK) && event.getTimes() == tick) {
-                            if (random.nextBoolean()) {
-                                playSound(player, (random.nextBoolean() ? MapSound.EFFECT_BIRD_ONE : MapSound.EFFECT_BIRD_TWO), Float.parseFloat((random.nextBoolean() ? "1" : "0") + "." + random.nextInt(10)));
+                            if (MapUtils.random.nextBoolean()) {
+                                MapUtils.playSound(player, (MapUtils.random.nextBoolean() ? MapSound.EFFECT_BIRD_ONE : MapSound.EFFECT_BIRD_TWO), Float.parseFloat((MapUtils.random.nextBoolean() ? "1" : "0") + "." + MapUtils.random.nextInt(10)));
                             }
                         }
                     }
                 } else {
                     if (event.getType().equals(UpdateType.MINUTES)) {
                         if (Level.getLevel(player.getWorld().getName()) != null && event.getTimes() == Level.getLevel(player.getWorld().getName()).getBackgroundMapSound().getMinutes()) {
-                            playSound(player, MapSound.STOP);
+                            MapUtils.playSound(player, MapSound.STOP);
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
                                     if (Level.getLevel(player.getWorld().getName()) != null && event.getTimes() == Level.getLevel(player.getWorld().getName()).getBackgroundMapSound().getMinutes()) {
-                                        playSound(player, Level.getLevel(player.getWorld().getName()).getBackgroundMapSound());
+                                        MapUtils.playSound(player, Level.getLevel(player.getWorld().getName()).getBackgroundMapSound());
                                     }
                                 }
-                            }.runTaskLater(getPlugin(), 30);
+                            }.runTaskLater(MapUtils.getPlugin(), 30);
                         }
                     }
                 }

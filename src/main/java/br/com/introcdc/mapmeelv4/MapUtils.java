@@ -233,27 +233,15 @@ public class MapUtils {
         if (!destiny.exists()) {
             destiny.createNewFile();
         }
-        BufferedInputStream in = null;
-        FileOutputStream fout = null;
-        try {
-            URLConnection connection = new URL(URL).openConnection();
-            connection.addRequestProperty("User-Agent", "Kindome/IntroCDC");
-            in = new BufferedInputStream(connection.getInputStream());
-            fout = new FileOutputStream(destiny);
-
+        URLConnection connection = new URL(URL).openConnection();
+        connection.addRequestProperty("User-Agent", "Kindome/IntroCDC");
+        try (BufferedInputStream in = new BufferedInputStream(connection.getInputStream()); FileOutputStream fout = new FileOutputStream(destiny)) {
             byte data[] = new byte[1024];
             int count;
             while ((count = in.read(data, 0, 1024)) != -1) {
                 fout.write(data, 0, count);
             }
             fout.flush();
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-            if (fout != null) {
-                fout.close();
-            }
         }
     }
 
@@ -446,7 +434,7 @@ public class MapUtils {
         if (cooldownPlay.contains(player.getUniqueId()) && wait == -1) {
             return;
         }
-        if(mapSound.equals(MapSound.STOP)) {
+        if (mapSound.equals(MapSound.STOP)) {
             new BukkitRunnable() {
                 int times = 0;
 

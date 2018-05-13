@@ -12,11 +12,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class Level1B extends Level {
 
     public Level1B() {
-        super("Ghost Village", new BlockId(Material.STAINED_GLASS_PANE, 1), Warp.L_1B, MapSound.MUSIC_SIX, new Location(Bukkit.getWorld("world"), -36.5, 52.5, 3.5, 125, 14), new LevelObjective[]{});
+        super("Ghost Village", new BlockId(Material.STAINED_GLASS_PANE, 1), Warp.L_1B, MapSound.MUSIC_SIX, new PotionEffect(PotionEffectType.BLINDNESS, 100, 3), new Location(Bukkit.getWorld("world"), -36.5, 52.5, 3.5, 125, 14), new LevelObjective[]{});
     }
 
     @Override
