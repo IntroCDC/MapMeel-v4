@@ -14,21 +14,21 @@ public class CommandSetCargo extends CommandBase {
     @Override
     public void onExecute(CommandSender sender, String label, String[] args) throws Exception {
         if (args.length >= 2) {
-            if (!this.getProfile(args[0]).existsProfile()) {
-                sender.sendMessage(this.PREFIX + "§cPerfil não encontrado!");
+            if (!getProfile(args[0]).existsProfile()) {
+                sender.sendMessage(PREFIX + "§cPerfil não encontrado!");
                 return;
             }
             if (args[1].equalsIgnoreCase("ADMIN")) {
-                this.getProfile(args[0]).setCargo(Cargo.ADMIN);
-                sender.sendMessage(this.PREFIX + "§fCargo alterado para ADMIN com sucesso!");
+                getProfile(args[0]).setCargo(Cargo.ADMIN);
+                sender.sendMessage(PREFIX + "§fCargo alterado para ADMIN com sucesso!");
                 return;
             } else if (args[1].equalsIgnoreCase("CONVIDADO")) {
-                this.getProfile(args[0]).setCargo(Cargo.CONVIDADO);
-                sender.sendMessage(this.PREFIX + "§fCargo alterado para CONVIDADO com sucesso!");
+                getProfile(args[0]).setCargo(Cargo.CONVIDADO);
+                sender.sendMessage(PREFIX + "§fCargo alterado para CONVIDADO com sucesso!");
                 return;
             }
         }
-        this.connectUse(sender, label + " [nick] [convidado/admin]");
+        connectUse(sender, label + " [nick] [convidado/admin]");
     }
 
 }

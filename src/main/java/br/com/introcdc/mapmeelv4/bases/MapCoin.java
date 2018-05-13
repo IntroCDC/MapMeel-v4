@@ -11,6 +11,8 @@ import org.bukkit.util.Vector;
 
 public class MapCoin extends MapUtils {
 
+    private static Vector nullVector = new Vector(0, 0, 0);
+
     private boolean geted;
     private Item item;
     private Location location;
@@ -50,7 +52,7 @@ public class MapCoin extends MapUtils {
         Item item = this.location.getWorld().dropItem(this.location, itemBuilder(new ItemStack(this.type.getMaterial(), 1, this.type.getBytes())).setName("§fMoeda").toItem());
         item.setGravity(false);
         item.setInvulnerable(true);
-        item.setVelocity(new Vector(0, 0, 0));
+        item.setVelocity(nullVector);
         this.item = item;
     }
 

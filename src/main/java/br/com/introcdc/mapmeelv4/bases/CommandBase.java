@@ -20,9 +20,8 @@ public abstract class CommandBase extends Command {
         return aliases;
     }
 
-    protected boolean onlyStaff = false;
-
     public String PREFIX = MapUtils.PREFIX;
+    protected boolean onlyStaff = false;
 
     public CommandBase(String name) {
         super(name);
@@ -38,15 +37,15 @@ public abstract class CommandBase extends Command {
 
     @Override
     public boolean execute(CommandSender sender, String label, String[] args) {
-        if (this.onlyStaff) {
-            if (!this.isStaff(sender)) {
+        if (onlyStaff) {
+            if (!isStaff(sender)) {
                 return false;
             }
         }
         try {
-            this.onExecute(sender, label, args);
-        } catch (Exception e) {
-            e.printStackTrace();
+            onExecute(sender, label, args);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
         return false;
     }
@@ -69,15 +68,15 @@ public abstract class CommandBase extends Command {
 
     public boolean isOnlinePlayer(CommandSender sender, String name, boolean sendMessage) {
         if (sendMessage && sender != null) {
-            if (this.getPlayer(name) == null) {
+            if (getPlayer(name) == null) {
                 sender.sendMessage(MapUtils.PREFIX + "§cEste jogador não está online!");
             }
         }
-        return this.getPlayer(name) != null;
+        return getPlayer(name) != null;
     }
 
     public boolean isOnlinePlayer(String name) {
-        return this.isOnlinePlayer(null, name, false);
+        return isOnlinePlayer(null, name, false);
     }
 
     public boolean isPlayer(CommandSender sender) {
@@ -91,9 +90,9 @@ public abstract class CommandBase extends Command {
     public boolean isStaff(CommandSender sender) {
         if (sender instanceof Player) {
             try {
-                return this.getProfile(sender.getName()).getCargo().isStaff();
-            } catch (Exception e) {
-                e.printStackTrace();
+                return getProfile(sender.getName()).getCargo().isStaff();
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         }
         return true;

@@ -14,8 +14,8 @@ public class InteractEvent implements Listener {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            if(event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.WOOD_BUTTON) && Level.currentLevel != null) {
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.WOOD_BUTTON) && Level.currentLevel != null && event.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
                 event.setCancelled(true);
                 Level.currentLevel.loadLevel(event.getPlayer());
             }

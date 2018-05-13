@@ -19,10 +19,10 @@ public class CommandGetVector extends CommandBase {
 
     @Override
     public void onExecute(CommandSender sender, String label, String[] args) throws Exception {
-        TextComponent message = new TextComponent(PREFIX + "§fVector: §a" + this.getPlayerSender(sender).getLocation().getDirection().getX() + "§f, §a" + this.getPlayerSender(sender).getLocation().getDirection().getY() + "§f, §a" + this.getPlayerSender(sender).getLocation().getDirection().getZ() + "§f (Clique para copiar)");
-        message.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, this.getPlayerSender(sender).getLocation().getDirection().getX() + ", " + this.getPlayerSender(sender).getLocation().getDirection().getY() + ", " + this.getPlayerSender(sender).getLocation().getDirection().getZ()));
+        TextComponent message = new TextComponent(PREFIX + "§fVector: §a" + getPlayerSender(sender).getLocation().getDirection().getX() + "§f, §a" + getPlayerSender(sender).getLocation().getDirection().getY() + "§f, §a" + getPlayerSender(sender).getLocation().getDirection().getZ() + "§f (Clique para copiar)");
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, getPlayerSender(sender).getLocation().getDirection().getX() + ", " + getPlayerSender(sender).getLocation().getDirection().getY() + ", " + getPlayerSender(sender).getLocation().getDirection().getZ()));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Clique para copiar!").create()));
-        this.getPlayerSender(sender).spigot().sendMessage(message);
+        getPlayerSender(sender).spigot().sendMessage(message);
     }
 
 }

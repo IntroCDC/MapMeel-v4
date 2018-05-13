@@ -14,15 +14,15 @@ public class CommandRegisterAccount extends CommandBase {
     @Override
     public void onExecute(CommandSender sender, String label, String[] args) throws Exception {
         if (args.length > 0) {
-            if (this.getProfile(args[0]).existsProfile()) {
-                sender.sendMessage(this.PREFIX + "§cEsta conta já está registrada no servidor!");
+            if (getProfile(args[0]).existsProfile()) {
+                sender.sendMessage(PREFIX + "§cEsta conta já está registrada no servidor!");
             } else {
-                this.getProfile(args[0]).createFile();
-                sender.sendMessage(this.PREFIX + "Conta registrada!");
+                getProfile(args[0]).createFile();
+                sender.sendMessage(PREFIX + "Conta registrada!");
             }
             return;
         }
-        this.connectUse(sender, label + " [Nick]");
+        connectUse(sender, label + " [Nick]");
     }
 
 }

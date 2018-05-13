@@ -19,7 +19,7 @@ public class CommandWarp extends CommandBase {
 
     @Override
     public void onExecute(CommandSender sender, String label, String[] args) throws Exception {
-        if (!this.isPlayer(sender)) {
+        if (!isPlayer(sender)) {
             return;
         }
         if (args.length > 0) {
@@ -32,13 +32,13 @@ public class CommandWarp extends CommandBase {
             }
             if (selected != null) {
                 if (args.length > 1) {
-                    if (!this.isOnlinePlayer(sender, args[1])) {
+                    if (!isOnlinePlayer(sender, args[1])) {
                         return;
                     }
-                    this.getPlayer(args[1]).teleport(selected.getLocation());
-                    sender.sendMessage(MapUtils.PREFIX + "§fVocê teleportou §a" + this.getPlayer(args[1]).getName() + "§f para a warp §a" + selected.getName() + "§f com sucesso!");
+                    getPlayer(args[1]).teleport(selected.getLocation());
+                    sender.sendMessage(MapUtils.PREFIX + "§fVocê teleportou §a" + getPlayer(args[1]).getName() + "§f para a warp §a" + selected.getName() + "§f com sucesso!");
                 } else {
-                    this.getPlayerSender(sender).teleport(selected.getLocation());
+                    getPlayerSender(sender).teleport(selected.getLocation());
                     sender.sendMessage(MapUtils.PREFIX + "§fVocê teleportou-se para a warp §a" + selected.getName() + "§f com sucesso!");
                 }
                 return;
@@ -46,7 +46,7 @@ public class CommandWarp extends CommandBase {
                 sender.sendMessage(MapUtils.PREFIX + "§cWarp não encontrada!");
             }
         }
-        this.connectUse(sender, label + " [warp]");
+        connectUse(sender, label + " [warp]");
         TextComponent warps = new TextComponent(MapUtils.PREFIX + "§fWarps: §a");
         for (Warp warp : Warp.values()) {
             TextComponent warpp = new TextComponent("§a" + warp.getName() + "§f, ");
@@ -54,7 +54,7 @@ public class CommandWarp extends CommandBase {
             warpp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/warp " + warp.getName()));
             warps.addExtra(warpp);
         }
-        this.getPlayerSender(sender).spigot().sendMessage(warps);
+        getPlayerSender(sender).spigot().sendMessage(warps);
     }
 
 }
