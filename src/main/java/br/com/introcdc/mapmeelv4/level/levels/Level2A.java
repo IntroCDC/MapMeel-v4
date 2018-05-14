@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 public class Level2A extends Level {
 
     public Level2A() {
-        super("Snow Temple", new BlockId(Material.STAINED_GLASS_PANE, 4), Warp.L_2A, MapSound.MUSIC_FIVE, null, new Location(Bukkit.getWorld("world"), 4, 50, -74, -256, 12), new LevelObjective[]{});
+        super("Snow Temple", new BlockId(Material.STAINED_GLASS_PANE, 4), Warp.L_2A, MapSound.MUSIC_FIVE, null, new Location(Bukkit.getWorld("world"), 5, 51, -74, -254, 7), new LevelObjective[]{});
     }
 
     @Override

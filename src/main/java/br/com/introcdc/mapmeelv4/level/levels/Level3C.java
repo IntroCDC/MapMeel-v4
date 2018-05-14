@@ -1,6 +1,6 @@
 package br.com.introcdc.mapmeelv4.level.levels;
 /*
- * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 22:52
+ * Written by IntroCDC, Bruno Coêlho at 14/05/2018 - 02:51
  */
 
 import br.com.introcdc.mapmeelv4.bases.BlockId;
@@ -13,10 +13,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public class Level2C extends Level {
+public class Level3C extends Level {
 
-    public Level2C() {
-        super("Underwater City", new BlockId(Material.STAINED_GLASS_PANE, 6), Warp.L_2C, MapSound.MUSIC_THREE, null, new Location(Bukkit.getWorld("world"), 31, 50, -70, -17, 3), new LevelObjective[]{});
+    public Level3C() {
+        super("The Big Tower", new BlockId(Material.STAINED_GLASS_PANE, 10), Warp.L_3C, MapSound.MUSIC_SIX, null, new Location(Bukkit.getWorld("world"), 36, 51, 37, 21, 12), new LevelObjective[]{});
     }
 
     @Override

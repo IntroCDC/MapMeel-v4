@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 public class Level2B extends Level {
 
     public Level2B() {
-        super("Santa Claus Temple", new BlockId(Material.STAINED_GLASS_PANE, 5), Warp.L_2B, MapSound.MUSIC_FIVE, null, new Location(Bukkit.getWorld("world"), -6, 68, -73, -244, 12), new LevelObjective[]{});
+        super("Santa Claus Temple", new BlockId(Material.STAINED_GLASS_PANE, 5), Warp.L_2B, MapSound.MUSIC_FIVE, null, new Location(Bukkit.getWorld("world"), -4, 68, -72, -244, 5), new LevelObjective[]{});
     }
 
     @Override

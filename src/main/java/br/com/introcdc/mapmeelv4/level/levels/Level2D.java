@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 public class Level2D extends Level {
 
     public Level2D() {
-        super("Desert City", new BlockId(Material.STAINED_GLASS_PANE, 7), Warp.L_2D, MapSound.MUSIC_FOUR, null, new Location(Bukkit.getWorld("world"), 31, 50, -82, -162, 18), new LevelObjective[]{});
+        super("Desert City", new BlockId(Material.STAINED_GLASS_PANE, 7), Warp.L_2D, MapSound.MUSIC_FOUR, null, new Location(Bukkit.getWorld("world"), 32, 51, -81, -176, 9), new LevelObjective[]{});
     }
 
     @Override
