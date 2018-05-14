@@ -55,12 +55,12 @@ public class MapMain extends JavaPlugin {
                 }
             }
         }
-        Level.loadLeveis();
-        UpdateEventStarter.startAll();
-        Bukkit.getPluginManager().registerEvents(new ScoreManager(), MapMain.getPlugin());
         MapClassGetter.loadListeners("br.com.introcdc.mapmeelv4.histories", MapMain.class);
         MapClassGetter.loadListeners("br.com.introcdc.mapmeelv4.listeners", MapMain.class);
         MapClassGetter.loadCommands("br.com.introcdc.mapmeelv4.commands", MapMain.class);
+        Bukkit.getPluginManager().registerEvents(new ScoreManager(), MapMain.getPlugin());
+        UpdateEventStarter.startAll();
+        Level.loadLeveis();
     }
 
 }

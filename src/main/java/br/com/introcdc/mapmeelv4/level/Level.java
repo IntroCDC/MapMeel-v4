@@ -9,8 +9,12 @@ import br.com.introcdc.mapmeelv4.bases.BlockId;
 import br.com.introcdc.mapmeelv4.bases.InventoryBase;
 import br.com.introcdc.mapmeelv4.bases.MapClassGetter;
 import br.com.introcdc.mapmeelv4.bases.MapCoin;
+import br.com.introcdc.mapmeelv4.enums.CoinType;
 import br.com.introcdc.mapmeelv4.enums.MapSound;
 import br.com.introcdc.mapmeelv4.enums.Warp;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -22,6 +26,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.*;
 
 @SuppressWarnings("EmptyMethod")
@@ -52,11 +58,12 @@ public abstract class Level extends MapUtils {
     private MapSound backgroundMapSound;
     public List<MapCoin> loadedCoins;
     public List<LevelObjective> objectives;
-    public MapCoin[] mapCoins;
     private Location portalSpec;
     private PotionEffect potionEffect;
+    private File levelFile;
+    private JsonElement jsonElement;
 
-    public Level(String name, BlockId blockId, Warp warp, MapSound backgroundMapSound, PotionEffect potionEffect, Location portalSpec, LevelObjective[] objectives, MapCoin... mapCoins) {
+    public Level(String name, BlockId blockId, Warp warp, MapSound backgroundMapSound, PotionEffect potionEffect, Location portalSpec, LevelObjective[] objectives) {
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fRegistrando level §a" + name + "§f...");
         this.name = name;
         this.blockId = blockId;
@@ -65,8 +72,25 @@ public abstract class Level extends MapUtils {
         this.potionEffect = potionEffect;
         this.portalSpec = portalSpec;
         this.objectives = Arrays.asList(objectives);
-        this.loadedCoins = Arrays.asList(mapCoins);
-        leveis.put(this.getName(), this);
+        this.loadedCoins = new ArrayList<>();
+        this.levelFile = new File("plugins/MapMeel/levels/" + warp.getName() + ".json");
+        try {
+            if (!levelFile.exists()) {
+                levelFile.getParentFile().mkdirs();
+                levelFile.createNewFile();
+                PrintWriter writer = new PrintWriter(levelFile);
+                writer.println("{\"coins\":[]}");
+                writer.close();
+            }
+            Scanner scanner = new Scanner(levelFile);
+            jsonElement = MapUtils.parser.parse(scanner.nextLine());
+            scanner.close();
+            jsonElement.getAsJsonObject().get("coins").getAsJsonArray().forEach(jsonElement1 -> this.loadedCoins.add(new MapCoin(new Location(Bukkit.getWorld(getWarp().getName()), jsonElement1.getAsJsonObject().get("x").getAsInt(), jsonElement1.getAsJsonObject().get("y").getAsInt(), jsonElement1.getAsJsonObject().get("z").getAsInt()), CoinType.valueOf(jsonElement1.getAsJsonObject().get("type").getAsString()))));
+            save();
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+        }
+        leveis.put(getName(), this);
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fLevel §a" + name + "§f registrado!");
     }
 
@@ -265,6 +289,26 @@ public abstract class Level extends MapUtils {
                 }.runTaskTimer(getPlugin(), 0, 2);
             }
         }.runTaskLater(getPlugin(), 20);
+    }
+
+    public void addCoin(Location location, CoinType coinType) {
+        this.loadedCoins.add(new MapCoin(location, coinType));
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("x", (int) location.getX());
+        jsonObject.addProperty("y", (int) location.getY());
+        jsonObject.addProperty("z", (int) location.getZ());
+        jsonObject.addProperty("type", coinType.toString());
+        this.jsonElement.getAsJsonObject().get("coins").getAsJsonArray().add(jsonObject);
+        save();
+    }
+
+    public void save() {
+        try {
+            PrintWriter writer = new PrintWriter(levelFile);
+            writer.println(jsonElement.toString());
+            writer.close();
+        } catch (Exception ignored) {
+        }
     }
 
     public abstract void onLoadLevel(Player player);

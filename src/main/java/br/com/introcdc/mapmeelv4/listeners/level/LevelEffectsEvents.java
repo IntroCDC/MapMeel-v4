@@ -17,7 +17,7 @@ public class LevelEffectsEvents implements Listener {
     public void onUpdate(UpdateEvent event) {
         if (event.getType().equals(UpdateType.SECONDS) && event.getTimes() == 3) {
             Bukkit.getOnlinePlayers().forEach(player -> {
-                if (Level.getLevel(player.getWorld().getName()) != null && Level.getLevel(player.getWorld().getName()).getPotionEffect() != null && !player.getGameMode().equals(GameMode.CREATIVE)) {
+                if (Level.getLevel(player.getWorld().getName()) != null && Level.getLevel(player.getWorld().getName()).getPotionEffect() != null && player.getGameMode().equals(GameMode.ADVENTURE)) {
                     player.addPotionEffect(Level.getLevel(player.getWorld().getName()).getPotionEffect());
                 }
             });

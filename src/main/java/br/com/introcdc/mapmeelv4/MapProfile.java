@@ -119,27 +119,26 @@ public class MapProfile extends MapUtils {
     }
 
     public MapProfile loadSync() throws IOException, InvalidConfigurationException {
-        if (this.isLoaded()) {
+        if (isLoaded()) {
             return this;
         }
-        if (!this.existsProfile()) {
+        if (!existsProfile()) {
             return this;
         }
         this.config = parser.parse(new FileReader(configFile)).getAsJsonObject();
         this.getAwards().clear();
         for (String award : allAwards) {
-            this.getAwards().put(award, this.getConfig().get(award).getAsLong());
+            this.getAwards().put(award, getConfig().get(award).getAsLong());
         }
-        this.cargo = Cargo.valueOf(this.getConfig().get("cargo").getAsString());
+        this.cargo = Cargo.valueOf(getConfig().get("cargo").getAsString());
         this.loaded = true;
-        if (!getProfiles().containsKey(this.getName())) {
-            getProfiles().put(this.getName(), this);
+        if (!getProfiles().containsKey(getName())) {
+            getProfiles().put(getName(), this);
         }
         return this;
     }
 
     public void reset() {
-        this.tempCoins = 0;
         for (String award : allAwards) {
             try {
                 this.setAward(award, 0);
@@ -147,6 +146,10 @@ public class MapProfile extends MapUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void resetTempCoins() {
+        this.tempCoins = 0;
     }
 
     public void setAward(String award, long amount) throws IOException {

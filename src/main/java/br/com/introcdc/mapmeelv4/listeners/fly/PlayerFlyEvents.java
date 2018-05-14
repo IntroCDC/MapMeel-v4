@@ -64,7 +64,7 @@ public class PlayerFlyEvents implements Listener {
                 event.setCancelled(true);
                 if (!cooldownToFly.contains(event.getPlayer().getUniqueId())) {
                     event.getPlayer().setAllowFlight(false);
-                    event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().multiply(3));
+                    event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().multiply(1));
                     cooldownToFly.add(event.getPlayer().getUniqueId());
                 }
             }
