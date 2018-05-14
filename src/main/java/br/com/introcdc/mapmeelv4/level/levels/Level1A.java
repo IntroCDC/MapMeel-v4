@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 public class Level1A extends Level {
 
     public Level1A() {
-        super("Mountain Village", new BlockId(Material.STAINED_GLASS_PANE), Warp.L_1A, MapSound.MUSIC_ONE, null, new Location(Bukkit.getWorld("world"), -33.5, 51.5, 48.5, 27.0f, 10.0f), new LevelObjective[]{new LevelObjective("A Casa do Final da Vila", new BlockId(Material.CARPET, 10))});
+        super("Mountain Village", new BlockId(Material.STAINED_GLASS_PANE), Warp.L_1A, MapSound.MUSIC_ONE, null, new Location(Bukkit.getWorld("world"), -33, 52, 48, -335, 11), new LevelObjective[]{new LevelObjective("A Casa do Final da Vila", new BlockId(Material.CARPET, 10))});
     }
 
     @Override

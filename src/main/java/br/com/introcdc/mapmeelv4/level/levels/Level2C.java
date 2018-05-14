@@ -1,6 +1,6 @@
 package br.com.introcdc.mapmeelv4.level.levels;
 /*
- * Written by IntroCDC, Bruno Coêlho at 26/08/2017 - 22:31
+ * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 22:52
  */
 
 import br.com.introcdc.mapmeelv4.bases.BlockId;
@@ -12,13 +12,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-public class Level1B extends Level {
+public class Level2C extends Level {
 
-    public Level1B() {
-        super("Ghost Village", new BlockId(Material.STAINED_GLASS_PANE, 1), Warp.L_1B, MapSound.MUSIC_SIX, new PotionEffect(PotionEffectType.BLINDNESS, 300 * 20, 3), new Location(Bukkit.getWorld("world"), -35, 52, 2, -247, 13), new LevelObjective[]{});
+    public Level2C() {
+        super("Underwater City", new BlockId(Material.STAINED_GLASS_PANE, 6), Warp.L_2C, MapSound.MUSIC_THREE, null, new Location(Bukkit.getWorld("world"), -6, 68, -73, -244, 12), new LevelObjective[]{});
     }
 
     @Override
