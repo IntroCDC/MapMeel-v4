@@ -409,7 +409,9 @@ public class MapUtils {
         for (int x = -radius; x <= radius; ++x) {
             for (int z = -radius; z <= radius; ++z) {
                 for (int y = -radius; y <= radius; ++y) {
-                    blocks.add(loc.clone().add(x, y, z).getBlock());
+                    if (loc.clone().add(x, y, z).getY() >= 0 && loc.clone().add(x, y, z).getY() <= 256) {
+                        blocks.add(loc.clone().add(x, y, z).getBlock());
+                    }
                 }
             }
         }
