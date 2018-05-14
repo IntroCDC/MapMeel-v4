@@ -23,6 +23,7 @@ public class JoinEvents implements Listener {
         MapUtils.getProfile(event.getPlayer().getName());
         event.getPlayer().teleport(Warp.LOBBY.getLocation());
         event.getPlayer().setGameMode(GameMode.ADVENTURE);
+        event.getPlayer().getActivePotionEffects().forEach(effect -> event.getPlayer().removePotionEffect(effect.getType()));
     }
 
     @EventHandler(priority = EventPriority.LOW)

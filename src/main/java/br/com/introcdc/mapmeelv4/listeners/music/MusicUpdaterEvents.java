@@ -45,6 +45,7 @@ public class MusicUpdaterEvents implements Listener {
                                 }
                             } else {
                                 if (event.getType().equals(UpdateType.SECONDS)) {
+                                    MapUtils.sendTitle(player, "§f", "§f§oEntrando no castelo...", 10, 30, 10);
                                     inside.add(player.getUniqueId());
                                     MapUtils.playSound(player, MapSound.STOP);
                                     new BukkitRunnable() {
@@ -60,6 +61,7 @@ public class MusicUpdaterEvents implements Listener {
                         int tick = MapUtils.random.nextInt(50);
                         if (inside.contains(player.getUniqueId())) {
                             if (event.getType().equals(UpdateType.SECONDS)) {
+                                MapUtils.sendTitle(player, "§f", "§f§oSaindo do castelo...", 10, 30, 10);
                                 inside.remove(player.getUniqueId());
                                 MapUtils.playSound(player, MapSound.STOP);
                             }

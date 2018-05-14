@@ -34,7 +34,7 @@ public class CoinEvents implements Listener {
                             cancel();
                         }
                     }
-                }.runTaskTimer(MapUtils.getPlugin(), 0, 1);
+                }.runTaskTimer(MapUtils.getPlugin(), 0, 2);
             }
         }
     }

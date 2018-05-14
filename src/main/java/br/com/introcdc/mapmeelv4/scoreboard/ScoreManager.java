@@ -2,18 +2,14 @@ package br.com.introcdc.mapmeelv4.scoreboard;
 
 import br.com.introcdc.mapmeelv4.MapProfile;
 import br.com.introcdc.mapmeelv4.MapUtils;
+import br.com.introcdc.mapmeelv4.enums.UpdateType;
+import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-
-import br.com.introcdc.mapmeelv4.enums.UpdateType;
-import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 
 public class ScoreManager extends MapUtils implements Listener {
 
@@ -22,37 +18,24 @@ public class ScoreManager extends MapUtils implements Listener {
         if (profile.getPlayer() == null) {
             return;
         }
-        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        Objective objective = scoreboard.registerNewObjective("dummy", "dummy");
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-        objective.setDisplayName("§5§l§oMap§f§l§oMeel");
-
-        int column = 15;
-
-        String header = "\n§5§l§oMap§f§l§oMeel\n\n§fLevel Atual: §a" + (profile.getPlayer().getWorld().getName().equalsIgnoreCase("world") ? "Lobby" : profile.getPlayer().getWorld().getName()) + "\n\n§fEstrelas: §e" + profile.getAward("stars") + "\n";
+        String header = "\n§5§l§oMap§f§l§oMeel\n\n§a" + (profile.getPlayer().getWorld().getName().equalsIgnoreCase("world") ? "Mundo Normal\n§b§bLobby" : profile.getPlayer().getWorld().getName() + "\n§b§l" + (Level.getLevel(profile.getPlayer().getWorld().getName()) != null ? Level.getLevel(profile.getPlayer().getWorld().getName()).getName() : "Não Localizado"))
+                + "\n\n§e§l" + profile.getAward("stars") + "§f estrelas\n";
         StringBuilder footer = new StringBuilder();
 
         if (profile.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
-            footer = new StringBuilder("\n§fVocê está no Lobby!\n");
+            footer = new StringBuilder("\n§f§l§oVocê está no Lobby!\n");
         } else {
-
             if (Level.getLevel(profile.getPlayer().getWorld().getName()) != null) {
-                footer = new StringBuilder("\n§fObjetivos:\n\n");
+                footer = new StringBuilder("\n§l§oObjetivos:\n\n");
                 for (LevelObjective levelObjective : Level.getLevel(profile.getPlayer().getWorld().getName()).getObjectives()) {
-                    footer.append("§f").append(levelObjective.getStringObjective()).append(": ").append(levelObjective.isFinished() ? "§aFinalizado" : "§cNão Finalizado").append("\n");
+                    footer.append("§f§l").append(levelObjective.getStringObjective()).append(": ").append(levelObjective.isFinished() ? "§a§oFinalizado" : "§cNão Finalizado").append("\n");
                 }
             } else {
-                footer = new StringBuilder("\n§cLevel desconhecido!\n");
+                footer = new StringBuilder("\n§cLevel não localizado!\n");
             }
         }
 
         sendTablist(profile.getPlayer(), header, footer.toString());
-
-        objective.getScore("§a").setScore(column--);
-        objective.getScore("§fLevel: §a" + (profile.getPlayer().getWorld().getName().equalsIgnoreCase("world") ? "Lobby" : profile.getPlayer().getWorld().getName())).setScore(column--);
-        objective.getScore("§b").setScore(column--);
-
-        profile.getPlayer().setScoreboard(scoreboard);
     }
 
     @EventHandler

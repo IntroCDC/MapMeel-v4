@@ -484,7 +484,7 @@ public class MapUtils {
     }
 
     public static void sendActionBar(Player player, String message) {
-        PacketPlayOutChat chat = new PacketPlayOutChat(ChatSerializer.a("{\"text\":\"" + message + "\"}"));
+        PacketPlayOutChat chat = new PacketPlayOutChat(ChatSerializer.a("{\"text\":\"" + message + "\"}"), ChatMessageType.GAME_INFO);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(chat);
     }
 

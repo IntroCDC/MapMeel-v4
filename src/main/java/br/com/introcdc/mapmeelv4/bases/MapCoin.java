@@ -10,12 +10,11 @@ import org.bukkit.util.Vector;
 
 public class MapCoin extends MapUtils {
 
-    private static Vector nullVector = new Vector(0, 0, 0);
-
     private boolean geted;
     private Item item;
     private Location location;
     private CoinType type;
+    private Vector nullVector = null;
 
     public MapCoin(Location location, CoinType type) {
         this.location = location;
@@ -24,6 +23,7 @@ public class MapCoin extends MapUtils {
 
     public void despawn() {
         if (this.item != null) {
+            this.location.getChunk().load();
             this.item.remove();
             this.item = null;
         }
@@ -46,6 +46,9 @@ public class MapCoin extends MapUtils {
     }
 
     public void spawn() {
+        if (nullVector == null) {
+            nullVector = new Vector(0, 0, 0);
+        }
         this.despawn();
         this.location.getChunk().load();
         Item item = this.location.getWorld().dropItem(this.location, itemBuilder(new ItemStack(this.type.getMaterial(), 1, this.type.getBytes())).setName("§fMoeda").toItem());

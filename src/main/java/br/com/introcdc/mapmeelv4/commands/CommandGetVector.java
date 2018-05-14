@@ -9,6 +9,7 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CommandGetVector extends CommandBase {
 
@@ -20,6 +21,11 @@ public class CommandGetVector extends CommandBase {
 
     @Override
     public void onExecute(CommandSender sender, String label, String[] args) throws Exception {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(PREFIX + "§cApenas jogadores em jogo!");
+            return;
+        }
+
         TextComponent message = new TextComponent(PREFIX + "§fVector: §a" + getPlayerSender(sender).getLocation().getDirection().getX() + "§f, §a" + getPlayerSender(sender).getLocation().getDirection().getY() + "§f, §a" + getPlayerSender(sender).getLocation().getDirection().getZ() + "§f (Clique para copiar)");
         message.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, getPlayerSender(sender).getLocation().getDirection().getX() + ", " + getPlayerSender(sender).getLocation().getDirection().getY() + ", " + getPlayerSender(sender).getLocation().getDirection().getZ()));
         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Clique para copiar!").create()));

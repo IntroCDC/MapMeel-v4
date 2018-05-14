@@ -214,25 +214,25 @@ public abstract class Level extends MapUtils {
         if (loadCooldown.contains(player.getUniqueId())) {
             return;
         }
-        InventoryBase.clearInventory(player);
         loadCooldown.add(player.getUniqueId());
-        onLoadLevel(player);
-        player.addPotionEffect(blindness);
-        playSound(player, MapSound.EFFECT_LETSGO);
+        InventoryBase.clearInventory(player);
         sendTitle(player, "§l§oCarregando...", "§f§oAguarde", 0, 20, 20);
+        playSound(player, MapSound.EFFECT_LETSGO);
+        player.addPotionEffect(blindness);
+        unloadCoins();
+        loadCoins();
+        onLoadLevel(player);
         new BukkitRunnable() {
             @Override
             public void run() {
                 MapProfile.getProfile(player.getName()).resetTempCoins();
                 player.teleport(getWarp().getLocation());
-                unloadCoins();
-                loadCoins();
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         playSound(player, getBackgroundMapSound());
                         loadCooldown.remove(player.getUniqueId());
-                        sendTitle(player, "§a§l" + getName(), "§f§oSeja bem-vindo ao level §a" + getWarp().toString().replace("L_", ""), 20, 40, 20);
+                        sendTitle(player, "§a§l" + getName(), "§f§oSeja bem-vindo ao level §a§o" + getWarp().toString().replace("L_", ""), 20, 40, 20);
                     }
                 }.runTaskLater(getPlugin(), 10);
             }
@@ -253,16 +253,22 @@ public abstract class Level extends MapUtils {
     }
 
     public void unloadLevel(Player player, LevelObjective objective) {
+        player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
         MapProfile.getProfile(player.getName()).resetTempCoins();
         unloadCoins();
         onUnloadLevel();
-        playSound(player, MapSound.EFFECT_STARTING);
-        objective.setFinished(true);
+        playSound(player, MapSound.STOP);
+        if (objective != null) {
+            playSound(player, MapSound.EFFECT_STARTING);
+            objective.setFinished(true);
+        }
         player.setGameMode(GameMode.SPECTATOR);
         new BukkitRunnable() {
             @Override
             public void run() {
-                playSound(player, MapSound.EFFECT_GETSTAR);
+                if (objective != null) {
+                    playSound(player, MapSound.EFFECT_GETSTAR);
+                }
                 float fly = player.getFlySpeed();
                 player.setFlySpeed(0.0f);
                 InventoryBase.clearInventory(player);
@@ -280,7 +286,7 @@ public abstract class Level extends MapUtils {
                         } else if (times == 40) {
                             cancel();
                             player.setFlySpeed(fly);
-                            player.teleport(FRONTCASTLE);
+                            player.teleport(getPortalSpec());
                             player.setGameMode(GameMode.ADVENTURE);
                             new BukkitRunnable() {
                                 @Override
