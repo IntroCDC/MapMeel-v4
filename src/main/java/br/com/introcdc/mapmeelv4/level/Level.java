@@ -88,7 +88,6 @@ public abstract class Level extends MapUtils {
             jsonElement.getAsJsonObject().get("coins").getAsJsonArray().forEach(jsonElement1 -> this.loadedCoins.add(new MapCoin(new Location(Bukkit.getWorld(getWarp().getName()), jsonElement1.getAsJsonObject().get("x").getAsInt(), jsonElement1.getAsJsonObject().get("y").getAsInt(), jsonElement1.getAsJsonObject().get("z").getAsInt()), CoinType.valueOf(jsonElement1.getAsJsonObject().get("type").getAsString()))));
             save();
         } catch (Exception ignored) {
-            ignored.printStackTrace();
         }
         leveis.put(getName(), this);
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fLevel §a" + name + "§f registrado!");
@@ -104,6 +103,10 @@ public abstract class Level extends MapUtils {
 
     public BlockId getBlockId() {
         return blockId;
+    }
+
+    public List<MapCoin> getLoadedCoins() {
+        return loadedCoins;
     }
 
     public Warp getWarp() {
