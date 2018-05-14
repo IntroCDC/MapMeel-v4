@@ -19,6 +19,7 @@ import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTitle.EnumTitleAction;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -289,11 +290,16 @@ public class MapUtils {
         return MapMain.getPlugin();
     }
 
-    public static MapProfile getProfile(String name) throws Exception {
-        if (MapProfile.getProfiles().containsKey(name)) {
-            return MapProfile.getProfiles().get(name).loadSync();
+    public static MapProfile getProfile(String name) {
+        try {
+            if (MapProfile.getProfiles().containsKey(name)) {
+                return MapProfile.getProfiles().get(name).loadSync();
+            }
+            return new MapProfile(name).loadSync();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return new MapProfile(name).loadSync();
+        return null;
     }
 
     public static double getTPS() {

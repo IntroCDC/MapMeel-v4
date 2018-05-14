@@ -4,6 +4,7 @@ package br.com.introcdc.mapmeelv4.level;
  */
 
 import br.com.introcdc.mapmeelv4.MapMain;
+import br.com.introcdc.mapmeelv4.MapProfile;
 import br.com.introcdc.mapmeelv4.MapUtils;
 import br.com.introcdc.mapmeelv4.bases.BlockId;
 import br.com.introcdc.mapmeelv4.bases.InventoryBase;
@@ -84,7 +85,7 @@ public abstract class Level extends MapUtils {
             Scanner scanner = new Scanner(levelFile);
             jsonElement = MapUtils.parser.parse(scanner.nextLine());
             scanner.close();
-            jsonElement.getAsJsonObject().get("coins").getAsJsonArray().forEach(jsonElement1 -> this.loadedCoins.add(new MapCoin(new Location(Bukkit.getWorld(getWarp().getName()), jsonElement1.getAsJsonObject().get("x").getAsInt(), jsonElement1.getAsJsonObject().get("y").getAsInt(), jsonElement1.getAsJsonObject().get("z").getAsInt()), CoinType.valueOf(jsonElement1.getAsJsonObject().get("type").getAsString()))));
+            jsonElement.getAsJsonObject().get("coins").getAsJsonArray().forEach(jsonElement1 -> getLoadedCoins().add(new MapCoin(new Location(Bukkit.getWorld(getWarp().getName()), jsonElement1.getAsJsonObject().get("x").getAsInt(), jsonElement1.getAsJsonObject().get("y").getAsInt(), jsonElement1.getAsJsonObject().get("z").getAsInt()), CoinType.valueOf(jsonElement1.getAsJsonObject().get("type").getAsString()))));
             save();
         } catch (Exception ignored) {
         }
@@ -215,16 +216,17 @@ public abstract class Level extends MapUtils {
         }
         InventoryBase.clearInventory(player);
         loadCooldown.add(player.getUniqueId());
-        this.unloadCoins();
-        this.loadCoins();
-        this.onLoadLevel(player);
+        onLoadLevel(player);
         player.addPotionEffect(blindness);
         playSound(player, MapSound.EFFECT_LETSGO);
         sendTitle(player, "§l§oCarregando...", "§f§oAguarde", 0, 20, 20);
         new BukkitRunnable() {
             @Override
             public void run() {
+                MapProfile.getProfile(player.getName()).resetTempCoins();
                 player.teleport(getWarp().getLocation());
+                unloadCoins();
+                loadCoins();
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -238,12 +240,12 @@ public abstract class Level extends MapUtils {
     }
 
     public void loadCoins() {
-        this.loadedCoins.forEach(MapCoin::spawn);
+        getLoadedCoins().forEach(MapCoin::spawn);
     }
 
     public void unloadCoins() {
-        this.loadedCoins.forEach(MapCoin::despawn);
-        for (Entity entity : this.getWarp().getLocation().getWorld().getEntities()) {
+        getLoadedCoins().forEach(MapCoin::despawn);
+        for (Entity entity : getWarp().getLocation().getWorld().getEntities()) {
             if (entity instanceof Item) {
                 entity.remove();
             }
@@ -251,10 +253,10 @@ public abstract class Level extends MapUtils {
     }
 
     public void unloadLevel(Player player, LevelObjective objective) {
-        this.unloadCoins();
-        this.onUnloadLevel();
+        MapProfile.getProfile(player.getName()).resetTempCoins();
+        unloadCoins();
+        onUnloadLevel();
         playSound(player, MapSound.EFFECT_STARTING);
-        playSound(player, MapSound.STOP);
         objective.setFinished(true);
         player.setGameMode(GameMode.SPECTATOR);
         new BukkitRunnable() {
@@ -290,17 +292,17 @@ public abstract class Level extends MapUtils {
                     }
                 }.runTaskTimer(getPlugin(), 0, 2);
             }
-        }.runTaskLater(getPlugin(), 20);
+        }.runTaskLater(getPlugin(), 10);
     }
 
     public void addCoin(Location location, CoinType coinType) {
-        this.loadedCoins.add(new MapCoin(location, coinType));
+        getLoadedCoins().add(new MapCoin(location, coinType));
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("x", (int) location.getX());
         jsonObject.addProperty("y", (int) location.getY());
         jsonObject.addProperty("z", (int) location.getZ());
         jsonObject.addProperty("type", coinType.toString());
-        this.jsonElement.getAsJsonObject().get("coins").getAsJsonArray().add(jsonObject);
+        jsonElement.getAsJsonObject().get("coins").getAsJsonArray().add(jsonObject);
         save();
     }
 
