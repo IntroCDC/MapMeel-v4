@@ -4,7 +4,6 @@ package br.com.introcdc.mapmeelv4.level.levels;
  */
 
 import br.com.introcdc.mapmeelv4.bases.BlockId;
-import br.com.introcdc.mapmeelv4.enums.CoinType;
 import br.com.introcdc.mapmeelv4.enums.MapSound;
 import br.com.introcdc.mapmeelv4.enums.Warp;
 import br.com.introcdc.mapmeelv4.level.Level;

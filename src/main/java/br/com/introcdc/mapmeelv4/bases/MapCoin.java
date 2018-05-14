@@ -1,7 +1,6 @@
 package br.com.introcdc.mapmeelv4.bases;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 

@@ -61,24 +61,27 @@ public class MapHologram extends MapUtils implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
-        if (event.getEntity().equals(this.getArmorStand())) {
-            event.setCancelled(true);
-            ((ArmorStand) event.getEntity()).setHealth(20);
+        if (!event.getEntity().equals(getArmorStand())) {
+            return;
         }
+        event.setCancelled(true);
+        ((ArmorStand) event.getEntity()).setHealth(20);
     }
 
     @EventHandler
     public void onInteractAtEntity(PlayerInteractAtEntityEvent event) {
-        if (event.getRightClicked().equals(this.getArmorStand())) {
-            event.setCancelled(true);
+        if (!event.getRightClicked().equals(getArmorStand())) {
+            return;
         }
+        event.setCancelled(true);
     }
 
     @EventHandler
     public void onInteractEntity(PlayerInteractEntityEvent event) {
-        if (event.getRightClicked().equals(this.getArmorStand())) {
-            event.setCancelled(true);
+        if (!event.getRightClicked().equals(getArmorStand())) {
+            return;
         }
+        event.setCancelled(true);
     }
 
     private void reloadCustomName() {

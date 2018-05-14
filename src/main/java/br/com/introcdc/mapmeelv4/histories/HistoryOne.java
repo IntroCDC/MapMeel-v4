@@ -10,7 +10,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import br.com.introcdc.mapmeelv4.MapProfile;
 import br.com.introcdc.mapmeelv4.MapUtils;
-import br.com.introcdc.mapmeelv4.enums.Warp;
 import org.bukkit.util.Vector;
 
 public class HistoryOne extends MapUtils implements Listener {
