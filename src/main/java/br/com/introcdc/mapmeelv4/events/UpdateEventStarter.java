@@ -1,12 +1,11 @@
 package br.com.introcdc.mapmeelv4.events;
 
+import br.com.introcdc.mapmeelv4.timer.UpdateType;
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import br.com.introcdc.mapmeelv4.MapUtils;
-import br.com.introcdc.mapmeelv4.enums.UpdateType;
-
-public class UpdateEventStarter extends MapUtils {
+public class UpdateEventStarter {
 
     private static void days() {
         for (int i = 1; i < 60; i++) {
@@ -17,8 +16,9 @@ public class UpdateEventStarter extends MapUtils {
                 public void run() {
                     Bukkit.getPluginManager().callEvent(event);
                 }
-            }.runTaskTimer(getPlugin(), 20, 24 * 60 * 60 * 20 * i);
+            }.runTaskTimer(MapUtils.getPlugin(), 20, 24 * 60 * 60 * 20 * i);
         }
+
     }
 
     private static void hours() {
@@ -30,7 +30,7 @@ public class UpdateEventStarter extends MapUtils {
                 public void run() {
                     Bukkit.getPluginManager().callEvent(event);
                 }
-            }.runTaskTimer(getPlugin(), 20, 60 * 60 * 20 * i);
+            }.runTaskTimer(MapUtils.getPlugin(), 20, 60 * 60 * 20 * i);
         }
     }
 
@@ -43,7 +43,7 @@ public class UpdateEventStarter extends MapUtils {
                 public void run() {
                     Bukkit.getPluginManager().callEvent(event);
                 }
-            }.runTaskTimer(getPlugin(), 20, 60 * 20 * i);
+            }.runTaskTimer(MapUtils.getPlugin(), 20, 60 * 20 * i);
         }
     }
 
@@ -56,16 +56,8 @@ public class UpdateEventStarter extends MapUtils {
                 public void run() {
                     Bukkit.getPluginManager().callEvent(event);
                 }
-            }.runTaskTimer(getPlugin(), 20, 20 * i);
+            }.runTaskTimer(MapUtils.getPlugin(), 20, 20 * i);
         }
-    }
-
-    public static void startAll() {
-        days();
-        hours();
-        minutes();
-        seconds();
-        tick();
     }
 
     private static void tick() {
@@ -77,8 +69,16 @@ public class UpdateEventStarter extends MapUtils {
                 public void run() {
                     Bukkit.getPluginManager().callEvent(event);
                 }
-            }.runTaskTimer(getPlugin(), 20, i);
+            }.runTaskTimer(MapUtils.getPlugin(), 20, i);
         }
+    }
+
+    public static void startAll() {
+        days();
+        hours();
+        minutes();
+        seconds();
+        tick();
     }
 
 }

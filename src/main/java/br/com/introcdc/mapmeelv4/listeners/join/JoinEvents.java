@@ -3,8 +3,9 @@ package br.com.introcdc.mapmeelv4.listeners.join;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 08:35
  */
 
-import br.com.introcdc.mapmeelv4.MapUtils;
-import br.com.introcdc.mapmeelv4.enums.Warp;
+import br.com.introcdc.mapmeelv4.profile.Cargo;
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
+import br.com.introcdc.mapmeelv4.warp.Warp;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,6 +21,7 @@ public class JoinEvents implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent event) throws Exception {
         event.setJoinMessage(null);
+        event.getPlayer().setOp(MapUtils.getProfile(event.getPlayer().getName()).getCargo().equals(Cargo.ADMIN));
         MapUtils.getProfile(event.getPlayer().getName());
         event.getPlayer().teleport(Warp.LOBBY.getLocation());
         event.getPlayer().setGameMode(GameMode.ADVENTURE);
@@ -40,6 +42,7 @@ public class JoinEvents implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onQuit(PlayerQuitEvent event) throws Exception {
         event.setQuitMessage(null);
+        event.getPlayer().setOp(false);
         MapUtils.getProfile(event.getPlayer().getName()).unload();
     }
 

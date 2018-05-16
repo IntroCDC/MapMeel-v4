@@ -1,10 +1,11 @@
 package br.com.introcdc.mapmeelv4;
 
-import br.com.introcdc.mapmeelv4.bases.MapClassGetter;
-import br.com.introcdc.mapmeelv4.enums.Warp;
+import br.com.introcdc.mapmeelv4.classes.MapClassGetter;
 import br.com.introcdc.mapmeelv4.events.UpdateEventStarter;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.scoreboard.ScoreManager;
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
+import br.com.introcdc.mapmeelv4.warp.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;

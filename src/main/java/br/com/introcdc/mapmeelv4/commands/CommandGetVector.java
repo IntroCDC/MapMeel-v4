@@ -3,7 +3,7 @@ package br.com.introcdc.mapmeelv4.commands;
  * Written by IntroCDC, Bruno Coêlho at 26/08/2017 - 06:37
  */
 
-import br.com.introcdc.mapmeelv4.bases.CommandBase;
+import br.com.introcdc.mapmeelv4.command.CommandBase;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;

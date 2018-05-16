@@ -1,9 +1,9 @@
 package br.com.introcdc.mapmeelv4.commands;
 
+import br.com.introcdc.mapmeelv4.profile.Cargo;
 import org.bukkit.command.CommandSender;
 
-import br.com.introcdc.mapmeelv4.bases.CommandBase;
-import br.com.introcdc.mapmeelv4.enums.Cargo;
+import br.com.introcdc.mapmeelv4.command.CommandBase;
 
 public class CommandSetCargo extends CommandBase {
 

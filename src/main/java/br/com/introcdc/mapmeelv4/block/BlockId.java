@@ -1,12 +1,11 @@
-package br.com.introcdc.mapmeelv4.bases;
+package br.com.introcdc.mapmeelv4.block;
 /*
  * Written by IntroCDC, Bruno Coêlho at 23/08/2017 - 08:13
  */
 
-import br.com.introcdc.mapmeelv4.MapUtils;
 import org.bukkit.Material;
 
-public class BlockId extends MapUtils {
+public class BlockId {
 
     private Material material;
     private byte data;

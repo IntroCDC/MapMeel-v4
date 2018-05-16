@@ -1,6 +1,7 @@
-package br.com.introcdc.mapmeelv4.bases;
+package br.com.introcdc.mapmeelv4.classes;
 
-import br.com.introcdc.mapmeelv4.MapUtils;
+import br.com.introcdc.mapmeelv4.command.CommandBase;
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 

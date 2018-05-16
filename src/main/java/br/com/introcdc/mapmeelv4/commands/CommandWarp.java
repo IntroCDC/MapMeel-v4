@@ -1,10 +1,10 @@
 package br.com.introcdc.mapmeelv4.commands;
 
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
+import br.com.introcdc.mapmeelv4.warp.Warp;
 import org.bukkit.command.CommandSender;
 
-import br.com.introcdc.mapmeelv4.MapUtils;
-import br.com.introcdc.mapmeelv4.bases.CommandBase;
-import br.com.introcdc.mapmeelv4.enums.Warp;
+import br.com.introcdc.mapmeelv4.command.CommandBase;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;

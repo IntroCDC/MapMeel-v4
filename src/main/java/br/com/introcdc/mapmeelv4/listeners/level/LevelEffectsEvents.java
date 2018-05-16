@@ -3,9 +3,9 @@ package br.com.introcdc.mapmeelv4.listeners.level;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 08:43
  */
 
-import br.com.introcdc.mapmeelv4.enums.UpdateType;
 import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 import br.com.introcdc.mapmeelv4.level.Level;
+import br.com.introcdc.mapmeelv4.timer.UpdateType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;

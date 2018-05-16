@@ -3,11 +3,11 @@ package br.com.introcdc.mapmeelv4.listeners.music;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 08:39
  */
 
-import br.com.introcdc.mapmeelv4.MapUtils;
-import br.com.introcdc.mapmeelv4.enums.MapSound;
-import br.com.introcdc.mapmeelv4.enums.UpdateType;
 import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 import br.com.introcdc.mapmeelv4.level.Level;
+import br.com.introcdc.mapmeelv4.music.MapSound;
+import br.com.introcdc.mapmeelv4.timer.UpdateType;
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

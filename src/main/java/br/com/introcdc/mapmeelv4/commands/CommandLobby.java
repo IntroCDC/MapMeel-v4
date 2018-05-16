@@ -3,7 +3,7 @@ package br.com.introcdc.mapmeelv4.commands;
  * Written by IntroCDC, Bruno Coêlho at 14/05/2018 - 14:57
  */
 
-import br.com.introcdc.mapmeelv4.bases.CommandBase;
+import br.com.introcdc.mapmeelv4.command.CommandBase;
 import br.com.introcdc.mapmeelv4.level.Level;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ public class CommandLobby extends CommandBase {
             return;
         }
         Level level = Level.getLevel(player.getWorld().getName());
-        level.unloadLevel(player, null);
+        level.unloadLevel(null, true);
     }
 
 }

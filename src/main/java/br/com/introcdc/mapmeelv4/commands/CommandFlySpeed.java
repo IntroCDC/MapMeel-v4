@@ -3,7 +3,7 @@ package br.com.introcdc.mapmeelv4.commands;
  * Written by IntroCDC, Bruno Coêlho at 14/05/2018 - 00:30
  */
 
-import br.com.introcdc.mapmeelv4.bases.CommandBase;
+import br.com.introcdc.mapmeelv4.command.CommandBase;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

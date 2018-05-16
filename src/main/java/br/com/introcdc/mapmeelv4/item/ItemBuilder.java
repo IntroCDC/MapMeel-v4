@@ -1,4 +1,4 @@
-package br.com.introcdc.mapmeelv4.bases;
+package br.com.introcdc.mapmeelv4.item;
 
 import java.util.ArrayList;
 import java.util.Collections;

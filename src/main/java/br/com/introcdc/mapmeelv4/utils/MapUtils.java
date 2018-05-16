@@ -1,11 +1,12 @@
-package br.com.introcdc.mapmeelv4;
+package br.com.introcdc.mapmeelv4.utils;
 
-import br.com.introcdc.mapmeelv4.bases.ItemBuilder;
-import br.com.introcdc.mapmeelv4.bases.MapCoin;
-import br.com.introcdc.mapmeelv4.enums.CoinType;
-import br.com.introcdc.mapmeelv4.enums.MapSound;
-import br.com.introcdc.mapmeelv4.enums.Warp;
-import br.com.introcdc.mapmeelv4.utils.ReflectionManager;
+import br.com.introcdc.mapmeelv4.MapMain;
+import br.com.introcdc.mapmeelv4.coin.CoinType;
+import br.com.introcdc.mapmeelv4.coin.MapCoin;
+import br.com.introcdc.mapmeelv4.item.ItemBuilder;
+import br.com.introcdc.mapmeelv4.music.MapSound;
+import br.com.introcdc.mapmeelv4.profile.MapProfile;
+import br.com.introcdc.mapmeelv4.warp.Warp;
 import com.google.gson.JsonParser;
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.EditSession;
@@ -19,7 +20,6 @@ import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTitle.EnumTitleAction;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;

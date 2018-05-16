@@ -2,7 +2,7 @@ package br.com.introcdc.mapmeelv4.commands;
 
 import org.bukkit.command.CommandSender;
 
-import br.com.introcdc.mapmeelv4.bases.CommandBase;
+import br.com.introcdc.mapmeelv4.command.CommandBase;
 
 public class CommandRegisterAccount extends CommandBase {
 

@@ -1,11 +1,10 @@
-package br.com.introcdc.mapmeelv4.bases;
+package br.com.introcdc.mapmeelv4.timer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import br.com.introcdc.mapmeelv4.MapMain;
-import br.com.introcdc.mapmeelv4.enums.UpdateType;
 import br.com.introcdc.mapmeelv4.events.TimerStartEvent;
 import br.com.introcdc.mapmeelv4.events.TimerStopEvent;
 import br.com.introcdc.mapmeelv4.events.TimerUpdateEvent;

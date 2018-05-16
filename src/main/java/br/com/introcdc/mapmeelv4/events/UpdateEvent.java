@@ -1,9 +1,8 @@
 package br.com.introcdc.mapmeelv4.events;
 
+import br.com.introcdc.mapmeelv4.timer.UpdateType;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import br.com.introcdc.mapmeelv4.enums.UpdateType;
 
 public class UpdateEvent extends Event {
     private static HandlerList handlers = new HandlerList();

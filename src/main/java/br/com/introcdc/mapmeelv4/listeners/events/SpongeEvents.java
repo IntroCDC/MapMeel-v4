@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class SpongeEvents implements Listener {
 
-    public static List<UUID> spongeDamage = new ArrayList<>();
+    private static List<UUID> spongeDamage = new ArrayList<>();
     public static Vector vector = new Vector(0, 2, 0);
 
     @EventHandler

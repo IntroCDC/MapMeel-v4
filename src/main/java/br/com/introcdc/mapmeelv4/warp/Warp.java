@@ -1,4 +1,4 @@
-package br.com.introcdc.mapmeelv4.enums;
+package br.com.introcdc.mapmeelv4.warp;
 
 import br.com.introcdc.mapmeelv4.MapMain;
 import org.bukkit.Bukkit;

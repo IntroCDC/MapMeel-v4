@@ -1,5 +1,6 @@
-package br.com.introcdc.mapmeelv4.bases;
+package br.com.introcdc.mapmeelv4.hologram;
 
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
@@ -12,11 +13,10 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-import br.com.introcdc.mapmeelv4.MapUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 
-public class MapHologram extends MapUtils implements Listener {
+public class MapHologram implements Listener {
 
     private NPC armorStand;
     private Location location;
@@ -27,7 +27,7 @@ public class MapHologram extends MapUtils implements Listener {
         this.text = text;
         this.location = location;
         this.visible = true;
-        NPC armorStand = createNPC(EntityType.ARMOR_STAND, text, location);
+        NPC armorStand = MapUtils.createNPC(EntityType.ARMOR_STAND, text, location);
         ArmorStand dasdsadsadassda = (ArmorStand) armorStand.getEntity();
         dasdsadsadassda.setVisible(false);
         dasdsadsadassda.setGravity(false);
@@ -36,7 +36,7 @@ public class MapHologram extends MapUtils implements Listener {
         dasdsadsadassda.setRemoveWhenFarAway(false);
         this.armorStand = armorStand;
         this.reloadCustomName();
-        Bukkit.getPluginManager().registerEvents(this, getPlugin());
+        Bukkit.getPluginManager().registerEvents(this, MapUtils.getPlugin());
     }
 
     public void customUnload() {

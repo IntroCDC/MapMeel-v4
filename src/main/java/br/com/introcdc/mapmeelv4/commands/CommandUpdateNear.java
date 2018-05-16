@@ -3,8 +3,8 @@ package br.com.introcdc.mapmeelv4.commands;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 23:55
  */
 
-import br.com.introcdc.mapmeelv4.MapUtils;
-import br.com.introcdc.mapmeelv4.bases.CommandBase;
+import br.com.introcdc.mapmeelv4.command.CommandBase;
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;

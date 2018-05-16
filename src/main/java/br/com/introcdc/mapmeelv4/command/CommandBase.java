@@ -1,16 +1,15 @@
-package br.com.introcdc.mapmeelv4.bases;
+package br.com.introcdc.mapmeelv4.command;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import br.com.introcdc.mapmeelv4.profile.MapProfile;
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import br.com.introcdc.mapmeelv4.MapProfile;
-import br.com.introcdc.mapmeelv4.MapUtils;
 
 public abstract class CommandBase extends Command {
 

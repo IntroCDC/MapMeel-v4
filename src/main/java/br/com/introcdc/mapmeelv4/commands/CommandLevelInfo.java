@@ -3,9 +3,9 @@ package br.com.introcdc.mapmeelv4.commands;
  * Written by IntroCDC, Bruno Coêlho at 14/05/2018 - 03:09
  */
 
-import br.com.introcdc.mapmeelv4.bases.CommandBase;
-import br.com.introcdc.mapmeelv4.bases.MapCoin;
-import br.com.introcdc.mapmeelv4.enums.CoinType;
+import br.com.introcdc.mapmeelv4.coin.CoinType;
+import br.com.introcdc.mapmeelv4.coin.MapCoin;
+import br.com.introcdc.mapmeelv4.command.CommandBase;
 import br.com.introcdc.mapmeelv4.level.Level;
 import org.bukkit.command.CommandSender;
 

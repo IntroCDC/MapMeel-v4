@@ -4,7 +4,6 @@ package br.com.introcdc.mapmeelv4.listeners.level;
  */
 
 import br.com.introcdc.mapmeelv4.level.Level;
-import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -20,7 +19,7 @@ public class LevelLoaderEvents implements Listener {
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.WOOD_BUTTON) && Level.currentLevel != null && event.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
                 event.setCancelled(true);
-                Level.currentLevel.loadLevel(event.getPlayer());
+                Level.currentLevel.loadLevel();
             }
         }
     }
@@ -31,15 +30,9 @@ public class LevelLoaderEvents implements Listener {
             if (event.getPlayer().getGameMode().equals(GameMode.ADVENTURE)) {
                 for (Level level : Level.getLeveis().values()) {
                     if (event.getTo().getBlock().getType().equals(level.getBlockId().getMaterial()) && event.getTo().getBlock().getData() == level.getBlockId().getData()) {
-                        level.joinPortal(event.getPlayer());
+                        level.joinPortal();
                         Level.currentLevel = level;
                     }
-                }
-            }
-        } else if (Level.currentLevel != null && event.getPlayer().getGameMode().equals(GameMode.ADVENTURE)) {
-            for (LevelObjective levelObjective : Level.currentLevel.getObjectives()) {
-                if (event.getTo().getBlock().getType().equals(levelObjective.getBlockId().getMaterial()) && event.getTo().getBlock().getData() == levelObjective.getBlockId().getData()) {
-                    Level.currentLevel.unloadLevel(event.getPlayer(), levelObjective);
                 }
             }
         }

@@ -1,15 +1,13 @@
-package br.com.introcdc.mapmeelv4.bases;
-
-import java.util.ArrayList;
+package br.com.introcdc.mapmeelv4.item;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import br.com.introcdc.mapmeelv4.MapUtils;
+import java.util.ArrayList;
 
-public class InventoryBase extends MapUtils {
+public class InventoryBase {
 
     public static ArrayList<Inventory> inventories = new ArrayList<>();
 

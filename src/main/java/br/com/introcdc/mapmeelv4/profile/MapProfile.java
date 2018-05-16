@@ -1,7 +1,7 @@
-package br.com.introcdc.mapmeelv4;
+package br.com.introcdc.mapmeelv4.profile;
 
-import br.com.introcdc.mapmeelv4.enums.Cargo;
-import br.com.introcdc.mapmeelv4.enums.CoinType;
+import br.com.introcdc.mapmeelv4.coin.CoinType;
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapProfile extends MapUtils {
+public class MapProfile {
 
-    public static List<String> allAwards = Arrays.asList("stars", "level");
+    public static List<String> allAwards = Arrays.asList("level", "onlineTime");
 
     private static Map<String, MapProfile> profiles = new HashMap<>();
 
@@ -29,20 +29,20 @@ public class MapProfile extends MapUtils {
     private File configFile;
     private boolean loaded;
     private String name;
-    private long tempCoins;
+    private long tempCoins = 0;
+    private long redCoins = 0;
 
     public MapProfile(String name) {
         this.name = name;
         this.loaded = false;
-        this.configFile = new File(getPlugin().getDataFolder().getAbsolutePath() + "/profiles/" + this.getName() + ".json");
+        this.configFile = new File(MapUtils.getPlugin().getDataFolder().getAbsolutePath() + "/profiles/" + this.getName() + ".json");
         if (this.configFile.exists()) {
             try {
-                this.config = parser.parse(new FileReader(configFile)).getAsJsonObject();
+                this.config = MapUtils.parser.parse(new FileReader(configFile)).getAsJsonObject();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
-        this.tempCoins = 0;
         this.cargo = Cargo.CONVIDADO;
         this.awards = new HashMap<>();
         for (String award : allAwards) {
@@ -51,10 +51,13 @@ public class MapProfile extends MapUtils {
     }
 
     public void addTempCoin(CoinType type) {
-        this.addTempCoins(type.getCoins());
+        addTempCoins(type.getCoins());
+        if (type.equals(CoinType.X2)) {
+            redCoins++;
+        }
     }
 
-    public void addTempCoins(int amount) {
+    private void addTempCoins(int amount) {
         this.tempCoins += amount;
     }
 
@@ -68,15 +71,15 @@ public class MapProfile extends MapUtils {
     }
 
     public void saveConfig() throws FileNotFoundException {
-        this.getConfigFile().getParentFile().mkdirs();
-        PrintWriter writer = new PrintWriter(this.getConfigFile());
-        writer.println(this.getConfig() != null ? this.getConfig().toString() : "{}");
+        getConfigFile().getParentFile().mkdirs();
+        PrintWriter writer = new PrintWriter(getConfigFile());
+        writer.println(getConfig() != null ? getConfig().toString() : "{}");
         writer.flush();
         writer.close();
     }
 
     public boolean existsProfile() {
-        return this.getConfigFile().exists();
+        return getConfigFile().exists();
     }
 
     public HashMap<String, Long> getAwards() {
@@ -84,8 +87,8 @@ public class MapProfile extends MapUtils {
     }
 
     public long getAward(String award) {
-        if (this.getAwards().containsKey(award)) {
-            return this.getAwards().get(award);
+        if (getAwards().containsKey(award)) {
+            return getAwards().get(award);
         }
         return 0;
     }
@@ -107,11 +110,15 @@ public class MapProfile extends MapUtils {
     }
 
     public Player getPlayer() {
-        return Bukkit.getPlayer(this.getName());
+        return Bukkit.getPlayer(getName());
     }
 
     public long getTempCoins() {
         return this.tempCoins;
+    }
+
+    public long getRedCoins() {
+        return redCoins;
     }
 
     public boolean isLoaded() {
@@ -125,10 +132,10 @@ public class MapProfile extends MapUtils {
         if (!existsProfile()) {
             return this;
         }
-        this.config = parser.parse(new FileReader(configFile)).getAsJsonObject();
-        this.getAwards().clear();
+        this.config = MapUtils.parser.parse(new FileReader(configFile)).getAsJsonObject();
+        getAwards().clear();
         for (String award : allAwards) {
-            this.getAwards().put(award, getConfig().get(award).getAsLong());
+            getAwards().put(award, getConfig().get(award).getAsLong());
         }
         this.cargo = Cargo.valueOf(getConfig().get("cargo").getAsString());
         this.loaded = true;
@@ -141,7 +148,7 @@ public class MapProfile extends MapUtils {
     public void reset() {
         for (String award : allAwards) {
             try {
-                this.setAward(award, 0);
+                setAward(award, 0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -150,25 +157,26 @@ public class MapProfile extends MapUtils {
 
     public void resetTempCoins() {
         this.tempCoins = 0;
+        this.redCoins = 0;
     }
 
     public void setAward(String award, long amount) throws IOException {
-        this.getAwards().remove(award);
-        this.getAwards().put(award, amount);
-        this.getConfig().remove(award);
-        this.getConfig().addProperty(award, amount);
+        getAwards().remove(award);
+        getAwards().put(award, amount);
+        getConfig().remove(award);
+        getConfig().addProperty(award, amount);
         saveConfig();
     }
 
     public void setCargo(Cargo cargo) throws IOException {
         this.cargo = cargo;
-        this.getConfig().remove("cargo");
-        this.getConfig().addProperty("cargo", cargo.toString());
+        getConfig().remove("cargo");
+        getConfig().addProperty("cargo", cargo.toString());
         saveConfig();
     }
 
     public void unload() {
-        getProfiles().remove(this.getName());
+        getProfiles().remove(getName());
     }
 
 }

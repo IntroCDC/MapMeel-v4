@@ -1,4 +1,4 @@
-package br.com.introcdc.mapmeelv4.enums;
+package br.com.introcdc.mapmeelv4.coin;
 
 import org.bukkit.Material;
 

@@ -3,7 +3,7 @@ package br.com.introcdc.mapmeelv4.listeners.block;
  * Written by IntroCDC, Bruno Coêlho at 23/08/2017 - 08:34
  */
 
-import br.com.introcdc.mapmeelv4.MapUtils;
+import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
