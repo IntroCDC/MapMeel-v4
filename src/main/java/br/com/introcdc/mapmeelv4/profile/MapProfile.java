@@ -29,8 +29,6 @@ public class MapProfile {
     private File configFile;
     private boolean loaded;
     private String name;
-    private long tempCoins = 0;
-    private long redCoins = 0;
 
     public MapProfile(String name) {
         this.name = name;
@@ -42,23 +40,20 @@ public class MapProfile {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+        } else {
+            this.loaded = true;
+            this.config = new JsonObject();
+            this.config = new JsonObject();
+            for (String award : allAwards) {
+                getConfig().addProperty(award, 0);
+            }
+            getConfig().addProperty("cargo", Cargo.CONVIDADO.toString());
         }
         this.cargo = Cargo.CONVIDADO;
         this.awards = new HashMap<>();
         for (String award : allAwards) {
             this.awards.put(award, 0L);
         }
-    }
-
-    public void addTempCoin(CoinType type) {
-        addTempCoins(type.getCoins());
-        if (type.equals(CoinType.X2)) {
-            redCoins++;
-        }
-    }
-
-    private void addTempCoins(int amount) {
-        this.tempCoins += amount;
     }
 
     public void createFile() throws IOException {
@@ -113,14 +108,6 @@ public class MapProfile {
         return Bukkit.getPlayer(getName());
     }
 
-    public long getTempCoins() {
-        return this.tempCoins;
-    }
-
-    public long getRedCoins() {
-        return redCoins;
-    }
-
     public boolean isLoaded() {
         return this.loaded;
     }
@@ -153,11 +140,6 @@ public class MapProfile {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void resetTempCoins() {
-        this.tempCoins = 0;
-        this.redCoins = 0;
     }
 
     public void setAward(String award, long amount) throws IOException {

@@ -15,7 +15,7 @@ public class StarEvents implements Listener {
     @EventHandler
     public void onPickUp(PlayerPickupItemEvent event) {
         if (event.getItem() != null && event.getItem().getItemStack() != null && event.getItem().getItemStack().getItemMeta() != null && event.getItem().getItemStack().getItemMeta().getDisplayName() != null) {
-            if (event.getItem().getItemStack().getType().equals(Material.GOLD_BLOCK)) {
+            if (event.getItem().getItemStack().getType().toString().contains("SKULL")) {
                 if (Level.getLevel(event.getPlayer().getWorld().getName()) != null) {
                     if (Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().containsKey(event.getItem().getItemStack().getItemMeta().getDisplayName())) {
                         event.setCancelled(true);

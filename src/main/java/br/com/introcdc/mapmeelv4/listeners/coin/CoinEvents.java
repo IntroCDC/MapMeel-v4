@@ -7,7 +7,9 @@ import br.com.introcdc.mapmeelv4.coin.CoinType;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -15,6 +17,9 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CoinEvents implements Listener {
+
+    public static long coins = 0;
+    public static long redCoins = 0;
 
     @EventHandler(priority = EventPriority.LOW)
     public void onPick(PlayerPickupItemEvent event) {
@@ -25,17 +30,20 @@ public class CoinEvents implements Listener {
                     return;
                 }
                 event.getItem().remove();
-                long old = MapUtils.getProfile(event.getPlayer().getName()).getTempCoins();
-                MapUtils.getProfile(event.getPlayer().getName()).addTempCoin(coinType);
+                long old = coins;
+                coins += coinType.getCoins();
                 Level level = Level.getLevel(event.getPlayer().getWorld().getName());
-                if (old < 100 && MapUtils.getProfile(event.getPlayer().getName()).getTempCoins() >= 100 && level != null) {
+                if (old < 100 && coins >= 100 && level != null) {
                     level.getObjectives().get("Colete 100 Moedas").spawnStar(true, event.getPlayer().getLocation().clone().add(3, 3, 3));
                 }
                 if (coinType.equals(CoinType.X2)) {
-                    MapUtils.sendTitle(event.getPlayer(), "§f", "§c§l" + MapUtils.getProfile(event.getPlayer().getName()).getRedCoins(), 0, 20, 10);
+                    redCoins++;
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        MapUtils.sendTitle(player, "§f", "§c§l" + redCoins, 0, 20, 10);
+                    }
                 }
                 if (level != null) {
-                    if (MapUtils.getProfile(event.getPlayer().getName()).getRedCoins() == 8) {
+                    if (redCoins == 8) {
                         if (level.getObjectives().containsKey("Pegue 8 Corações")) {
                             level.getObjectives().get("Pegue 8 Corações").spawnStar(true, null);
                         }
@@ -48,7 +56,9 @@ public class CoinEvents implements Listener {
                     public void run() {
                         times++;
                         if (times <= coinType.getCoins()) {
-                            MapUtils.playSound(event.getPlayer(), MapSound.EFFECT_COIN, -2);
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                MapUtils.playSound(player, MapSound.EFFECT_COIN, -2);
+                            }
                         } else {
                             cancel();
                         }

@@ -5,6 +5,7 @@ package br.com.introcdc.mapmeelv4.listeners.level;
 
 import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 import br.com.introcdc.mapmeelv4.level.Level;
+import br.com.introcdc.mapmeelv4.listeners.coin.CoinEvents;
 import br.com.introcdc.mapmeelv4.timer.UpdateType;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Bukkit;
@@ -19,7 +20,7 @@ public class LevelUpdaterEvents implements Listener {
             Bukkit.getOnlinePlayers().forEach(player -> {
                 if (Level.getLevel(player.getWorld().getName()) != null) {
                     try {
-                        MapUtils.sendActionBar(player, "Moedas: §a" + MapUtils.getProfile(player.getName()).getTempCoins());
+                        MapUtils.sendActionBar(player, "Moedas: §a" + CoinEvents.coins);
                     } catch (Exception ignored) {
                     }
                 }

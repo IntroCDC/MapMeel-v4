@@ -6,16 +6,11 @@ import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.scoreboard.ScoreManager;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import br.com.introcdc.mapmeelv4.warp.Warp;
-import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Parrot;
+import org.bukkit.*;
+import org.bukkit.entity.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class MapMain extends JavaPlugin {
 
@@ -62,6 +57,40 @@ public class MapMain extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ScoreManager(), MapMain.getPlugin());
         UpdateEventStarter.startAll();
         Level.loadLeveis();
+
+        new BukkitRunnable() {
+            int times = 0;
+
+            @Override
+            public void run() {
+                Player player = Bukkit.getPlayer("EuSouUmaFocaAkiO");
+                if (player != null) {
+                    if (Bukkit.getOnlinePlayers().size() > 1) {
+                        Player other = null;
+                        for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
+                            if (!otherPlayer.getName().equalsIgnoreCase("EuSouUmaFocaAkiO")) {
+                                other = otherPlayer;
+                            }
+                        }
+                        if (other != null) {
+                            if (!player.getGameMode().equals(GameMode.SPECTATOR)) {
+                                player.setGameMode(GameMode.SPECTATOR);
+                            }
+                            if (player.getLocation().distance(other.getLocation()) > 30) {
+                                player.teleport(other);
+                            }
+                            times++;
+                            if (times <= 30) {
+                                player.setSpectatorTarget(other);
+                            } else {
+                                times = 0;
+                                player.leaveVehicle();
+                            }
+                        }
+                    }
+                }
+            }
+        };
     }
 
 }

@@ -9,6 +9,7 @@ import br.com.introcdc.mapmeelv4.classes.MapClassGetter;
 import br.com.introcdc.mapmeelv4.coin.CoinType;
 import br.com.introcdc.mapmeelv4.coin.MapCoin;
 import br.com.introcdc.mapmeelv4.item.InventoryBase;
+import br.com.introcdc.mapmeelv4.listeners.coin.CoinEvents;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import br.com.introcdc.mapmeelv4.warp.Warp;
@@ -158,6 +159,21 @@ public class Level {
             }.runTaskLater(MapUtils.getPlugin(), 40);
         }
         new BukkitRunnable() {
+            int times = 0;
+
+            @Override
+            public void run() {
+                times++;
+                if (times <= 55) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.teleport(getPortalSpec());
+                    }
+                } else {
+                    cancel();
+                }
+            }
+        }.runTaskTimer(MapUtils.getPlugin(), 1, 1);
+        new BukkitRunnable() {
             @Override
             public void run() {
                 LevelObjective.reload();
@@ -168,7 +184,7 @@ public class Level {
                     if (current == 1) {
                         if (objective.getStringObjective().length() > 15) {
                             ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
-                            ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14, objective.getStringObjective().length()));
+                            ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14));
                         } else {
                             ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(2, objective.getStringObjective());
                         }
@@ -177,7 +193,7 @@ public class Level {
                     if (current == 2) {
                         if (objective.getStringObjective().length() > 15) {
                             ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
-                            ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14, objective.getStringObjective().length()));
+                            ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14));
                         } else {
                             ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(2, objective.getStringObjective());
                         }
@@ -186,7 +202,7 @@ public class Level {
                     if (current == 3) {
                         if (objective.getStringObjective().length() > 15) {
                             ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
-                            ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14, objective.getStringObjective().length()));
+                            ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14));
                         } else {
                             ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(2, objective.getStringObjective());
                         }
@@ -195,7 +211,7 @@ public class Level {
                     if (current == 4) {
                         if (objective.getStringObjective().length() > 15) {
                             ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
-                            ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14, objective.getStringObjective().length()));
+                            ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14));
                         } else {
                             ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(2, objective.getStringObjective());
                         }
@@ -204,7 +220,7 @@ public class Level {
                     if (current == 5) {
                         if (objective.getStringObjective().length() > 15) {
                             ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
-                            ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14, objective.getStringObjective().length()));
+                            ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14));
                         } else {
                             ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(2, objective.getStringObjective());
                         }
@@ -240,8 +256,9 @@ public class Level {
         new BukkitRunnable() {
             @Override
             public void run() {
+                CoinEvents.coins = 0;
+                CoinEvents.redCoins = 0;
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    MapUtils.getProfile(player.getName()).resetTempCoins();
                     player.teleport(getWarp().getLocation());
                     new BukkitRunnable() {
                         @Override
@@ -252,6 +269,11 @@ public class Level {
                         }
                     }.runTaskLater(MapUtils.getPlugin(), 10);
                 }
+                getObjectives().values().forEach(levelObjective -> {
+                    if (levelObjective.isAutoSpawn()) {
+                        levelObjective.spawnStar(false, null);
+                    }
+                });
             }
         }.runTaskLater(MapUtils.getPlugin(), 20);
     }
@@ -284,9 +306,10 @@ public class Level {
         }
         save();
         if (unload) {
+            CoinEvents.coins = 0;
+            CoinEvents.redCoins = 0;
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
-                MapUtils.getProfile(player.getName()).resetTempCoins();
                 player.setGameMode(GameMode.SPECTATOR);
             }
             unloadCoins();

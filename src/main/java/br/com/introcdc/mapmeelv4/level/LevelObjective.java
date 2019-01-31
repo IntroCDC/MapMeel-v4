@@ -69,10 +69,18 @@ public class LevelObjective {
     public Level level;
     private Item item;
     private Vector nullVector = null;
+    private boolean autoSpawn;
 
     public LevelObjective(String stringObjective, Location location) {
         this.stringObjective = stringObjective;
         this.location = location;
+        this.autoSpawn = false;
+    }
+
+    public LevelObjective(String stringObjective, Location location, boolean autoSpawn) {
+        this.stringObjective = stringObjective;
+        this.location = location;
+        this.autoSpawn = autoSpawn;
     }
 
     public String getStringObjective() {
@@ -85,6 +93,10 @@ public class LevelObjective {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    public boolean isAutoSpawn() {
+        return autoSpawn;
     }
 
     public Location getLocation() {
@@ -125,7 +137,7 @@ public class LevelObjective {
         }
         this.despawn();
         location.getChunk().load();
-        Item item = location.getWorld().dropItem(location, MapUtils.itemBuilder(new ItemStack(Material.GOLD_BLOCK)).setName(getStringObjective()).toItem());
+        Item item = location.getWorld().dropItem(location, MapUtils.itemBuilder(new ItemStack(Material.SKULL_ITEM, 1, (byte) 3)).setOwner("iMeel").setName(getStringObjective()).toItem());
         item.setGravity(true);
         item.setInvulnerable(true);
         item.setVelocity(nullVector);

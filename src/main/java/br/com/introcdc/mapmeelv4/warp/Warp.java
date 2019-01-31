@@ -58,11 +58,11 @@ public enum Warp {
             6000),
     L_3C("3C",
             "3C",
-            -330.5,
-            26.0,
-            293.5,
-            90,
-            0,
+            -457,
+            109,
+            249,
+            148,
+            5,
             6000),
     L_3D("3D",
             "3D",
@@ -111,7 +111,8 @@ public enum Warp {
             264.5,
             -140,
             0,
-            6000),;
+            6000),
+    ;
 
     private Location location;
     private String name;

@@ -16,7 +16,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class JoinEvents implements Listener {
 
-    public static boolean onlyStaff = true;
+    public static boolean onlyStaff = false;
+    public static boolean avaibledForAll = true;
 
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent event) throws Exception {
@@ -30,7 +31,7 @@ public class JoinEvents implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onLogin(AsyncPlayerPreLoginEvent event) throws Exception {
-        if (!MapUtils.getProfile(event.getName()).existsProfile()) {
+        if (!MapUtils.getProfile(event.getName()).existsProfile() && !avaibledForAll) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, MapUtils.PREFIX + "§cO projeto MapMeel v4 é um projeto privado e não liberado para pessoas de fora!\n\n§c§o(Sua conta não foi encontrada!)");
             return;
         }
