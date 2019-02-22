@@ -27,6 +27,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -88,9 +89,9 @@ public class Level {
                 writer.println("{\"coins\":[]}");
                 writer.close();
             }
-            Scanner scanner = new Scanner(levelFile);
-            jsonElement = MapUtils.parser.parse(scanner.nextLine());
-            scanner.close();
+            try (FileReader reader = new FileReader(levelFile)) {
+                jsonElement = MapUtils.parser.parse(reader);
+            }
             jsonElement.getAsJsonObject().get("coins").getAsJsonArray().forEach(jsonElement1 -> getLoadedCoins().add(new MapCoin(new Location(Bukkit.getWorld(getWarp().getName()), jsonElement1.getAsJsonObject().get("x").getAsDouble(), jsonElement1.getAsJsonObject().get("y").getAsDouble(), jsonElement1.getAsJsonObject().get("z").getAsDouble()), CoinType.valueOf(jsonElement1.getAsJsonObject().get("type").getAsString()))));
             for (LevelObjective levelObjective : this.objectives.values()) {
                 if (!jsonElement.getAsJsonObject().has(levelObjective.getStringObjective())) {
@@ -103,7 +104,8 @@ public class Level {
                 }
             }
             save();
-        } catch (Exception ignored) {
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
 
         leveis.put(getName(), this);
