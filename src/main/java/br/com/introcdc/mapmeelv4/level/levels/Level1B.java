@@ -19,11 +19,11 @@ public class Level1B extends Level {
 
     public Level1B() {
         super("Ghost Village",
-                new BlockId(Material.STAINED_GLASS_PANE, 1),
+                Material.ORANGE_STAINED_GLASS_PANE,
                 Warp.L_1B,
                 MapSound.MUSIC_SIX,
-                new PotionEffect(PotionEffectType.BLINDNESS, 300 * 20, 3),
-                new Location(Bukkit.getWorld("world"), -35, 52, 2, -247, 13),
+                null,
+                new Location(Bukkit.getWorld("world"), -54, 53, 29, -301, 10),
                 new LevelObjective[]{
                         new LevelObjective("O Capitão do Navio", MapUtils.getLocation("1B", 90.5, 30, 19.5, 0, 86), true),
                         new LevelObjective("A Sacada da Maior de Todas", MapUtils.getLocation("1B", -35.5, 70, 4.5, -87, 89), true),

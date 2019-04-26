@@ -18,7 +18,7 @@ public class Level3A extends Level {
     public Level3A() {
         super(
                 "Sky Lands",
-                new BlockId(Material.STAINED_GLASS_PANE, 8),
+                Material.LIGHT_GRAY_STAINED_GLASS_PANE,
                 Warp.L_3A,
                 MapSound.MUSIC_TWO,
                 null,

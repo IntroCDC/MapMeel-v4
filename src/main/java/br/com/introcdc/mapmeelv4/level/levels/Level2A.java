@@ -18,7 +18,7 @@ public class Level2A extends Level {
     public Level2A() {
         super(
                 "Snow Temple",
-                new BlockId(Material.STAINED_GLASS_PANE, 4),
+                Material.YELLOW_STAINED_GLASS_PANE,
                 Warp.L_2A,
                 MapSound.MUSIC_FIVE,
                 null,

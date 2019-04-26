@@ -18,13 +18,18 @@ public class Level3C extends Level {
     public Level3C() {
         super(
                 "The Big Tower",
-                new BlockId(Material.STAINED_GLASS_PANE, 10),
+                Material.PURPLE_STAINED_GLASS_PANE,
                 Warp.L_3C,
-                MapSound.MUSIC_SIX,
+                MapSound.MUSIC_SEVEN,
                 null,
                 new Location(Bukkit.getWorld("world"), 36, 51, 37, 21, 12),
                 new LevelObjective[]{
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("3C", -482, 104, 240, 138, 89))
+                        new LevelObjective("No Inferior Da Grande Central", MapUtils.getLocation("3C", -464.5, 7.0, 201.5, 0, 86), true),
+                        new LevelObjective("Na Torre da Estação Principal", MapUtils.getLocation("3C", -474, 95, 100, -357, 90), true),
+                        new LevelObjective("A Principal Construção do Criatório Superior", MapUtils.getLocation("3C", -441, 187, 144, -8, 90), true),
+                        new LevelObjective("Viagem para o Fim Da Linha", MapUtils.getLocation("3C", -604, 55, 1019, -359, 90), true),
+                        new LevelObjective("Da Estação para Um Novo Mundo", MapUtils.getLocation("3C", 402, 42, -786, -2, 90), true),
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("3C", -464.5, 51.0, 204.5, 138, 89))
                 });
     }
 

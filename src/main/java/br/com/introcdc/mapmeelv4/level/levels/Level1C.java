@@ -3,7 +3,6 @@ package br.com.introcdc.mapmeelv4.level.levels;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 22:17
  */
 
-import br.com.introcdc.mapmeelv4.block.BlockId;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.music.MapSound;
@@ -18,11 +17,11 @@ public class Level1C extends Level {
     public Level1C() {
         super(
                 "The Villager Village",
-                new BlockId(Material.STAINED_GLASS_PANE, 2),
+                Material.MAGENTA_STAINED_GLASS_PANE,
                 Warp.L_1C,
                 MapSound.MUSIC_TWO,
                 null,
-                new Location(Bukkit.getWorld("world"), -35, 52, -45, -294, 12),
+                new Location(Bukkit.getWorld("world"), -53, 52, -77, -278, 10),
                 new LevelObjective[]{
                         new LevelObjective("Em cima da criação de bois", MapUtils.getLocation("1C", 574, 90, 410, -255, 90), true),
                         new LevelObjective("O Guarda para a Montanha", MapUtils.getLocation("1C", 541, 79, 420, 80, 45), true),

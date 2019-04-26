@@ -4,21 +4,20 @@ package br.com.introcdc.mapmeelv4.level;
  */
 
 import br.com.introcdc.mapmeelv4.MapMain;
-import br.com.introcdc.mapmeelv4.block.BlockId;
 import br.com.introcdc.mapmeelv4.classes.MapClassGetter;
 import br.com.introcdc.mapmeelv4.coin.CoinType;
 import br.com.introcdc.mapmeelv4.coin.MapCoin;
+import br.com.introcdc.mapmeelv4.door.Door;
+import br.com.introcdc.mapmeelv4.door.LittleDoor;
 import br.com.introcdc.mapmeelv4.item.InventoryBase;
 import br.com.introcdc.mapmeelv4.listeners.coin.CoinEvents;
+import br.com.introcdc.mapmeelv4.listeners.finallevel.FinalLevelEvents;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import br.com.introcdc.mapmeelv4.warp.Warp;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.block.Sign;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -29,15 +28,20 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("EmptyMethod")
 public class Level {
 
     public static long stars = 0;
 
+    public static boolean update = false;
+
     private static Map<String, Level> leveis = new HashMap<>();
-    public static Location LISTOBJECTIVES = new Location(Bukkit.getWorld("world"), 21.5, 41.0, -48.5, 0, 10);
+    public static Location LISTOBJECTIVES = new Location(Bukkit.getWorld("world"), 21.5, 40.5, -55.5, 0, -7.5f);
 
     public static Map<String, Level> getLeveis() {
         return leveis;
@@ -55,7 +59,7 @@ public class Level {
     public static Level currentLevel;
 
     private String name;
-    private BlockId blockId;
+    private Material material;
     private Warp warp;
     private MapSound backgroundMapSound;
     public List<MapCoin> loadedCoins;
@@ -65,10 +69,10 @@ public class Level {
     private File levelFile;
     private JsonElement jsonElement;
 
-    public Level(String name, BlockId blockId, Warp warp, MapSound backgroundMapSound, PotionEffect potionEffect, Location portalSpec, LevelObjective[] objectives) {
+    public Level(String name, Material material, Warp warp, MapSound backgroundMapSound, PotionEffect potionEffect, Location portalSpec, LevelObjective[] objectives) {
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fRegistrando level §a" + name + "§f...");
         this.name = name;
-        this.blockId = blockId;
+        this.material = material;
         this.warp = warp;
         this.backgroundMapSound = backgroundMapSound;
         this.potionEffect = potionEffect;
@@ -77,8 +81,12 @@ public class Level {
         for (LevelObjective objective : objectives) {
             this.objectives.put(objective.getStringObjective(), objective);
         }
-        LevelObjective coins = new LevelObjective("Colete 100 Moedas", warp.getLocation());
-        this.objectives.put(coins.getStringObjective(), coins);
+
+        if (!warp.toString().contains("EG_") && !warp.toString().contains("FINAL")) {
+            LevelObjective coins = new LevelObjective("Colete 100 Moedas", warp.getLocation());
+            this.objectives.put(coins.getStringObjective(), coins);
+        }
+
         this.loadedCoins = new ArrayList<>();
         this.levelFile = new File("plugins/MapMeel/levels/" + warp.getName() + ".json");
         try {
@@ -116,8 +124,8 @@ public class Level {
         return name;
     }
 
-    public BlockId getBlockId() {
-        return blockId;
+    public Material getMaterial() {
+        return material;
     }
 
     public List<MapCoin> getLoadedCoins() {
@@ -133,6 +141,11 @@ public class Level {
     }
 
     public MapSound getBackgroundMapSound() {
+        if (getName().equalsIgnoreCase("Final Level")) {
+            if (update) {
+                return MapSound.MUSIC_TWELVE;
+            }
+        }
         return backgroundMapSound;
     }
 
@@ -178,57 +191,6 @@ public class Level {
         new BukkitRunnable() {
             @Override
             public void run() {
-                LevelObjective.reload();
-                int current = 0;
-                for (String key : getObjectives().keySet()) {
-                    LevelObjective objective = getObjectives().get(key);
-                    current++;
-                    if (current == 1) {
-                        if (objective.getStringObjective().length() > 15) {
-                            ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
-                            ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14));
-                        } else {
-                            ((Sign) LevelObjective.OBJ1.getBlock().getState()).setLine(2, objective.getStringObjective());
-                        }
-                        LevelObjective.OBJ1.getBlock().getState().update();
-                    }
-                    if (current == 2) {
-                        if (objective.getStringObjective().length() > 15) {
-                            ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
-                            ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14));
-                        } else {
-                            ((Sign) LevelObjective.OBJ2.getBlock().getState()).setLine(2, objective.getStringObjective());
-                        }
-                        LevelObjective.OBJ2.getBlock().getState().update();
-                    }
-                    if (current == 3) {
-                        if (objective.getStringObjective().length() > 15) {
-                            ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
-                            ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14));
-                        } else {
-                            ((Sign) LevelObjective.OBJ3.getBlock().getState()).setLine(2, objective.getStringObjective());
-                        }
-                        LevelObjective.OBJ3.getBlock().getState().update();
-                    }
-                    if (current == 4) {
-                        if (objective.getStringObjective().length() > 15) {
-                            ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
-                            ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14));
-                        } else {
-                            ((Sign) LevelObjective.OBJ4.getBlock().getState()).setLine(2, objective.getStringObjective());
-                        }
-                        LevelObjective.OBJ4.getBlock().getState().update();
-                    }
-                    if (current == 5) {
-                        if (objective.getStringObjective().length() > 15) {
-                            ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(2, objective.getStringObjective().substring(0, 15));
-                            ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(3, objective.getStringObjective().substring(14));
-                        } else {
-                            ((Sign) LevelObjective.OBJ5.getBlock().getState()).setLine(2, objective.getStringObjective());
-                        }
-                        LevelObjective.OBJ5.getBlock().getState().update();
-                    }
-                }
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.setGameMode(GameMode.ADVENTURE);
                     player.addPotionEffect(blindness);
@@ -247,6 +209,10 @@ public class Level {
             return;
         }
         loadCooldown = true;
+
+        Level.update = false;
+        FinalLevelEvents.teleport = false;
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             InventoryBase.clearInventory(player);
             MapUtils.sendTitle(player, "§l§oCarregando...", "§f§oAguarde", 0, 20, 20);
@@ -260,12 +226,13 @@ public class Level {
             public void run() {
                 CoinEvents.coins = 0;
                 CoinEvents.redCoins = 0;
+                CoinEvents.blueCoins = 0;
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.teleport(getWarp().getLocation());
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            MapUtils.playSound(player, getBackgroundMapSound());
+                            MapUtils.playSound(player, getBackgroundMapSound(), SoundCategory.AMBIENT);
                             loadCooldown = false;
                             MapUtils.sendTitle(player, "§a§l" + getName(), "§f§oSeja bem-vindo ao level §a§o" + getWarp().toString().replace("L_", ""), 20, 40, 20);
                         }
@@ -297,6 +264,7 @@ public class Level {
         boolean already = false;
         if (objective != null) {
             for (Player player : Bukkit.getOnlinePlayers()) {
+                MapUtils.playSound(player, MapSound.STOP);
                 MapUtils.playSound(player, MapSound.EFFECT_JOINING);
             }
             if (!objective.isFinished()) {
@@ -310,6 +278,7 @@ public class Level {
         if (unload) {
             CoinEvents.coins = 0;
             CoinEvents.redCoins = 0;
+            CoinEvents.blueCoins = 0;
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
                 player.setGameMode(GameMode.SPECTATOR);
@@ -367,6 +336,29 @@ public class Level {
                                             MapUtils.sendTitle(player, (Already ? "§7§lOBJETIVO JÁ CONCLUÍDO!" : "§a§lOBJETIVO CONCLUÍDO!"), "§f§o" + objective.getStringObjective(), 10, 40, 20);
                                             MapUtils.playSound(player, MapSound.EFFECT_COMPLETE);
                                         }
+
+                                        new BukkitRunnable() {
+                                            @Override
+                                            public void run() {
+                                                for (LittleDoor littleDoor : LittleDoor.allDoors) {
+                                                    if (Level.stars == littleDoor.getNeedStars()) {
+                                                        for (Player player : Bukkit.getOnlinePlayers()) {
+                                                            MapUtils.sendTitle(player, "§b§l§oPorta Destravada!", "§f§oA porta para o level §b§o" + littleDoor.getName() + "§f abriu!", 10, 40, 20);
+                                                            MapUtils.playSound(player, MapSound.EFFECT_OPEN_DOOR);
+                                                        }
+                                                    }
+                                                }
+
+                                                for (Door door : Door.allDoors) {
+                                                    if (Level.stars == door.getNeedStars()) {
+                                                        for (Player player : Bukkit.getOnlinePlayers()) {
+                                                            MapUtils.sendTitle(player, "§a§l§oPortão Destravado!", "§f§l§oO portão para o nível §b§o" + door.getName() + "§f abriu!", 10, 40, 20);
+                                                            MapUtils.playSound(player, MapSound.EFFECT_OPEN_DOOR);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }.runTaskLater(MapMain.getPlugin(), 100);
                                     }
                                 }
                             }.runTaskLater(MapUtils.getPlugin(), 5);
@@ -375,7 +367,7 @@ public class Level {
                                 public void run() {
                                     if (unload) {
                                         for (Player player : Bukkit.getOnlinePlayers()) {
-                                            MapUtils.playSound(player, MapSound.CASTLE_MUSIC);
+                                            MapUtils.playSound(player, MapSound.CASTLE_MUSIC, SoundCategory.AMBIENT);
                                         }
                                     }
                                 }

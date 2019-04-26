@@ -8,31 +8,21 @@ import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.profile.MapProfile;
 import br.com.introcdc.mapmeelv4.warp.Warp;
 import com.google.gson.JsonParser;
-import com.sk89q.worldedit.CuboidClipboard;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.MaxChangedBlocksException;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.world.DataException;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import net.minecraft.server.v1_12_R1.*;
-import net.minecraft.server.v1_12_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_12_R1.PacketPlayOutTitle.EnumTitleAction;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -175,7 +165,7 @@ public class MapUtils {
         FileOutputStream dest = new FileOutputStream(destiny);
         ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
         for (String file : files.keySet()) {
-            byte data[] = new byte[BUFFER];
+            byte[] data = new byte[BUFFER];
             FileInputStream fileInput = new FileInputStream(file);
             origin = new BufferedInputStream(fileInput, BUFFER);
             ZipEntry entry = new ZipEntry(files.get(file));
@@ -237,7 +227,7 @@ public class MapUtils {
         URLConnection connection = new URL(URL).openConnection();
         connection.addRequestProperty("User-Agent", "Kindome/IntroCDC");
         try (BufferedInputStream in = new BufferedInputStream(connection.getInputStream()); FileOutputStream fout = new FileOutputStream(destiny)) {
-            byte data[] = new byte[1024];
+            byte[] data = new byte[1024];
             int count;
             while ((count = in.read(data, 0, 1024)) != -1) {
                 fout.write(data, 0, count);
@@ -259,7 +249,7 @@ public class MapUtils {
             if (!entry.isDirectory()) {
                 BufferedInputStream is = new BufferedInputStream(zip.getInputStream(entry));
                 int currentByte;
-                byte data[] = new byte[BUFFER];
+                byte[] data = new byte[BUFFER];
                 FileOutputStream fos = new FileOutputStream(destFile);
                 BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER);
                 while ((currentByte = is.read(data, 0, BUFFER)) != -1) {
@@ -273,17 +263,13 @@ public class MapUtils {
         zip.close();
     }
 
-    public static Entity freezeEntity(Entity entity) {
-        net.minecraft.server.v1_12_R1.Entity nmsEn = ((CraftEntity) entity).getHandle();
-        NBTTagCompound compound = new NBTTagCompound();
-        nmsEn.c(compound);
-        compound.setByte("NoAI", (byte) 1);
-        nmsEn.f(compound);
+    public static LivingEntity freezeEntity(LivingEntity entity) {
+        entity.setAI(false);
         return entity;
     }
 
     public static int getPing(Player player) {
-        return ((CraftPlayer) player).getHandle().ping;
+        return player.spigot().getPing();
     }
 
     public static Plugin getPlugin() {
@@ -307,7 +293,7 @@ public class MapUtils {
     }
 
     public static double getTPS(int type) {
-        return MinecraftServer.getServer().recentTps[type];
+        return Bukkit.getTPS()[type];
     }
 
     public static synchronized boolean isOriginalNick(String name) throws IOException {
@@ -333,11 +319,6 @@ public class MapUtils {
         }
     }
 
-    public static void loadSchematic(Location location, File file, boolean noAir) throws MaxChangedBlocksException, DataException, IOException {
-        EditSession es = new EditSession(new BukkitWorld(location.getWorld()), 999999999);
-        CuboidClipboard.loadSchematic(file).paste(es, new com.sk89q.worldedit.Vector(location.getX(), location.getY(), location.getZ()), noAir);
-    }
-
     public static String getServerIP() throws SocketException {
         String IP = "127.0.0.1 (NF)";
         Enumeration e = NetworkInterface.getNetworkInterfaces();
@@ -360,14 +341,14 @@ public class MapUtils {
         String generatedPassword = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(salt.getBytes("UTF-8"));
-            byte[] bytes = md.digest(passwordToHash.getBytes("UTF-8"));
+            md.update(salt.getBytes(StandardCharsets.UTF_8));
+            byte[] bytes = md.digest(passwordToHash.getBytes(StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
             for (byte b : bytes) {
                 sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
             }
             generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return generatedPassword;
@@ -424,50 +405,51 @@ public class MapUtils {
         return blocks;
     }
 
-    public static void playSound(Player player, Sound sound) {
-        player.playSound(player.getLocation(), sound, 50000, 1);
-    }
-
     public static void playSound(Player player, MapSound mapSound) {
         playSound(player, mapSound, 1);
     }
 
-    public static void playSound(Player player, MapSound mapSound, float tom) {
-        playSound(player, mapSound, -1, tom);
+    public static void playSound(Player player, MapSound mapSound, SoundCategory soundCategory) {
+        playSound(player, mapSound, soundCategory, 1);
     }
 
-    public static List<UUID> cooldownPlay = new ArrayList<>();
+    public static void playSound(Player player, MapSound mapSound, float tom) {
+        playSound(player, mapSound, SoundCategory.MASTER, tom);
+    }
 
-    public static void playSound(Player player, MapSound mapSound, int wait, float tom) {
-        if (cooldownPlay.contains(player.getUniqueId()) && wait == -1) {
+    public static Map<UUID, MapSound> cooldownPlay = new HashMap<>();
+    public static Map<UUID, Long> cooldownTime = new HashMap<>();
+
+    public static void playSound(Player player, MapSound mapSound, SoundCategory soundCategory, float tom) {
+        if (mapSound.equals(MapSound.STOP)) {
+            player.stopSound(lastSound.getOrDefault(player.getUniqueId(), mapSound.getFile()), SoundCategory.AMBIENT);
+            MapUtils.cooldownPlay.remove(player.getUniqueId());
+            MapUtils.cooldownTime.remove(player.getUniqueId());
             return;
         }
-        if (mapSound.equals(MapSound.STOP)) {
-            new BukkitRunnable() {
-                int times = 0;
 
-                @Override
-                public void run() {
-                    times++;
-                    if (times <= 15) {
-                        player.playSound(player.getLocation(), mapSound.getFile(), 50000, tom);
-                    } else {
-                        cancel();
-                    }
-                }
-            }.runTaskTimer(getPlugin(), 0, 1);
+        if (cooldownTime.containsKey(player.getUniqueId()) && soundCategory.equals(SoundCategory.AMBIENT) && cooldownTime.getOrDefault(player.getUniqueId(), System.currentTimeMillis()) < System.currentTimeMillis()) {
+            cooldownPlay.remove(player.getUniqueId());
+            cooldownTime.remove(player.getUniqueId());
         }
-        if (wait > 0) {
-            cooldownPlay.add(player.getUniqueId());
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    cooldownPlay.remove(player.getUniqueId());
-                }
-            }.runTaskLater(getPlugin(), wait * 20);
+        if (cooldownPlay.containsKey(player.getUniqueId()) && soundCategory.equals(SoundCategory.AMBIENT) && cooldownPlay.getOrDefault(player.getUniqueId(), MapSound.STOP).equals(mapSound)) {
+            return;
         }
-        player.playSound(player.getLocation(), mapSound.getFile(), 50000, 1);
+        if (cooldownTime.containsKey(player.getUniqueId()) && soundCategory.equals(SoundCategory.AMBIENT) && cooldownTime.getOrDefault(player.getUniqueId(), 0L) < System.currentTimeMillis()) {
+            return;
+        }
+
+        if (soundCategory.equals(SoundCategory.AMBIENT)) {
+            lastSound.put(player.getUniqueId(), mapSound.getFile());
+
+            cooldownPlay.put(player.getUniqueId(), mapSound);
+            cooldownTime.put(player.getUniqueId(), System.currentTimeMillis() + (mapSound.getSeconds() * 1000));
+        }
+
+        player.playSound(player.getLocation(), mapSound.getFile(), soundCategory, 50000, tom);
     }
+
+    public static Map<UUID, String> lastSound = new HashMap<>();
 
     public static Location getLocation(String world, double x, double y, double z, float yaw, float pitch) {
         return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
@@ -484,8 +466,7 @@ public class MapUtils {
     }
 
     public static void sendActionBar(Player player, String message) {
-        PacketPlayOutChat chat = new PacketPlayOutChat(ChatSerializer.a("{\"text\":\"" + message + "\"}"), ChatMessageType.GAME_INFO);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(chat);
+        player.sendActionBar(message);
     }
 
     public static void sendPlayer(Player player, String server) {
@@ -507,22 +488,11 @@ public class MapUtils {
     }
 
     public static void sendTablist(Player player, String header, String footer) {
-        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
-        ReflectionManager reflectionManager = new ReflectionManager();
-        reflectionManager.begin(packet);
-        reflectionManager.setObject("a", new ChatComponentText(header));
-        reflectionManager.setObject("b", new ChatComponentText(footer));
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        player.setPlayerListHeaderFooter(header, footer);
     }
 
     public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int duration, int fadeOut) {
-        PacketPlayOutTitle timingsPacket = new PacketPlayOutTitle(EnumTitleAction.TIMES, null, fadeIn, duration, fadeOut);
-        PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(EnumTitleAction.TITLE, ChatSerializer.a("{\"text\":\"" + title + "\"}"));
-        PacketPlayOutTitle subtitlePacket = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, ChatSerializer.a("{\"text\":\"" + subtitle + "\"}"));
-        PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
-        playerConnection.sendPacket(timingsPacket);
-        playerConnection.sendPacket(titlePacket);
-        playerConnection.sendPacket(subtitlePacket);
+        player.sendTitle(title, subtitle, fadeIn, duration, fadeOut);
     }
 
     public static String placeZero(long number) {

@@ -4,7 +4,6 @@ import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
-
 import org.bukkit.util.Vector;
 
 public class MapCoin {
@@ -22,7 +21,9 @@ public class MapCoin {
 
     public void despawn() {
         if (this.item != null) {
-            this.location.getChunk().load();
+            if (!this.location.getChunk().isLoaded()) {
+                this.location.getChunk().load();
+            }
             this.item.remove();
             this.item = null;
         }
@@ -49,8 +50,10 @@ public class MapCoin {
             nullVector = new Vector(0, 0, 0);
         }
         this.despawn();
-        this.location.getChunk().load();
-        Item item = this.location.getWorld().dropItem(this.location, MapUtils.itemBuilder(new ItemStack(this.type.getMaterial(), 1, this.type.getBytes())).setName("§fMoeda").toItem());
+        if (!this.location.getChunk().isLoaded()) {
+            this.location.getChunk().load();
+        }
+        Item item = this.location.getWorld().dropItem(this.location, MapUtils.itemBuilder(new ItemStack(this.type.getMaterial())).setName("§fMoeda").toItem());
         item.setGravity(false);
         item.setInvulnerable(true);
         item.setVelocity(nullVector);

@@ -1,6 +1,8 @@
 package br.com.introcdc.mapmeelv4;
 
 import br.com.introcdc.mapmeelv4.classes.MapClassGetter;
+import br.com.introcdc.mapmeelv4.door.Door;
+import br.com.introcdc.mapmeelv4.door.LittleDoor;
 import br.com.introcdc.mapmeelv4.events.UpdateEventStarter;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.scoreboard.ScoreManager;
@@ -29,7 +31,7 @@ public class MapMain extends JavaPlugin {
         }
         Location DEFAULT = new Location(Bukkit.getWorld("world"), 0, 80, 0);
         for (World world : Bukkit.getWorlds()) {
-            world.setDifficulty(Difficulty.PEACEFUL);
+            world.setDifficulty(Difficulty.NORMAL);
             world.setGameRuleValue("doMobSpawning", "false");
             world.setGameRuleValue("mobGriefing", "false");
             world.setGameRuleValue("doDaylightCycle", "false");
@@ -46,7 +48,7 @@ public class MapMain extends JavaPlugin {
                 }
             }
             if (world.getName().equalsIgnoreCase("world")) {
-                for (int i = 0; i < 1000; i++) {
+                for (int i = 0; i < 100; i++) {
                     world.spawnEntity(DEFAULT.clone().add((MapUtils.random.nextInt(500) - 250), 0, (MapUtils.random.nextInt(500) - 250)), EntityType.PARROT);
                 }
             }
@@ -57,6 +59,8 @@ public class MapMain extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ScoreManager(), MapMain.getPlugin());
         UpdateEventStarter.startAll();
         Level.loadLeveis();
+        Door.loadDoors();
+        LittleDoor.loadDoors();
 
         new BukkitRunnable() {
             int times = 0;

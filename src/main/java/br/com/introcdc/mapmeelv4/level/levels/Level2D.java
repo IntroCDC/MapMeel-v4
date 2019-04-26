@@ -18,7 +18,7 @@ public class Level2D extends Level {
     public Level2D() {
         super(
                 "Desert City",
-                new BlockId(Material.STAINED_GLASS_PANE, 7),
+                Material.GRAY_STAINED_GLASS_PANE,
                 Warp.L_2D,
                 MapSound.MUSIC_FOUR,
                 null,

@@ -7,6 +7,8 @@ public enum MapSound {
     STOP("mapmeelv4.effect.stop", 1),
     EFFECT_COIN("mapmeelv4.effect.coin", 1),
     EFFECT_STAR("mapmeelv4.effect.star", 1),
+    EFFECT_BAD_MESSAGE("mapmeelv4.effect.badmessage", 1),
+    EFFECT_OPEN_DOOR("mapmeelv4.effect.open_door", 1),
     EFFECT_COMPLETE("mapmeelv4.effect.complete", 1),
     EFFECT_GETSTAR("mapmeelv4.effect.getstar", 1),
     EFFECT_BIRD_ONE("mapmeelv4.effect.bird_one", 1),
@@ -14,29 +16,42 @@ public enum MapSound {
     EFFECT_STARTING("mapmeelv4.effect.starting", 1),
     EFFECT_JOINING("mapmeelv4.effect.joining", 1),
     EFFECT_LETSGO("mapmeelv4.effect.lets_go", 1),
-    CASTLE_MUSIC("mapmeelv4.music.castle_music", 2),
+
+    CASTLE_MUSIC("mapmeelv4.music.castle_music", 117),
+    MUSIC_ONE("mapmeelv4.music.music_one", 138),
+    MUSIC_TWO("mapmeelv4.music.music_two", 165),
+    MUSIC_THREE("mapmeelv4.music.music_three", 180),
+    MUSIC_FOUR("mapmeelv4.music.music_four", 159),
+    MUSIC_FIVE("mapmeelv4.music.music_five", 173),
+    MUSIC_SIX("mapmeelv4.music.music_six", 180),
+    MUSIC_SEVEN("mapmeelv4.music.music_seven", 220),
+    MUSIC_EIGHT("mapmeelv4.music.music_eight", 140),
+    MUSIC_NINE("mapmeelv4.music.music_nine", 59),
+    MUSIC_TEN("mapmeelv4.music.music_ten", 137),
+    MUSIC_ELEVEN("mapmeelv4.music.music_eleven", 130),
+    MUSIC_TWELVE("mapmeelv4.music.music_twelve", 149),
+
     STARTING("mapmeelv4.music.starting", 1),
-    MUSIC_ONE("mapmeelv4.music.music_one", 2),
-    MUSIC_TWO("mapmeelv4.music.music_two", 3),
-    MUSIC_THREE("mapmeelv4.music.music_three", 3),
-    MUSIC_FOUR("mapmeelv4.music.music_four", 3),
-    MUSIC_FIVE("mapmeelv4.music.music_five", 3),
-    MUSIC_SIX("mapmeelv4.music.music_six", 3),
-    MUSIC_SEVEN("mapmeelv4.music.music_seven", 3),;
+    MUSIC_END_ONE("mapmeelv4.music.end_one", 1),
+    MUSIC_END_TWO("mapmeelv4.music.end_two", 1),
+    MUSIC_END_THREE("mapmeelv4.music.end_three", 3),
+
+    ;
 
     private String file;
-    private int minutes;
+    private int seconds;
 
-    MapSound(String file, int minutes) {
+    MapSound(String file, int seconds) {
         this.file = file;
-        this.minutes = minutes;
+        this.seconds = seconds;
     }
 
     public String getFile() {
         return file;
     }
 
-    public int getMinutes() {
-        return minutes;
+    public int getSeconds() {
+        return seconds;
     }
+
 }

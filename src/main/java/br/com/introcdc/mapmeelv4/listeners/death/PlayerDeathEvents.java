@@ -6,6 +6,7 @@ package br.com.introcdc.mapmeelv4.listeners.death;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import br.com.introcdc.mapmeelv4.warp.Warp;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +22,11 @@ public class PlayerDeathEvents implements Listener {
                 if (player.getHealth() - event.getDamage() <= 0 && !event.isCancelled()) {
                     event.setCancelled(true);
                     player.setHealth(20);
-                    MapUtils.sendTitle(player, "§c§lVocê morreu", "§f§oIndo para o Lobby...", 0, 40, 20);
+
+                    for (Player player1 : Bukkit.getOnlinePlayers()) {
+                        MapUtils.sendTitle(player1, "§c§lVocê morreu", "§f§oIndo para o Lobby...", 0, 40, 20);
+                    }
+
                     Level.getLevel(player.getWorld().getName()).unloadLevel(null, true);
                 }
             } else {

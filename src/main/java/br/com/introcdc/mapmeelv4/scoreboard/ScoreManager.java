@@ -19,20 +19,20 @@ public class ScoreManager implements Listener {
             return;
         }
         String header = "\n§5§l§oMap§f§l§oMeel\n\n§a§l" + (profile.getPlayer().getWorld().getName().equalsIgnoreCase("world") ? "Mundo Normal\n§b§l§oLobby" : profile.getPlayer().getWorld().getName() + "\n§b§l§o" + (Level.getLevel(profile.getPlayer().getWorld().getName()) != null ? Level.getLevel(profile.getPlayer().getWorld().getName()).getName() : "Não Localizado"))
-                + "\n\n§e§l" + Level.stars + "§f estrelas\n";
+                + "\n\n§e§l" + Level.stars + "§f estrelas\n§0.";
         StringBuilder footer = new StringBuilder();
 
         if (profile.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
-            footer = new StringBuilder("\n§f§l§oVocê está no Lobby!\n");
+            footer = new StringBuilder("\n§f§l§oVocê está no Lobby!\n§0.");
         } else {
             if (Level.getLevel(profile.getPlayer().getWorld().getName()) != null) {
                 footer = new StringBuilder("\n§l§oObjetivos:\n\n");
                 for (String key : Level.getLevel(profile.getPlayer().getWorld().getName()).getObjectives().keySet()) {
                     LevelObjective levelObjective = Level.getLevel(profile.getPlayer().getWorld().getName()).getObjectives().get(key);
-                    footer.append("§f§l").append(levelObjective.getStringObjective()).append(": ").append(levelObjective.isFinished() ? "§a§oFinalizado" : "§cNão Finalizado").append("\n");
+                    footer.append("§f§l").append(levelObjective.getStringObjective()).append(": ").append(levelObjective.isFinished() ? "§a§oFinalizado" : "§cNão Finalizado").append("\n§0.");
                 }
             } else {
-                footer = new StringBuilder("\n§cLevel não localizado!\n");
+                footer = new StringBuilder("\n§cLevel não localizado!\n§0.");
             }
         }
 

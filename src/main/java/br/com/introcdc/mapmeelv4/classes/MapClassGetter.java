@@ -15,16 +15,13 @@ import java.util.jar.JarFile;
 
 public class MapClassGetter {
 
-
-
-
     public static void loadCommands(String packageName, Class Class) {
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fCarregando comandos...");
         for (Class<?> theClass : MapClassGetter.getClassesForPackage(packageName, Class)) {
             if (CommandBase.class.isAssignableFrom(theClass)) {
                 try {
                     CommandBase command = (CommandBase) theClass.newInstance();
-                    ((org.bukkit.craftbukkit.v1_12_R1.CraftServer) Bukkit.getServer()).getCommandMap().register(command.getName(), command);
+                    Bukkit.getServer().getCommandMap().register(command.getName(), command);
                     Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fComando §a" + command.getName() + "§f carregado com sucesso!");
                 } catch (Exception exception) {
                     exception.printStackTrace();

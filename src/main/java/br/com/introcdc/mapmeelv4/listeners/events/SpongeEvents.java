@@ -39,7 +39,7 @@ public class SpongeEvents implements Listener {
 
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
-        if (event.getTo().clone().add(0, -1, -0).getBlock().getType().equals(Material.SPONGE) && event.getPlayer().getGameMode().equals(GameMode.ADVENTURE)) {
+        if (event.getTo().clone().add(0, -1, -0).getBlock().getType().equals(Material.SPONGE)) {
             if (!spongeDamage.contains(event.getPlayer().getUniqueId())) {
                 spongeDamage.add(event.getPlayer().getUniqueId());
             }

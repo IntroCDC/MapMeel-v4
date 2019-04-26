@@ -18,7 +18,7 @@ public class Level3B extends Level {
     public Level3B() {
         super(
                 "Sky Ships",
-                new BlockId(Material.STAINED_GLASS_PANE, 9),
+                Material.CYAN_STAINED_GLASS_PANE,
                 Warp.L_3B,
                 MapSound.MUSIC_SEVEN,
                 null,

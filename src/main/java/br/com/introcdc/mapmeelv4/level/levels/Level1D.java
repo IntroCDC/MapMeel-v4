@@ -18,11 +18,11 @@ public class Level1D extends Level {
     public Level1D() {
         super(
                 "Watch Big City",
-                new BlockId(Material.STAINED_GLASS_PANE, 3),
+                Material.LIGHT_BLUE_STAINED_GLASS_PANE,
                 Warp.L_1D,
                 MapSound.MUSIC_SIX,
                 null,
-                new Location(Bukkit.getWorld("world"), -41, 52, -91, -153, 9),
+                new Location(Bukkit.getWorld("world"), -41, 52, -125, -202, 4),
                 new LevelObjective[]{
                         new LevelObjective("No meio do relógio central", MapUtils.getLocation("1D", 94, 37, 801, -5, 90), true),
                         new LevelObjective("Topo da cidade futuristica X", MapUtils.getLocation("1D", 2, 204, 1005, -124, 19), true),

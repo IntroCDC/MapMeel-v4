@@ -2,3 +2,4 @@ name: MapMeel
 version: 10.01.2018.4.0
 author: IntroCDC
 main: br.com.introcdc.mapmeelv4.MapMain
+api-version: 1.13

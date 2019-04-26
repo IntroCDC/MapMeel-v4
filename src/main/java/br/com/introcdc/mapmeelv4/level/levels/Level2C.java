@@ -12,16 +12,18 @@ import br.com.introcdc.mapmeelv4.warp.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class Level2C extends Level {
 
     public Level2C() {
         super(
                 "Underwater City",
-                new BlockId(Material.STAINED_GLASS_PANE, 6),
+                Material.PINK_STAINED_GLASS_PANE,
                 Warp.L_2C,
                 MapSound.MUSIC_THREE,
-                null,
+                new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 100),
                 new Location(Bukkit.getWorld("world"), 31, 50, -70, -17, 3),
                 new LevelObjective[]{
                         new LevelObjective("Escombros da grande torre ao lado", MapUtils.getLocation("2C", 763, 121, 649, -258, 15), true),

@@ -100,7 +100,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setOwner(String owner) {
-        if (!this.item.getType().equals(Material.SKULL_ITEM)) {
+        if (!this.item.getType().equals(Material.PLAYER_HEAD)) {
             return this;
         }
         SkullMeta meta = (SkullMeta) this.item.getItemMeta();

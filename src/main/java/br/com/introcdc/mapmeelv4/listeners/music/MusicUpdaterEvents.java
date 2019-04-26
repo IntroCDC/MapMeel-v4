@@ -8,13 +8,10 @@ import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.timer.UpdateType;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,65 +23,56 @@ public class MusicUpdaterEvents implements Listener {
 
     @EventHandler
     public void onUpdate(UpdateEvent event) {
-        if (event.getType().equals(UpdateType.MINUTES) || event.getType().equals(UpdateType.SECONDS) || event.getType().equals(UpdateType.TICK)) {
+        if (event.getType().equals(UpdateType.SECONDS) || event.getType().equals(UpdateType.TICK)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
+
+                if (player.getGameMode().equals(GameMode.SPECTATOR)) {
+                    continue;
+                }
+
                 if (player.getWorld().getName().equalsIgnoreCase("world")) {
+
+                    if (Level.currentLevel != null) {
+                        continue;
+                    }
+
                     Location location = player.getLocation().clone();
                     location.setY(20);
                     if (location.getBlock().getType().equals(Material.DIAMOND_BLOCK)) {
-                        if (event.getTimes() == MapSound.CASTLE_MUSIC.getMinutes()) {
-                            if (inside.contains(player.getUniqueId())) {
-                                if (event.getType().equals(UpdateType.MINUTES)) {
-                                    MapUtils.playSound(player, MapSound.STOP);
-                                    new BukkitRunnable() {
-                                        @Override
-                                        public void run() {
-                                            MapUtils.playSound(player, MapSound.CASTLE_MUSIC);
-                                        }
-                                    }.runTaskLater(MapUtils.getPlugin(), 30);
-                                }
-                            } else {
-                                if (event.getType().equals(UpdateType.SECONDS)) {
-                                    MapUtils.sendTitle(player, "§f", "§f§oEntrando no castelo...", 10, 30, 10);
-                                    inside.add(player.getUniqueId());
-                                    MapUtils.playSound(player, MapSound.STOP);
-                                    new BukkitRunnable() {
-                                        @Override
-                                        public void run() {
-                                            MapUtils.playSound(player, MapSound.CASTLE_MUSIC);
-                                        }
-                                    }.runTaskLater(MapUtils.getPlugin(), 30);
-                                }
+
+                        if (event.getType().equals(UpdateType.SECONDS) && event.getTimes() == 1) {
+                            MapUtils.playSound(player, MapSound.CASTLE_MUSIC, SoundCategory.AMBIENT);
+
+                            if (!inside.contains(player.getUniqueId())) {
+                                MapUtils.sendTitle(player, "§f", "§f§oEntrando no castelo...", 10, 30, 10);
+                                inside.add(player.getUniqueId());
                             }
                         }
+
                     } else {
-                        int tick = MapUtils.random.nextInt(50);
+                        int tick = MapUtils.random.nextInt(60);
                         if (inside.contains(player.getUniqueId())) {
-                            if (event.getType().equals(UpdateType.SECONDS)) {
-                                MapUtils.sendTitle(player, "§f", "§f§oSaindo do castelo...", 10, 30, 10);
-                                inside.remove(player.getUniqueId());
-                                MapUtils.playSound(player, MapSound.STOP);
-                            }
-                        } else if (event.getType().equals(UpdateType.TICK) && event.getTimes() == tick) {
-                            if (MapUtils.random.nextBoolean()) {
-                                MapUtils.playSound(player, (MapUtils.random.nextBoolean() ? MapSound.EFFECT_BIRD_ONE : MapSound.EFFECT_BIRD_TWO), Float.parseFloat((MapUtils.random.nextBoolean() ? "1" : "0") + "." + MapUtils.random.nextInt(10)));
-                            }
-                        }
-                    }
-                } else {
-                    if (event.getType().equals(UpdateType.MINUTES)) {
-                        if (Level.getLevel(player.getWorld().getName()) != null && event.getTimes() == Level.getLevel(player.getWorld().getName()).getBackgroundMapSound().getMinutes()) {
                             MapUtils.playSound(player, MapSound.STOP);
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    if (Level.getLevel(player.getWorld().getName()) != null && event.getTimes() == Level.getLevel(player.getWorld().getName()).getBackgroundMapSound().getMinutes()) {
-                                        MapUtils.playSound(player, Level.getLevel(player.getWorld().getName()).getBackgroundMapSound());
-                                    }
-                                }
-                            }.runTaskLater(MapUtils.getPlugin(), 30);
+
+                            inside.remove(player.getUniqueId());
+                            MapUtils.sendTitle(player, "§f", "§f§oSaindo do castelo...", 10, 30, 10);
+                        } else if (event.getTimes() == tick) {
+                            if (MapUtils.random.nextBoolean()) {
+                                MapSound sound = (MapUtils.random.nextBoolean() ? MapSound.EFFECT_BIRD_ONE : MapSound.EFFECT_BIRD_TWO);
+                                float tom = Float.parseFloat((MapUtils.random.nextBoolean() ? "1" : "0") + "." + MapUtils.random.nextInt(10));
+                                MapUtils.playSound(player, sound, SoundCategory.NEUTRAL, tom);
+                            }
                         }
                     }
+
+                } else {
+
+                    if (event.getType().equals(UpdateType.SECONDS)) {
+                        if (Level.getLevel(player.getWorld().getName()) != null) {
+                            MapUtils.playSound(player, Level.getLevel(player.getWorld().getName()).getBackgroundMapSound(), SoundCategory.AMBIENT);
+                        }
+                    }
+
                 }
             }
         }

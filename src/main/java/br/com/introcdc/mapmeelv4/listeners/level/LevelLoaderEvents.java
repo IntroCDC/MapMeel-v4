@@ -4,22 +4,28 @@ package br.com.introcdc.mapmeelv4.listeners.level;
  */
 
 import br.com.introcdc.mapmeelv4.level.Level;
+import com.destroystokyo.paper.MaterialSetTag;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import static org.bukkit.NamespacedKey.minecraft;
+
 public class LevelLoaderEvents implements Listener {
+
+    private static final MaterialSetTag BUTTONS = new MaterialSetTag(minecraft("buttons"))
+            .endsWith("_BUTTON");
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.WOOD_BUTTON) && Level.currentLevel != null && event.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
+            if (event.getClickedBlock() != null && BUTTONS.isTagged(event.getClickedBlock()) && Level.currentLevel != null && event.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
                 event.setCancelled(true);
                 Level.currentLevel.loadLevel();
+                Level.currentLevel = null;
             }
         }
     }
@@ -29,9 +35,11 @@ public class LevelLoaderEvents implements Listener {
         if (event.getTo().getWorld().getName().equalsIgnoreCase("world")) {
             if (event.getPlayer().getGameMode().equals(GameMode.ADVENTURE)) {
                 for (Level level : Level.getLeveis().values()) {
-                    if (event.getTo().getBlock().getType().equals(level.getBlockId().getMaterial()) && event.getTo().getBlock().getData() == level.getBlockId().getData()) {
-                        level.joinPortal();
-                        Level.currentLevel = level;
+                    if (event.getPlayer().getLocation().distance(level.getPortalSpec()) < 15) {
+                        if (event.getTo().getBlock().getType() == level.getMaterial()) {
+                            Level.currentLevel = level;
+                            level.joinPortal();
+                        }
                     }
                 }
             }

@@ -22,8 +22,8 @@ public class JoinEvents implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent event) throws Exception {
         event.setJoinMessage(null);
-        event.getPlayer().setOp(MapUtils.getProfile(event.getPlayer().getName()).getCargo().equals(Cargo.ADMIN));
         MapUtils.getProfile(event.getPlayer().getName());
+        event.getPlayer().setOp(MapUtils.getProfile(event.getPlayer().getName()).getCargo().equals(Cargo.ADMIN));
         event.getPlayer().teleport(Warp.LOBBY.getLocation());
         event.getPlayer().setGameMode(GameMode.ADVENTURE);
         event.getPlayer().getActivePotionEffects().forEach(effect -> event.getPlayer().removePotionEffect(effect.getType()));
