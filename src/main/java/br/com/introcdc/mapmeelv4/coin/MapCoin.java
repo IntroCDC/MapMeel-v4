@@ -8,11 +8,10 @@ import org.bukkit.util.Vector;
 
 public class MapCoin {
 
-    private boolean geted;
     private Item item;
     private Location location;
     private CoinType type;
-    private Vector nullVector = null;
+    private Vector nullVector = new Vector(0, 0, 0);
 
     public MapCoin(Location location, CoinType type) {
         this.location = location;
@@ -41,14 +40,7 @@ public class MapCoin {
         return this.type;
     }
 
-    public boolean isGeted() {
-        return this.geted;
-    }
-
     public void spawn() {
-        if (nullVector == null) {
-            nullVector = new Vector(0, 0, 0);
-        }
         this.despawn();
         if (!this.location.getChunk().isLoaded()) {
             this.location.getChunk().load();

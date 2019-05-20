@@ -29,7 +29,7 @@ public class Level2A extends Level {
                         new LevelObjective("Submerso nos geleiras dos lados", MapUtils.getLocation("2A", 123, 82, 293, -352, 14), true),
                         new LevelObjective("A Grande Caverna", MapUtils.getLocation("2A", -34, 21, 278, -88, -1), true),
                         new LevelObjective("Trabalhadores da Grande Caverna", MapUtils.getLocation("2A", -23, 18, 349, -32, 12), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("2A", 41, 6, 264, -270, 90))});
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("2A", 41, 6, 264, -270, 90), false, true)});
     }
 
 }

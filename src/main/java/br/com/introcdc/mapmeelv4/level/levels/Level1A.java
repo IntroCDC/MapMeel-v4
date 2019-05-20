@@ -28,7 +28,7 @@ public class Level1A extends Level {
                         new LevelObjective("Presa na Jaula Suspensa", MapUtils.getLocation("1A", -20.5, 42, -88.5, -181, 89), true),
                         new LevelObjective("A Sala Suspeita da Casa", MapUtils.getLocation("1A", 24, 41, -154, -180, 90), true),
                         new LevelObjective("A Estranha Construção de Madeira dos Ares", MapUtils.getLocation("1A", 38, 183, -60, -5, 89), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("1A", -7, 41, -120, -6, 90))});
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("1A", -7, 41, -120, -6, 90), false, true)});
     }
 
 }

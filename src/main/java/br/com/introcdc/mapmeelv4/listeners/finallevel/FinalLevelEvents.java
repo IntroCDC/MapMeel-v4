@@ -6,6 +6,7 @@ package br.com.introcdc.mapmeelv4.listeners.finallevel;
 import br.com.introcdc.mapmeelv4.MapMain;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
+import br.com.introcdc.mapmeelv4.listeners.music.MusicUpdaterEvents;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.*;
@@ -33,7 +34,8 @@ public class FinalLevelEvents implements Listener {
         if (event.getTo().getWorld().getName().equalsIgnoreCase("FINAL-BOSS")) {
             if (event.getTo().getBlock().getType() == Material.END_PORTAL) {
                 teleport = true;
-                Level.update = true;
+
+                Level.getLevel(event.getTo().getWorld().getName()).setTempBackgroungMapSound(MapSound.MUSIC_TWELVE);
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     MapUtils.playSound(player, MapSound.STOP);
@@ -84,6 +86,8 @@ public class FinalLevelEvents implements Listener {
         }
 
         if (event.getEntity().getWorld().getName().equalsIgnoreCase("FINAL-BOSS")) {
+
+            MusicUpdaterEvents.musicPause = true;
 
             for (Player player : Bukkit.getOnlinePlayers()) {
                 MapUtils.playSound(player, MapSound.STOP);

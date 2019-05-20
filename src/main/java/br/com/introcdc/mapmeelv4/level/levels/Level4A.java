@@ -29,7 +29,7 @@ public class Level4A extends Level {
                         new LevelObjective("Siga Para a Floresta Do Outro Lado", MapUtils.getLocation("4A", -321, 20, 435, -12, 90), true),
                         new LevelObjective("O Grande Montanha de Gelo", MapUtils.getLocation("4A", -52, 164, 645, -236, 90), true),
                         new LevelObjective("O Fim do Mapa", MapUtils.getLocation("4A", -233, 21, 778, -166, 90), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("4A", -189, 20, 467, -91, 90))
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("4A", -189, 20, 467, -91, 90), false, true)
                 });
     }
 

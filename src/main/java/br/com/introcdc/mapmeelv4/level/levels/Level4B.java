@@ -29,7 +29,7 @@ public class Level4B extends Level {
                         new LevelObjective("A Estrela Engarrafada", MapUtils.getLocation("4B", 276, 63, 207, -183, 90), true),
                         new LevelObjective("A Casa Solitária", MapUtils.getLocation("4B", 125, 130, 211, -359, 90), true),
                         new LevelObjective("A Caverna do Extremo Positivo", MapUtils.getLocation("4B", 287, 65, 359, -264, 12), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("4B", 261, 63, 193, -359, 90))
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("4B", 261, 63, 193, -359, 90), false, true)
                 });
     }
 

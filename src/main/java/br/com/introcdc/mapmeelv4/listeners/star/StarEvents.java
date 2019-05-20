@@ -8,6 +8,7 @@ import br.com.introcdc.mapmeelv4.item.InventoryBase;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.listeners.coin.CoinEvents;
+import br.com.introcdc.mapmeelv4.listeners.music.MusicUpdaterEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -25,10 +26,17 @@ public class StarEvents implements Listener {
                 if (Level.getLevel(event.getPlayer().getWorld().getName()) != null) {
                     if (Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().containsKey(event.getItem().getItemStack().getItemMeta().getDisplayName())) {
                         event.setCancelled(true);
+
                         if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
                             return;
                         }
+
                         event.getItem().remove();
+
+                        MusicUpdaterEvents.musicPause = false;
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            player.setGameMode(GameMode.SPECTATOR);
+                        }
 
                         if (event.getItem().getItemStack().getItemMeta().getDisplayName().equalsIgnoreCase("Mate o Chefão")) {
 
@@ -48,11 +56,15 @@ public class StarEvents implements Listener {
                                 InventoryBase.clearInventory(player);
                             }
                             Level.getLevel(event.getPlayer().getWorld().getName()).unloadCoins();
+                            Level.getLevel(event.getPlayer().getWorld().getName()).unloadMobs();
 
                             FinalHistory.startFinalHistory();
 
                         } else {
-                            Level.getLevel(event.getPlayer().getWorld().getName()).unloadLevel(Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get(event.getItem().getItemStack().getItemMeta().getDisplayName()), !event.getItem().getItemStack().getItemMeta().getDisplayName().equalsIgnoreCase("Colete 100 Moedas"));
+                            Level.getLevel(event.getPlayer().getWorld().getName())
+                                    .unloadLevel(
+                                            Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get(event.getItem().getItemStack().getItemMeta().getDisplayName())
+                                    );
                         }
 
                     }

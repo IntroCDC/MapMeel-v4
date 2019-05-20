@@ -29,7 +29,7 @@ public class Level1D extends Level {
                         new LevelObjective("O Raio do Zeus III", MapUtils.getLocation("1D", 122, 118, 597, -118, 90), true),
                         new LevelObjective("Alpinista do II Deserto", MapUtils.getLocation("1D", -46, 85, 533, -34, 32), true),
                         new LevelObjective("Segundo Arranha Céu da Cobertura VIII", MapUtils.getLocation("1D", 203, 148, 982, -220, 79), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("1D", 85, 31, 811, -71, 90))});
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("1D", 85, 31, 811, -71, 90), false, true)});
     }
 
 }

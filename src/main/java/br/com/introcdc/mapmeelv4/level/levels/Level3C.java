@@ -29,7 +29,7 @@ public class Level3C extends Level {
                         new LevelObjective("A Principal Construção do Criatório Superior", MapUtils.getLocation("3C", -441, 187, 144, -8, 90), true),
                         new LevelObjective("Viagem para o Fim Da Linha", MapUtils.getLocation("3C", -604, 55, 1019, -359, 90), true),
                         new LevelObjective("Da Estação para Um Novo Mundo", MapUtils.getLocation("3C", 402, 42, -786, -2, 90), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("3C", -464.5, 51.0, 204.5, 138, 89))
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("3C", -464.5, 51.0, 204.5, 138, 89), false, true)
                 });
     }
 

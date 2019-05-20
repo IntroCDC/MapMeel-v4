@@ -29,7 +29,7 @@ public class Level4C extends Level {
                         new LevelObjective("A Praia Deserta Esquecida", MapUtils.getLocation("4C", 48, 84, -23, 224, 45), true),
                         new LevelObjective("Montanhas Gêmeas", MapUtils.getLocation("4C", 62, 86, 94, 1, 49), true),
                         new LevelObjective("A Ilha Solitária", MapUtils.getLocation("4C", -86, 108, -68, 315, 90), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("4C", 5, 84, -1, -179, 90))
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("4C", 5, 84, -1, -179, 90), false, true)
                 });
     }
 

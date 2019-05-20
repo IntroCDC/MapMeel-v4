@@ -29,7 +29,7 @@ public class Level3B extends Level {
                         new LevelObjective("A Tenda mais alta", MapUtils.getLocation("3B", 6, 233, 574, 8, 45), true),
                         new LevelObjective("A Grande Vela Suspensa", MapUtils.getLocation("3B", 33, 115, 459, 304, 90), true),
                         new LevelObjective("O Quarto Presidencial", MapUtils.getLocation("3B", 54, 190, 555, 272, 90), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("3B", 14, 167, 394, 180, 90))
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("3B", 14, 167, 394, 180, 90), false, true)
                 });
     }
 

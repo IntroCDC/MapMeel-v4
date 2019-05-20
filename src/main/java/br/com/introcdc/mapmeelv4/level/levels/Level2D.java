@@ -29,7 +29,7 @@ public class Level2D extends Level {
                         new LevelObjective("Castelo de gelo do Deserto", MapUtils.getLocation("2D", -96, 198, -204, -1, -1), true),
                         new LevelObjective("Grande precipicio do fim", MapUtils.getLocation("2D", -298, 125, 473, -244, 48), true),
                         new LevelObjective("O Spa do Deserto", MapUtils.getLocation("2D", -193, 112, 190, -312, 31), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("2D", -117, 109, 35, 0, 90))
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("2D", -117, 109, 35, 0, 90), false, true)
                 });
     }
 

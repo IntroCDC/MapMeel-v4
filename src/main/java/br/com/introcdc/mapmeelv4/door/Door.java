@@ -83,6 +83,7 @@ public class Door {
         new Door("3", 25, new Location(Bukkit.getWorlds().get(0), 41, 53, 33));
         new Door("4", 50, new Location(Bukkit.getWorlds().get(0), -30, 53, -22));
         new Door("Final", 70, new Location(Bukkit.getWorlds().get(0), 8, 122, -22));
+        new Door("Intro", 120, new Location(Bukkit.getWorlds().get(0), -321, 76, -149));
     }
 
 }

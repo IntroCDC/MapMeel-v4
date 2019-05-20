@@ -8,12 +8,16 @@ import br.com.introcdc.mapmeelv4.armorpath.ArmorStandPath;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import br.com.introcdc.mapmeelv4.warp.Warp;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.World;
+import net.citizensnpcs.api.npc.NPC;
+import org.bukkit.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Giant;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
@@ -21,7 +25,11 @@ import java.util.List;
 
 public class FinalHistory implements Listener {
 
+    public static boolean onceTime = false;
+
     public static void startFinalHistory() {
+
+        onceTime = false;
 
         World spawnWorld = Bukkit.getWorld("world");
 
@@ -30,67 +38,67 @@ public class FinalHistory implements Listener {
 
         ArmorStandPath historyThree = new ArmorStandPath(Arrays.asList(
                 new Location(spawnWorld, -40, 49, -21, -92, 11),// Lobby
-                new Location(spawnWorld, -40, 48, -9, -146, 7),
-                new Location(spawnWorld, -50, 63, 2, -140, 48),
-                new Location(spawnWorld, -62, 108, 19, -139, 56),
-                new Location(spawnWorld, -74, 165, 33, -131, 54),
-                new Location(spawnWorld, -48, 181, 101, -159, 45),
-                new Location(spawnWorld, 31, 149, 102, -209, 39),
-                new Location(spawnWorld, 57, 124, 79, -233, 33),
-                new Location(spawnWorld, 67, 120, 13, -267, 25),
-                new Location(spawnWorld, 64, 122, -103, -296, 20),
-                new Location(spawnWorld, 28, 145, -194, -332, 42),
-                new Location(spawnWorld, -11, 144, -198, -356, 42),
-                new Location(spawnWorld, -13, 82, -160, -357, 45),
-                new Location(spawnWorld, -13, 51, -119, -356, 3),
-                new Location(spawnWorld, -24, 52, -74, -335, 1),
-                new Location(spawnWorld, -38, 52, -22, -359, 0),
-                new Location(spawnWorld, -16, 51, 49, -359, 0),
-                new Location(spawnWorld, -13, 52, 101, -303, 3),
-                new Location(spawnWorld, -68, 73, 138, -222, 11),
-                new Location(spawnWorld, -153, 62, 101, -181, 20),
-                new Location(spawnWorld, -172, 62, 39, -155, 24),
-                new Location(spawnWorld, -189, 79, -35, -129, 36),
-                new Location(spawnWorld, -172, 80, -148, -108, 30),
-                new Location(spawnWorld, -89, 84, -227, -189, 34),
-                new Location(spawnWorld, -30, 78, -257, -141, 24),
-                new Location(spawnWorld, 62, 74, -218, -130, 27),
-                new Location(spawnWorld, 128, 60, -187, -161, 19),
-                new Location(spawnWorld, 147, 136, -159, -125, -4),
-                new Location(spawnWorld, 186, 208, -146, -142, 11),
-                new Location(spawnWorld, 232, 208, -134, -184, 1),
-                new Location(spawnWorld, 279, 208, -152, -221, 6),
-                new Location(spawnWorld, 303, 100, -127, -22, 38),
-                new Location(spawnWorld, 318, 59, -91, -11, 7),
-                new Location(spawnWorld, 252, 85, -35, -43, 27),
-                new Location(spawnWorld, 220, 85, 38, -34, 34),
-                new Location(spawnWorld, 177, 88, 124, -64, 42),
-                new Location(spawnWorld, 181, 118, 230, -125, 45),
-                new Location(spawnWorld, 177, 121, 261, 97, 7),
-                new Location(spawnWorld, 106, 125, 272, 147, 19),
-                new Location(spawnWorld, 3, 90, 220, 176, 8),
-                new Location(spawnWorld, -24, 97, 161, 188, 14),
-                new Location(spawnWorld, -15, 55, 94, 181, 5),
-                new Location(spawnWorld, -19, 51, 44, 125, 2),
-                new Location(spawnWorld, -41, 51, 61, 17, 8),
-                new Location(spawnWorld, -44, 51, 80, 0, 8),
-                new Location(spawnWorld, -36, 52, 57, 112, 13),
-                new Location(spawnWorld, -50, 52, 33, 90, 2),
-                new Location(spawnWorld, -51, 51, -76, 89, 5),
-                new Location(spawnWorld, -44, 52, -123, 181, 1),
-                new Location(spawnWorld, -20, 93, -93, 294, 27),
-                new Location(spawnWorld, 15, 158, -100, 359, 43),
-                new Location(spawnWorld, -42, 141, 0, 245, 24),
-                new Location(spawnWorld, -16, 117, 59, 223, 25),
-                new Location(spawnWorld, 37, 55, 34, 91, 25),
-                new Location(spawnWorld, 5, 53, 33, 90, 5),
-                new Location(spawnWorld, -27, 51, 19, -64, -23),
-                new Location(spawnWorld, -13, 51, 57, -182, 1),
-                new Location(spawnWorld, -14, 57, 108, -180, 4),
-                new Location(spawnWorld, -15, 105, 154, -179, 41),
-                new Location(spawnWorld, 0, 161, 183, -188, 49),
-                new Location(spawnWorld, 52, 259, 249, -205, 55),
-                new Location(spawnWorld, 50, 350, 270, -282, -90)
+                new Location(spawnWorld, -47, 58, -2, -137, 36),
+                new Location(spawnWorld, -58, 79, 13, -139, 44),
+                new Location(spawnWorld, -74, 121, 32, -134, 55),
+                new Location(spawnWorld, -76, 121, 85, -172, 21),
+                new Location(spawnWorld, -1, 102, 160, -190, 22),
+                new Location(spawnWorld, 75, 95, 177, -97, 17),
+                new Location(spawnWorld, 199, 111, 169, -1, 34),
+                new Location(spawnWorld, 252, 88, 43, -106, 29),
+                new Location(spawnWorld, 290, 89, -93, -40, 32),
+                new Location(spawnWorld, 273, 192, -140, -213, 6),
+                new Location(spawnWorld, 224, 207, -128, -178, 11),
+                new Location(spawnWorld, 171, 198, -153, -126, 5),
+                new Location(spawnWorld, 128, 65, -184, -199, 22),
+                new Location(spawnWorld, -63, 84, -237, -228, 34),
+                new Location(spawnWorld, -173, 93, -112, -291, 35),
+                new Location(spawnWorld, -149, 79, 30, -333, 29),
+                new Location(spawnWorld, -38, 75, 150, -170, 12),
+                new Location(spawnWorld, -11, 49, 60, -208, 2),
+                new Location(spawnWorld, -27, 50, 33, -303, 6),
+                new Location(spawnWorld, -36, 50, -76, -267, 0),
+                new Location(spawnWorld, -42, 50, -107, -188, 7),
+                new Location(spawnWorld, -28, 129, -87, -74, 12),
+                new Location(spawnWorld, -47, 151, -20, -89, 22),
+                new Location(spawnWorld, -18, 123, 67, -141, 19),
+                new Location(spawnWorld, 27, 55, 54, -266, -2),
+                new Location(spawnWorld, 37, 51, 33, -270, 5),
+                new Location(spawnWorld, -4, 68, 33, -269, -4),
+                new Location(spawnWorld, -49, 89, -21, -116, 17),
+                new Location(spawnWorld, -14, 86, -65, -108, 38),
+                new Location(spawnWorld, 38, 51, -76, -269, 4),
+                new Location(spawnWorld, 0, 49, -76, -269, 1),
+                new Location(spawnWorld, -39, 54, -22, -90, -2),
+                new Location(spawnWorld, -1, 52, -22, -135, 13),
+                new Location(spawnWorld, -2, 52, -21, -42, 7),
+                new Location(spawnWorld, 5, 96, -3, -120, -33),
+                new Location(spawnWorld, 17, 123, -21, -268, 1),
+                new Location(spawnWorld, -3, 123, -21, -270, 4),
+                new Location(spawnWorld, -9, 138, -8, -155, -13),
+                new Location(spawnWorld, -7, 157, -24, -56, 67),
+                new Location(spawnWorld, -31, 169, -34, -64, 33),
+                new Location(spawnWorld, -47, 98, -18, -92, -6),
+                new Location(spawnWorld, -32, 54, 15, -143, -15),
+                new Location(spawnWorld, -16, 48, 44, -184, 2),
+                new Location(spawnWorld, -13, 59, 101, -185, 11),
+                new Location(spawnWorld, -52, 118, 114, -157, 33),
+                new Location(spawnWorld, -83, 144, 61, -119, 39),
+                new Location(spawnWorld, -81, 142, -23, -89, 43),
+                new Location(spawnWorld, -50, 135, -110, -36, 44),
+                new Location(spawnWorld, 0, 134, -152, 2, 24),
+                new Location(spawnWorld, 39, 118, -117, 44, 31),
+                new Location(spawnWorld, 62, 114, -67, 89, 26),
+                new Location(spawnWorld, 57, 112, 35, 104, 22),
+                new Location(spawnWorld, 10, 108, 71, 155, 28),
+                new Location(spawnWorld, -14, 90, 91, 179, 0),
+                new Location(spawnWorld, -14, 59, 110, 180, 0),
+                new Location(spawnWorld, -10, 89, 147, 177, 25),
+                new Location(spawnWorld, 5, 119, 169, 164, 29),// Start to Up
+                new Location(spawnWorld, 36, 159, 198, 158, 34),
+                new Location(spawnWorld, 91, 213, 224, 146, 36),
+                new Location(spawnWorld, 90, 256, 242, 90, -90),
+                new Location(spawnWorld, 90, 400, 242, 90, -90)
         )) {
 
             @Override
@@ -100,29 +108,29 @@ public class FinalHistory implements Listener {
         };
 
         List<Location> pathTwo = Arrays.asList(
-                new Location(spawnWorld, -44, 49, -33, -53, -13),
-                new Location(spawnWorld, -41, 111, -31, -58, -36),
-                new Location(spawnWorld, -34, 158, -29, -63, 16),
-                new Location(spawnWorld, -34, 158, -9, -137, 20),
-                new Location(spawnWorld, -41, 158, -21, -92, 23),
-                new Location(spawnWorld, -36, 151, -35, -40, 6),
-                new Location(spawnWorld, -43, 151, -21, -96, 10),
-                new Location(spawnWorld, -44, 130, -21, -91, 4),
-                new Location(spawnWorld, -44, 90, -21, -91, 4),
-                new Location(spawnWorld, -40, 49, -21, -92, 11),
-                new Location(spawnWorld, -39, 49, -30, -20, 11),
-                new Location(spawnWorld, -39, 49, -26, -34, 13),
-                new Location(spawnWorld, -40, 49, -21, -92, 11),
-                new Location(spawnWorld, -37, 49, -17, -176, 20),
-                new Location(spawnWorld, -40, 49, -21, -92, 11),
-                new Location(spawnWorld, -39, 49, -26, -34, 13),
-                new Location(spawnWorld, -40, 49, -21, -92, 11),
-                new Location(spawnWorld, -37, 49, -17, -176, 20),
-                new Location(spawnWorld, -40, 49, -21, -92, 11),
-                new Location(spawnWorld, -39, 49, -26, -34, 13),
-                new Location(spawnWorld, -40, 49, -21, -92, 11),
-                new Location(spawnWorld, -37, 49, -17, -176, 20),
-                new Location(spawnWorld, -40, 49, -21, -92, 11)
+                new Location(spawnWorld, -45, 51, -31, -45, 3),
+                new Location(spawnWorld, -54, 103, -34, -57, 12),
+                new Location(spawnWorld, -57, 167, -20, -91, 24),
+                new Location(spawnWorld, -35, 147, -28, -31, 1),
+                new Location(spawnWorld, -40, 147, -21, -89, 0),
+                new Location(spawnWorld, -38, 148, -15, -131, 5),
+                new Location(spawnWorld, -41, 148, -22, -87, 4),
+                new Location(spawnWorld, -38, 130, -36, -15, -1),
+                new Location(spawnWorld, -43, 78, -29, -48, 10),
+                new Location(spawnWorld, -43, 50, -12, -138, 5),
+                new Location(spawnWorld, -35, 52, -13, -205, 27),
+                new Location(spawnWorld, -41, 49, -17, -124, 3),
+                new Location(spawnWorld, -39, 49, -15, -145, 3),
+                new Location(spawnWorld, -41, 49, -18, -111, 2),
+                new Location(spawnWorld, -37, 49, -13, -170, 1),
+                new Location(spawnWorld, -41, 49, -18, -105, 2),
+                new Location(spawnWorld, -40, 49, -16, -133, 1),
+                new Location(spawnWorld, -39, 49, -15, -157, 1),
+                new Location(spawnWorld, -41, 49, -18, -120, 0),
+                new Location(spawnWorld, -39, 49, -16, -145, 2),
+                new Location(spawnWorld, -41, 49, -19, -111, 1),
+                new Location(spawnWorld, -39, 49, -18, -136, 1),
+                new Location(spawnWorld, -39, 49, -19, -123, 2)
         );
 
         ArmorStandPath historyTwo = new ArmorStandPath(pathTwo) {
@@ -162,6 +170,14 @@ public class FinalHistory implements Listener {
                     MapUtils.playSound(player, MapSound.MUSIC_END_TWO);
                     historyTwo.start();
                     historyTwo.watch(player);
+
+                    if (onceTime) {
+                        return;
+                    }
+                    onceTime = true;
+
+                    startFinalCastleDialog();
+
                 }, 100);
 
             }
@@ -183,5 +199,219 @@ public class FinalHistory implements Listener {
         }.runTaskLater(MapMain.getPlugin(), 12);
 
     }
+
+    public static void startFinalCastleDialog() {
+        NPC bigZombie = MapUtils.createNPC(EntityType.GIANT, "Estrela Gigante", new Location(Bukkit.getWorld("world"), -37, 49, -26, 0, 0));
+        bigZombie.setFlyable(true);
+
+        Giant giant = ((Giant) bigZombie.getEntity());
+
+        giant.getEquipment().setItemInMainHand(MapUtils.itemBuilder(new ItemStack(Material.PLAYER_HEAD)).setOwner("iMeel").toItem());
+        giant.setGravity(false);
+        giant.setAI(false);
+        giant.setCollidable(false);
+        giant.setGliding(true);
+        giant.setInvulnerable(true);
+        giant.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100));
+
+        new BukkitRunnable() {
+
+            int times = 0;
+
+            @Override
+            public void run() {
+                times++;
+
+                if (times <= 30) {
+                    giant.teleport(giant.getLocation().clone().add(0, 3.5, 0));
+                    return;
+                }
+
+                giant.getWorld().strikeLightningEffect(giant.getLocation().clone().add(-2.5, 7, 4));
+                bigZombie.destroy();
+                this.cancel();
+
+            }
+        }.runTaskTimer(MapMain.getPlugin(), 0, 5);
+
+        new BukkitRunnable() {
+
+            int times = 0;
+
+            @Override
+            public void run() {
+                times++;
+                if (bigZombie.isSpawned()) {
+                    giant.getWorld().playEffect(giant.getLocation().clone().add(-2.5, 7, 4), Effect.SMOKE, 5);
+
+                    giant.getWorld().playEffect(giant.getLocation().clone().add(-2.5, 6.5, 4.5), Effect.SMOKE, 5);
+                    giant.getWorld().playEffect(giant.getLocation().clone().add(-2.5, 6.5, 3.5), Effect.SMOKE, 5);
+                    giant.getWorld().playEffect(giant.getLocation().clone().add(-3, 6.5, 4), Effect.SMOKE, 5);
+                    giant.getWorld().playEffect(giant.getLocation().clone().add(-2, 6.5, 4), Effect.SMOKE, 5);
+
+                    return;
+                }
+                this.cancel();
+            }
+        }.runTaskTimer(MapUtils.getPlugin(), 5, 2);
+
+        NPC sombraOne = MapUtils.createNPC(EntityType.PLAYER, "SombraXD", new Location(Bukkit.getWorld("world"), -36.5, 49, -17.5, -229, 0));
+        NPC sombraTwo = MapUtils.createNPC(EntityType.PLAYER, "SombraXD", new Location(Bukkit.getWorld("world"), -36.5, 49, -25.5, -313, 0));
+
+        NPC playerViewer = MapUtils.createNPC(EntityType.PLAYER, ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName(), new Location(Bukkit.getWorld("world"), -40.5, 49, -21.5, 269, 0));
+
+        new BukkitRunnable() {
+
+            NPC meel = null;
+            int times = 0;
+
+            @Override
+            public void run() {
+
+                times++;
+
+                if (meel == null) {
+                    meel = MapUtils.createNPC(EntityType.PLAYER, "iMeel", new Location(Bukkit.getWorld("world"), -24.5, 149, -21.5, 90, 0));
+
+                    Location loc = new Location(Bukkit.getWorld("world"), -30, 53, -22);
+
+                    for (int z = -4; z <= 4; z++) {
+                        for (int y = 0; y <= 10; y++) {
+                            if (loc.clone().add(0, y, z).getBlock().getType().equals(Material.IRON_BARS)) {
+                                loc.clone().add(0, y, z).getBlock().setType(Material.AIR);
+                            }
+                        }
+                    }
+                }
+
+                Player meelEntity = (Player) meel.getEntity();
+
+                if (times >= 600) {
+                    meel.destroy();
+                    sombraOne.destroy();
+                    sombraTwo.destroy();
+                    playerViewer.destroy();
+                    this.cancel();
+                }
+
+                if (times < 83) {
+                    meel.teleport(meel.getStoredLocation().clone().add(-0.15, 0, 0), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    meelEntity.setGravity(false);
+                    meelEntity.setCollidable(false);
+                    meelEntity.setInvulnerable(true);
+                }
+                if (times >= 83 && times <= 148) {
+                    meel.teleport(meel.getStoredLocation().clone().add(0, -1.5, 0), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                    meelEntity.setGravity(false);
+                    meelEntity.setCollidable(false);
+                    meelEntity.setInvulnerable(true);
+                }
+                if (times == 149) {
+                    meel.teleport(meel.getStoredLocation().clone().add(0, -1, 0), PlayerTeleportEvent.TeleportCause.PLUGIN);
+
+                    meelEntity.setGravity(true);
+
+                }
+
+                if (times == 215) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: " + ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName() + "!");
+                    }
+                }
+                if (times == 230) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: O poder das estrelas me salvaram do castelo!");
+                    }
+                }
+                if (times == 250) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Eu pensava que ia ficar presa no meu próprio castelo para sempre...");
+                    }
+                }
+                if (times == 270) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Mas o rumo dessa história mudou!");
+                    }
+                }
+                if (times == 290) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Graças a você, obrigada " + ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName() + "...");
+                    }
+                }
+                if (times == 310) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Eu adimiro a sua caminhada até aqui");
+                    }
+                }
+                if (times == 310) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Mesmo estando presa nas paredes do castelo");
+                    }
+                }
+                if (times == 330) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Eu vim te observando...");
+                    }
+                }
+                if (times == 350) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: É lindo saber que mesmo depois de tantos erros");
+                    }
+                }
+                if (times == 370) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Você continuou de pé até chegar ao seu destino...");
+                    }
+                }
+                if (times == 390) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Muito obrigada mesmo com todos os seus erros, você continuou de pé até me salvar...");
+                    }
+                }
+                if (times == 410) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Precisamos fazer alguma coisa para agradecer...");
+                    }
+                }
+                if (times == 420) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Já sei!");
+                    }
+                    meel.faceLocation(sombraOne.getStoredLocation());
+                }
+                if (times == 430) {
+                    meel.faceLocation(sombraTwo.getStoredLocation());
+                }
+                if (times == 440) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Vamos fazer um bolo delicioso");
+                    }
+                    meel.faceLocation(playerViewer.getStoredLocation());
+                }
+                if (times == 450) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: Para " + ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName() + "...");
+                    }
+                }
+                if (times == 460) {
+                    meel.getNavigator().setTarget(new Location(Bukkit.getWorld("world"), -22, 53, -21, -90, 1));
+                    sombraOne.getNavigator().setTarget(new Location(Bukkit.getWorld("world"), -21, 53, -16, -90, 0));
+                    sombraTwo.getNavigator().setTarget(new Location(Bukkit.getWorld("world"), -22, 53, -26, -90, 0));
+
+                    playerViewer.faceLocation(((Player) Bukkit.getOnlinePlayers().toArray()[0]).getLocation());
+                }
+                if (times == 480) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.sendMessage("§d§liMeel§f: " + ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName() + "!");
+                    }
+                    playerViewer.getNavigator().setTarget(new Location(Bukkit.getWorld("world"), -23, 53, -19, -92, 0));
+                }
+
+
+            }
+        }.runTaskTimer(MapMain.getPlugin(), 160, 3);
+
+    }
+
 
 }

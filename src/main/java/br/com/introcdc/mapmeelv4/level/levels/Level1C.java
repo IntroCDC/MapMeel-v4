@@ -28,7 +28,7 @@ public class Level1C extends Level {
                         new LevelObjective("Na maior torre de todas", MapUtils.getLocation("1C", 554, 83, 349, -71, 89), true),
                         new LevelObjective("Na saida do lago de fora", MapUtils.getLocation("1C", 614, 64, 283, -130, 30), true),
                         new LevelObjective("Avante floresta, no lago contra montanha", MapUtils.getLocation("1C", 484, 47, 208, -351, 46), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("1C", 553, 66, 362, 354, 89))});
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("1C", 553, 66, 362, 354, 89), false, true)});
     }
 
 }

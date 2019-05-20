@@ -29,7 +29,7 @@ public class Level3D extends Level {
                         new LevelObjective("A Caverna De Minecarts", MapUtils.getLocation("3D", 622, 79, -763, -270, 32), true),
                         new LevelObjective("Não Entre Aqui", MapUtils.getLocation("3D", 599, 127, -830, -356, 5), true),
                         new LevelObjective("Nos Pés do Dragão", MapUtils.getLocation("3D", 537, 210, -794, 0, 34), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("3D", 531, 148, -691, -273, 90))
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("3D", 531, 148, -691, -273, 90), false, true)
                 });
     }
 

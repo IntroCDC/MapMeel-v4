@@ -30,7 +30,7 @@ public class Level1B extends Level {
                         new LevelObjective("O Pássaro", MapUtils.getLocation("1B", -19, 88, 55, -134, 88), true),
                         new LevelObjective("Lago no centro da cidade", MapUtils.getLocation("1B", 29, 37, 8, -63, 42), true),
                         new LevelObjective("O Alpinista", MapUtils.getLocation("1B", 129, 88, 95, -225, 27), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("1B", 46, 26, -41, 180, 90))});
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("1B", 46, 26, -41, 180, 90), false, true)});
     }
 
 }

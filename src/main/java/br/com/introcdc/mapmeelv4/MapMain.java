@@ -5,11 +5,16 @@ import br.com.introcdc.mapmeelv4.door.Door;
 import br.com.introcdc.mapmeelv4.door.LittleDoor;
 import br.com.introcdc.mapmeelv4.events.UpdateEventStarter;
 import br.com.introcdc.mapmeelv4.level.Level;
+import br.com.introcdc.mapmeelv4.npctalk.NPCTalk;
 import br.com.introcdc.mapmeelv4.scoreboard.ScoreManager;
+import br.com.introcdc.mapmeelv4.serjao.SerjaoInteract;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import br.com.introcdc.mapmeelv4.warp.Warp;
 import org.bukkit.*;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Parrot;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,6 +34,7 @@ public class MapMain extends JavaPlugin {
         for (Warp warp : Warp.values()) {
             warp.setup();
         }
+
         Location DEFAULT = new Location(Bukkit.getWorld("world"), 0, 80, 0);
         for (World world : Bukkit.getWorlds()) {
             world.setDifficulty(Difficulty.NORMAL);
@@ -49,7 +55,9 @@ public class MapMain extends JavaPlugin {
             }
             if (world.getName().equalsIgnoreCase("world")) {
                 for (int i = 0; i < 100; i++) {
-                    world.spawnEntity(DEFAULT.clone().add((MapUtils.random.nextInt(500) - 250), 0, (MapUtils.random.nextInt(500) - 250)), EntityType.PARROT);
+                    Parrot parrot = world.spawn(DEFAULT.clone().add((MapUtils.random.nextInt(500) - 250), 0, (MapUtils.random.nextInt(500) - 250)), Parrot.class);
+                    parrot.setCustomName(SerjaoInteract.removeEventTags(SerjaoInteract.getRandomMessage(SerjaoInteract.getRandomMessageFile())));
+                    parrot.setCustomNameVisible(true);
                 }
             }
         }
@@ -61,6 +69,20 @@ public class MapMain extends JavaPlugin {
         Level.loadLeveis();
         Door.loadDoors();
         LittleDoor.loadDoors();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "npc remove all");
+            }
+        }.runTaskLater(getPlugin(), 5);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                NPCTalk.loadNpcs();
+            }
+        }.runTaskLater(getPlugin(), 10);
 
         new BukkitRunnable() {
             int times = 0;

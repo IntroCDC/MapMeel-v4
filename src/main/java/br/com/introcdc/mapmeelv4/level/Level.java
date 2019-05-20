@@ -12,6 +12,8 @@ import br.com.introcdc.mapmeelv4.door.LittleDoor;
 import br.com.introcdc.mapmeelv4.item.InventoryBase;
 import br.com.introcdc.mapmeelv4.listeners.coin.CoinEvents;
 import br.com.introcdc.mapmeelv4.listeners.finallevel.FinalLevelEvents;
+import br.com.introcdc.mapmeelv4.listeners.music.MusicUpdaterEvents;
+import br.com.introcdc.mapmeelv4.mob.MapMob;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import br.com.introcdc.mapmeelv4.warp.Warp;
@@ -19,6 +21,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -62,10 +65,13 @@ public class Level {
     private Material material;
     private Warp warp;
     private MapSound backgroundMapSound;
-    public List<MapCoin> loadedCoins;
+    private MapSound tempBackgroungMapSound;
+    private List<MapCoin> loadedCoins;
+    private List<MapMob> loadedMobs;
     public Map<String, LevelObjective> objectives;
     private Location portalSpec;
     private PotionEffect potionEffect;
+    private PotionEffect tempPotionEffect = null;
     private File levelFile;
     private JsonElement jsonElement;
 
@@ -83,24 +89,26 @@ public class Level {
         }
 
         if (!warp.toString().contains("EG_") && !warp.toString().contains("FINAL")) {
-            LevelObjective coins = new LevelObjective("Colete 100 Moedas", warp.getLocation());
+            LevelObjective coins = new LevelObjective("Colete 100 Moedas", warp.getLocation(), false, false);
             this.objectives.put(coins.getStringObjective(), coins);
         }
 
         this.loadedCoins = new ArrayList<>();
+        this.loadedMobs = new ArrayList<>();
         this.levelFile = new File("plugins/MapMeel/levels/" + warp.getName() + ".json");
         try {
             if (!levelFile.exists()) {
                 levelFile.getParentFile().mkdirs();
                 levelFile.createNewFile();
                 PrintWriter writer = new PrintWriter(levelFile);
-                writer.println("{\"coins\":[]}");
+                writer.println("{\"coins\":[],\"mobs\":[]}");
                 writer.close();
             }
             try (FileReader reader = new FileReader(levelFile)) {
                 jsonElement = MapUtils.parser.parse(reader);
             }
             jsonElement.getAsJsonObject().get("coins").getAsJsonArray().forEach(jsonElement1 -> getLoadedCoins().add(new MapCoin(new Location(Bukkit.getWorld(getWarp().getName()), jsonElement1.getAsJsonObject().get("x").getAsDouble(), jsonElement1.getAsJsonObject().get("y").getAsDouble(), jsonElement1.getAsJsonObject().get("z").getAsDouble()), CoinType.valueOf(jsonElement1.getAsJsonObject().get("type").getAsString()))));
+            jsonElement.getAsJsonObject().get("mobs").getAsJsonArray().forEach(jsonElement1 -> getLoadedMobs().add(new MapMob(EntityType.valueOf(jsonElement1.getAsJsonObject().get("type").getAsString()), new Location(Bukkit.getWorld(getWarp().getName()), jsonElement1.getAsJsonObject().get("x").getAsDouble(), jsonElement1.getAsJsonObject().get("y").getAsDouble(), jsonElement1.getAsJsonObject().get("z").getAsDouble()))));
             for (LevelObjective levelObjective : this.objectives.values()) {
                 if (!jsonElement.getAsJsonObject().has(levelObjective.getStringObjective())) {
                     jsonElement.getAsJsonObject().addProperty(levelObjective.stringObjective, false);
@@ -132,6 +140,10 @@ public class Level {
         return loadedCoins;
     }
 
+    public List<MapMob> getLoadedMobs() {
+        return loadedMobs;
+    }
+
     public Warp getWarp() {
         return warp;
     }
@@ -141,16 +153,19 @@ public class Level {
     }
 
     public MapSound getBackgroundMapSound() {
-        if (getName().equalsIgnoreCase("Final Level")) {
-            if (update) {
-                return MapSound.MUSIC_TWELVE;
-            }
-        }
-        return backgroundMapSound;
+        return tempBackgroungMapSound != null ? tempBackgroungMapSound : backgroundMapSound;
+    }
+
+    public void setTempBackgroungMapSound(MapSound tempBackgroungMapSound) {
+        this.tempBackgroungMapSound = tempBackgroungMapSound;
     }
 
     public PotionEffect getPotionEffect() {
-        return potionEffect;
+        return tempPotionEffect != null ? tempPotionEffect : potionEffect;
+    }
+
+    public void setTempPotionEffect(PotionEffect tempPotionEffect) {
+        this.tempPotionEffect = tempPotionEffect;
     }
 
     public Map<String, LevelObjective> getObjectives() {
@@ -210,8 +225,12 @@ public class Level {
         }
         loadCooldown = true;
 
-        Level.update = false;
+        tempPotionEffect = null;
+        tempBackgroungMapSound = null;
+        onLoad();
+
         FinalLevelEvents.teleport = false;
+        MusicUpdaterEvents.musicPause = false;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             InventoryBase.clearInventory(player);
@@ -219,11 +238,12 @@ public class Level {
             MapUtils.playSound(player, MapSound.EFFECT_LETSGO);
             player.addPotionEffect(blindness);
         }
-        unloadCoins();
         loadCoins();
+        loadMobs();
         new BukkitRunnable() {
             @Override
             public void run() {
+                Level.currentLevel = null;
                 CoinEvents.coins = 0;
                 CoinEvents.redCoins = 0;
                 CoinEvents.blueCoins = 0;
@@ -239,6 +259,7 @@ public class Level {
                     }.runTaskLater(MapUtils.getPlugin(), 10);
                 }
                 getObjectives().values().forEach(levelObjective -> {
+                    levelObjective.setCanGetStar(levelObjective.canGetStarSettings());
                     if (levelObjective.isAutoSpawn()) {
                         levelObjective.spawnStar(false, null);
                     }
@@ -247,8 +268,15 @@ public class Level {
         }.runTaskLater(MapUtils.getPlugin(), 20);
     }
 
+    public void onLoad() {
+    }
+
     public void loadCoins() {
         getLoadedCoins().forEach(MapCoin::spawn);
+    }
+
+    public void loadMobs() {
+        getLoadedMobs().forEach(MapMob::spawn);
     }
 
     public void unloadCoins() {
@@ -260,30 +288,71 @@ public class Level {
         }
     }
 
-    public void unloadLevel(LevelObjective objective, boolean unload) {
+    public void unloadMobs() {
+        getLoadedMobs().forEach(MapMob::despawn);
+
+        List<EntityType> types = new ArrayList<>();
+        for (MapMob mapMob : getLoadedMobs()) {
+            if (!types.contains(mapMob.getEntityType())) {
+                types.add(mapMob.getEntityType());
+            }
+        }
+
+        for (Entity entity : getWarp().getLocation().getWorld().getEntities()) {
+            if (types.contains(entity.getType())) {
+                entity.remove();
+            }
+        }
+    }
+
+    public void unloadLevel(LevelObjective objective) {
         boolean already = false;
+
+        boolean unload = objective == null || objective.isUnloadLevel();
+
         if (objective != null) {
+
             for (Player player : Bukkit.getOnlinePlayers()) {
                 MapUtils.playSound(player, MapSound.STOP);
                 MapUtils.playSound(player, MapSound.EFFECT_JOINING);
             }
-            if (!objective.isFinished()) {
-                objective.setFinished(true);
-                Level.stars++;
+
+            if (objective.canGetStar()) {
+
+                if (!objective.isFinished()) {
+                    objective.setFinished(true);
+                    Level.stars++;
+                } else {
+                    already = true;
+                }
             } else {
-                already = true;
+
+                objective.setCanGetStar(true);
+                objective.ifGetStar();
+                return;
             }
         }
         save();
         if (unload) {
+
+            tempPotionEffect = null;
+            tempBackgroungMapSound = null;
+
             CoinEvents.coins = 0;
             CoinEvents.redCoins = 0;
             CoinEvents.blueCoins = 0;
+
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
                 player.setGameMode(GameMode.SPECTATOR);
             }
+
+            for (LevelObjective levelObjective : getObjectives().values()) {
+                levelObjective.setCanGetStar(levelObjective.canGetStarSettings());
+            }
+
             unloadCoins();
+            unloadMobs();
         }
         boolean Already = already;
         new BukkitRunnable() {
@@ -387,6 +456,17 @@ public class Level {
         jsonObject.addProperty("z", location.getZ());
         jsonObject.addProperty("type", coinType.toString());
         jsonElement.getAsJsonObject().get("coins").getAsJsonArray().add(jsonObject);
+        save();
+    }
+
+    public void addMob(Location location, EntityType entityType) {
+        getLoadedMobs().add(new MapMob(entityType, location));
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("x", location.getX());
+        jsonObject.addProperty("y", location.getY());
+        jsonObject.addProperty("z", location.getZ());
+        jsonObject.addProperty("type", entityType.toString());
+        jsonElement.getAsJsonObject().get("mobs").getAsJsonArray().add(jsonObject);
         save();
     }
 

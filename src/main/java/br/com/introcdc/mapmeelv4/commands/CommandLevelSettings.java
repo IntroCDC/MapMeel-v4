@@ -7,6 +7,7 @@ import br.com.introcdc.mapmeelv4.coin.CoinType;
 import br.com.introcdc.mapmeelv4.command.CommandBase;
 import br.com.introcdc.mapmeelv4.level.Level;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 public class CommandLevelSettings extends CommandBase {
@@ -44,6 +45,22 @@ public class CommandLevelSettings extends CommandBase {
             } else if (args[0].equalsIgnoreCase("unloadcoins")) {
                 level.unloadCoins();
                 sender.sendMessage(PREFIX + "§aMoedas descarregadas!");
+                return;
+            } else if (args[0].equalsIgnoreCase("addmob")) {
+                if (EntityType.valueOf(args[1].toUpperCase()) != null) {
+                    level.addMob(getPlayer(sender.getName()).getLocation(), EntityType.valueOf(args[1].toUpperCase()));
+                    sender.sendMessage(PREFIX + "§aMob adicionado!");
+                } else {
+                    sender.sendMessage(PREFIX + "§cTipo de mod não reconhecido!");
+                }
+                return;
+            } else if (args[0].equalsIgnoreCase("loadmobs")) {
+                level.loadMobs();
+                sender.sendMessage(PREFIX + "§aMobs carregados!");
+                return;
+            } else if (args[0].equalsIgnoreCase("unloadmobs")) {
+                level.unloadMobs();
+                sender.sendMessage(PREFIX + "§aMobs descarregados!");
                 return;
             }
         }

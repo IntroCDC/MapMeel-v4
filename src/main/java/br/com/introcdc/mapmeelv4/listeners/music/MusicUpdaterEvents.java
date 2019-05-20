@@ -21,12 +21,17 @@ public class MusicUpdaterEvents implements Listener {
 
     public static List<UUID> inside = new ArrayList<>();
 
+    public static boolean musicPause = false;
+
     @EventHandler
     public void onUpdate(UpdateEvent event) {
         if (event.getType().equals(UpdateType.SECONDS) || event.getType().equals(UpdateType.TICK)) {
             for (Player player : Bukkit.getOnlinePlayers()) {
 
-                if (player.getGameMode().equals(GameMode.SPECTATOR)) {
+                if (!player.getGameMode().equals(GameMode.ADVENTURE)) {
+                    continue;
+                }
+                if (musicPause) {
                     continue;
                 }
 

@@ -22,19 +22,35 @@ public class LevelObjective {
     public boolean finished;
     public Level level;
     private Item item;
-    private Vector nullVector = null;
+    private Vector nullVector = new Vector(0, 1, 0);
     private boolean autoSpawn;
+    private boolean unloadLevel = true;
+    private boolean canGetStar = true;
 
-    public LevelObjective(String stringObjective, Location location) {
-        this.stringObjective = stringObjective;
-        this.location = location;
-        this.autoSpawn = false;
-    }
+    private final boolean canGetStarSettings;
 
     public LevelObjective(String stringObjective, Location location, boolean autoSpawn) {
         this.stringObjective = stringObjective;
         this.location = location;
         this.autoSpawn = autoSpawn;
+        this.canGetStarSettings = true;
+    }
+
+    public LevelObjective(String stringObjective, Location location, boolean autoSpawn, boolean unloadLevel) {
+        this.stringObjective = stringObjective;
+        this.location = location;
+        this.autoSpawn = autoSpawn;
+        this.unloadLevel = unloadLevel;
+        this.canGetStarSettings = true;
+    }
+
+    public LevelObjective(String stringObjective, Location location, boolean autoSpawn, boolean unloadLevel, boolean canGetStar) {
+        this.stringObjective = stringObjective;
+        this.location = location;
+        this.autoSpawn = autoSpawn;
+        this.unloadLevel = unloadLevel;
+        this.canGetStar = canGetStar;
+        this.canGetStarSettings = canGetStar;
     }
 
     public String getStringObjective() {
@@ -51,6 +67,26 @@ public class LevelObjective {
 
     public boolean isAutoSpawn() {
         return autoSpawn;
+    }
+
+    public boolean isUnloadLevel() {
+        return unloadLevel;
+    }
+
+    public void setUnloadLevel(boolean unloadLevel) {
+        this.unloadLevel = unloadLevel;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public Vector getNullVector() {
+        return nullVector;
     }
 
     public Location getLocation() {
@@ -82,19 +118,34 @@ public class LevelObjective {
         }
     }
 
+    public boolean canGetStarSettings() {
+        return canGetStarSettings;
+    }
+
+    public boolean canGetStar() {
+        return canGetStar;
+    }
+
+    public void setCanGetStar(boolean canGetStar) {
+        this.canGetStar = canGetStar;
+    }
+
+    public void ifGetStar() {
+    }
+
     private void spawn(Location location) {
         if (location == null) {
             location = this.location;
         }
-        if (nullVector == null) {
-            nullVector = new Vector(0, 1, 0);
-        }
         this.despawn();
         location.getChunk().load();
+
         Item item = location.getWorld().dropItem(location, MapUtils.itemBuilder(new ItemStack(Material.PLAYER_HEAD)).setOwner("iMeel").setName(getStringObjective()).toItem());
+
         item.setGravity(true);
         item.setInvulnerable(true);
         item.setVelocity(nullVector);
+
         this.item = item;
     }
 

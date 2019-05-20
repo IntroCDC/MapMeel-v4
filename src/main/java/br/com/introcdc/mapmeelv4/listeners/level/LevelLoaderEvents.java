@@ -5,7 +5,9 @@ package br.com.introcdc.mapmeelv4.listeners.level;
 
 import br.com.introcdc.mapmeelv4.level.Level;
 import com.destroystokyo.paper.MaterialSetTag;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -25,9 +27,18 @@ public class LevelLoaderEvents implements Listener {
             if (event.getClickedBlock() != null && BUTTONS.isTagged(event.getClickedBlock()) && Level.currentLevel != null && event.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
                 event.setCancelled(true);
                 Level.currentLevel.loadLevel();
-                Level.currentLevel = null;
             }
         }
+
+        if (event.getClickedBlock() != null && event.getClickedBlock().getType().toString().contains("CHEST") && event.getAction().toString().contains("RIGHT")) {
+            event.setCancelled(true);
+        }
+        if (event.getAction().equals(Action.PHYSICAL)) {
+            if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.FARMLAND)) {
+                event.setCancelled(true);
+            }
+        }
+
     }
 
     @EventHandler

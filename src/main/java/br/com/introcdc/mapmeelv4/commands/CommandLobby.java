@@ -27,7 +27,7 @@ public class CommandLobby extends CommandBase {
             return;
         }
         Level level = Level.getLevel(player.getWorld().getName());
-        level.unloadLevel(null, true);
+        level.unloadLevel(null);
     }
 
 }

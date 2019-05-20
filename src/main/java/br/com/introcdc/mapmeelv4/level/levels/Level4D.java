@@ -28,7 +28,7 @@ public class Level4D extends Level {
                         new LevelObjective("Piramide Vizinha", MapUtils.getLocation("4D", -484, 17, -915, 87, 90), true),
                         new LevelObjective("A Piramide Torre", MapUtils.getLocation("4D", -213, 65, -981, 0, 90), true),
                         new LevelObjective("O Templo Da Piramide Distante", MapUtils.getLocation("4D", -742, 5, -567, 271, 90), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("4D", -467, 15, -822, -5, 90))
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("4D", -467, 15, -822, -5, 90), false, true)
                 });
     }
 

@@ -7,6 +7,7 @@ import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import br.com.introcdc.mapmeelv4.warp.Warp;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,6 +19,12 @@ public class PlayerDeathEvents implements Listener {
     public void onDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
+
+            if (!player.getGameMode().equals(GameMode.ADVENTURE)) {
+                event.setCancelled(true);
+                return;
+            }
+
             if (Level.getLevel(player.getWorld().getName()) != null) {
                 if (player.getHealth() - event.getDamage() <= 0 && !event.isCancelled()) {
                     event.setCancelled(true);
@@ -27,7 +34,7 @@ public class PlayerDeathEvents implements Listener {
                         MapUtils.sendTitle(player1, "§c§lVocê morreu", "§f§oIndo para o Lobby...", 0, 40, 20);
                     }
 
-                    Level.getLevel(player.getWorld().getName()).unloadLevel(null, true);
+                    Level.getLevel(player.getWorld().getName()).unloadLevel(null);
                 }
             } else {
                 if (player.getHealth() - event.getDamage() <= 0 && !event.isCancelled()) {

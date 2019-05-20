@@ -29,7 +29,7 @@ public class Level3A extends Level {
                         new LevelObjective("O Moinho de Vento", MapUtils.getLocation("3A", -37, 133, -85, 0, 38), true),
                         new LevelObjective("A Nuvem mais baixa", MapUtils.getLocation("3A", -40, 75, 24, -353, 90), true),
                         new LevelObjective("O Balão casa", MapUtils.getLocation("3A", 93, 139, 59, 92, 65), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("3A", -27, 111, -11, -31, 90))
+                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("3A", -27, 111, -11, -31, 90), false, true)
                 });
     }
 

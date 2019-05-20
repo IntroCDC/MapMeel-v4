@@ -25,7 +25,7 @@ public class DoorEvents implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
 
-        if (event.getAction().toString().contains("BLOCK")) {
+        if (event.getAction().toString().contains("BLOCK") && event.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
             if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.IRON_BARS)) {
                 for (Door door : Door.allDoors) {
                     if (event.getClickedBlock().getLocation().distance(door.getLocation()) < 5) {
@@ -40,7 +40,7 @@ public class DoorEvents implements Listener {
                             door.openDoor(false);
                             for (Player player : Bukkit.getOnlinePlayers()) {
                                 MapUtils.playSound(player, MapSound.EFFECT_BAD_MESSAGE);
-                                MapUtils.sendTitle(player, "§4§l§oPortão Trancado!", "§c§oVocê precisa ter " + door.getNeedStars() + " estrelas!", 10, 40, 20);
+                                MapUtils.sendTitle(player, "§4§l§oPortão Trancado!", "§c§oVocê precisa ter " + door.getNeedStars() + " estrelas! (falta: " + (door.getNeedStars() - Level.stars) + ")", 10, 40, 20);
                             }
                         } else {
                             door.openDoor(true);
@@ -65,7 +65,7 @@ public class DoorEvents implements Listener {
             }
         }
 
-        if (event.getAction().equals(Action.PHYSICAL)) {
+        if (event.getAction().equals(Action.PHYSICAL) && event.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
             for (LittleDoor littleDoor : LittleDoor.allDoors) {
                 if (littleDoor.getLocation().distance(event.getPlayer().getLocation()) < 5) {
 
@@ -80,7 +80,7 @@ public class DoorEvents implements Listener {
 
                         for (Player player : Bukkit.getOnlinePlayers()) {
                             MapUtils.playSound(player, MapSound.EFFECT_BAD_MESSAGE);
-                            MapUtils.sendTitle(player, "§4§lPorta Trancada!", "§c§oVocê precisa ter " + littleDoor.getNeedStars() + " estrelas!", 10, 40, 20);
+                            MapUtils.sendTitle(player, "§4§lPorta Trancada!", "§c§oVocê precisa ter " + littleDoor.getNeedStars() + " estrelas! (falta: " + (littleDoor.getNeedStars() - Level.stars) + ")", 10, 40, 20);
                         }
                     }
 
