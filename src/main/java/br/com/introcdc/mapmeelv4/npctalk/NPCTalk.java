@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -143,6 +144,15 @@ public class NPCTalk {
                     player.sendMessage(MapUtils.PREFIX + "§2§lParabéns! §f§oVocê finalizou o MapMeel v4 com sucesso!");
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 50000, 1);
                     MapUtils.playSound(player, MapSound.EFFECT_WIN);
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                MapUtils.sendPluginMessage(player, "MapMeelv4Complete");
+                                MapUtils.sendPlayer(player, "KitPvP");
+                            }
+                        }
+                    }.runTaskLater(MapMain.getPlugin(), 200);
                 }
 
             }

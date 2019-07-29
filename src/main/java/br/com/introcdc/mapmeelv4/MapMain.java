@@ -31,6 +31,9 @@ public class MapMain extends JavaPlugin {
     public void onEnable() {
         MapMain.plugin = this;
         MapUtils.loadWorlds();
+
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
         for (Warp warp : Warp.values()) {
             warp.setup();
         }

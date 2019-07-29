@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldSaveEvent;
@@ -47,6 +48,13 @@ public class WorldEvents implements Listener {
     @EventHandler
     public void onFood(FoodLevelChangeEvent event) {
         event.setFoodLevel(20);
+    }
+
+    @EventHandler
+    public void onClick(InventoryClickEvent event) {
+        if (event.getInventory().getName() != null && event.getInventory().getName().equalsIgnoreCase("Objetivos")) {
+            event.setCancelled(true);
+        }
     }
 
 }

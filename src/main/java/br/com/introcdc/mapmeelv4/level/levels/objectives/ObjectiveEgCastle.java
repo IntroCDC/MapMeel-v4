@@ -49,7 +49,8 @@ public class ObjectiveEgCastle extends LevelObjective {
             @Override
             public void run() {
 
-                if (getLevel().getPotionEffect() == null) {
+                if (getLevel().getPotionEffect() == null || Bukkit.getWorld(getLevel().getWarp().getWorld()).getPlayers().isEmpty()) {
+                    getLevel().setTempPotionEffect(null);
                     this.cancel();
                     return;
                 }
