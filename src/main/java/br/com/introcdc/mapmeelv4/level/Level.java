@@ -369,6 +369,10 @@ public class Level {
                         InventoryBase.clearInventory(player);
                         player.teleport(MapUtils.getLocation(player.getLocation().getWorld().getName(), player.getLocation().getX() + 5, player.getLocation().getY() + 5, player.getLocation().getZ() + 5, player.getLocation()));
                     }
+                } else {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        player.setGameMode(GameMode.ADVENTURE);
+                    }
                 }
                 new BukkitRunnable() {
                     int times = 0;
@@ -394,8 +398,10 @@ public class Level {
                                 for (Player player : Bukkit.getOnlinePlayers()) {
                                     player.setFlySpeed(0.1f);
                                     player.teleport(getPortalSpec());
-                                    player.setGameMode(GameMode.ADVENTURE);
                                 }
+                            }
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                player.setGameMode(GameMode.ADVENTURE);
                             }
                             new BukkitRunnable() {
                                 @Override

@@ -3,6 +3,7 @@ package br.com.introcdc.mapmeelv4.listeners.join;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 08:35
  */
 
+import br.com.introcdc.mapmeelv4.MapMain;
 import br.com.introcdc.mapmeelv4.profile.Cargo;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import br.com.introcdc.mapmeelv4.warp.Warp;
@@ -13,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class JoinEvents implements Listener {
 
@@ -27,6 +29,13 @@ public class JoinEvents implements Listener {
         event.getPlayer().teleport(Warp.LOBBY.getLocation());
         event.getPlayer().setGameMode(GameMode.ADVENTURE);
         event.getPlayer().getActivePotionEffects().forEach(effect -> event.getPlayer().removePotionEffect(effect.getType()));
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+            }
+        }.runTaskLater(MapMain.getPlugin(), 5);
     }
 
     @EventHandler(priority = EventPriority.LOW)

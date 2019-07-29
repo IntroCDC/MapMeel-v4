@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
 
 public class LevelEffectsEvents implements Listener {
 
@@ -18,7 +19,9 @@ public class LevelEffectsEvents implements Listener {
         if (event.getType().equals(UpdateType.SECONDS) && event.getTimes() == 3) {
             Bukkit.getOnlinePlayers().forEach(player -> {
                 if (Level.getLevel(player.getWorld().getName()) != null && Level.getLevel(player.getWorld().getName()).getPotionEffect() != null && player.getGameMode().equals(GameMode.ADVENTURE)) {
-                    player.addPotionEffect(Level.getLevel(player.getWorld().getName()).getPotionEffect());
+                    PotionEffect potionEffect = new PotionEffect(Level.getLevel(player.getWorld().getName()).getPotionEffect().getType(), 1000, Level.getLevel(player.getWorld().getName()).getPotionEffect().getAmplifier());
+                    player.removePotionEffect(potionEffect.getType());
+                    player.addPotionEffect(potionEffect);
                 }
             });
         }
