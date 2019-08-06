@@ -484,7 +484,7 @@ public class MapUtils {
             player.sendMessage("§cErro ao executar o evento de plugin message...");
             ex.printStackTrace();
         }
-        player.sendPluginMessage(getPlugin(), "BungeeCord", byteArray.toByteArray());
+        player.sendPluginMessage(getPlugin(), "kindome:pm", byteArray.toByteArray());
     }
 
     public static void sendTablist(Player player, String header, String footer) {

@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class CommandLobby extends CommandBase {
 
     public CommandLobby() {
-        super("Lobby");
+        super("Lobby", "Spawn", "LobbyPrincipal", "LobbyMapMeel", "Retornar");
         this.description = "Ir para o Lobby";
     }
 

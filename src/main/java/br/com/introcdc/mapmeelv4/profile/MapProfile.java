@@ -1,6 +1,5 @@
 package br.com.introcdc.mapmeelv4.profile;
 
-import br.com.introcdc.mapmeelv4.coin.CoinType;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
@@ -56,7 +55,7 @@ public class MapProfile {
         }
     }
 
-    public void createFile() throws IOException {
+    public void createFile() {
         this.config = new JsonObject();
         for (String award : allAwards) {
             getConfig().addProperty(award, 0);
@@ -65,12 +64,16 @@ public class MapProfile {
         saveConfig();
     }
 
-    public void saveConfig() throws FileNotFoundException {
-        getConfigFile().getParentFile().mkdirs();
-        PrintWriter writer = new PrintWriter(getConfigFile());
-        writer.println(getConfig() != null ? getConfig().toString() : "{}");
-        writer.flush();
-        writer.close();
+    public void saveConfig() {
+        try {
+            getConfigFile().getParentFile().mkdirs();
+            PrintWriter writer = new PrintWriter(getConfigFile());
+            writer.println(getConfig() != null ? getConfig().toString() : "{}");
+            writer.flush();
+            writer.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     public boolean existsProfile() {
@@ -136,25 +139,29 @@ public class MapProfile {
         for (String award : allAwards) {
             try {
                 setAward(award, 0);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void setAward(String award, long amount) throws IOException {
+    public void setAward(String award, long amount) {
         getAwards().remove(award);
         getAwards().put(award, amount);
         getConfig().remove(award);
         getConfig().addProperty(award, amount);
-        saveConfig();
+        if (existsProfile()) {
+            saveConfig();
+        }
     }
 
-    public void setCargo(Cargo cargo) throws IOException {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
         getConfig().remove("cargo");
         getConfig().addProperty("cargo", cargo.toString());
-        saveConfig();
+        if (existsProfile()) {
+            saveConfig();
+        }
     }
 
     public void unload() {

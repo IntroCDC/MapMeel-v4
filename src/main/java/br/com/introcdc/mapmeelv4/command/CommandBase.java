@@ -30,7 +30,7 @@ public abstract class CommandBase extends Command {
         super(name, "", "", CommandBase.toList(aliases));
     }
 
-    public void connectUse(CommandSender sender, String command) {
+    public void correctUse(CommandSender sender, String command) {
         sender.sendMessage(MapUtils.PREFIX + "§fUso correto: §a/" + command);
     }
 

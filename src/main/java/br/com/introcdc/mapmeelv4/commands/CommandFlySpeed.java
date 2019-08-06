@@ -26,6 +26,6 @@ public class CommandFlySpeed extends CommandBase {
             player.sendMessage(PREFIX + "§aVelocidade de voo alterada!");
             return;
         }
-        connectUse(sender, "/" + label + " [velocidade]");
+        correctUse(sender, "/" + label + " [velocidade]");
     }
 }

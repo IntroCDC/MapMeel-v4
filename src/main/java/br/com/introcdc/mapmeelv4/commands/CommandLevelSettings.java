@@ -64,7 +64,7 @@ public class CommandLevelSettings extends CommandBase {
                 return;
             }
         }
-        connectUse(sender, "/" + label + " addcoin [tipo]");
-        connectUse(sender, "/" + label + " loadcoins/unloadcoins");
+        correctUse(sender, "/" + label + " addcoin [tipo]");
+        correctUse(sender, "/" + label + " loadcoins/unloadcoins");
     }
 }

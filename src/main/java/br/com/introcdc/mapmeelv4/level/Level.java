@@ -243,7 +243,7 @@ public class Level {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Level.currentLevel = null;
+                Level.currentLevel = Level.this;
                 CoinEvents.coins = 0;
                 CoinEvents.redCoins = 0;
                 CoinEvents.blueCoins = 0;
@@ -252,13 +252,13 @@ public class Level {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            MapUtils.playSound(player, getBackgroundMapSound(), SoundCategory.AMBIENT);
                             loadCooldown = false;
-                            MapUtils.sendTitle(player, "§a§l" + getName(), "§f§oSeja bem-vindo ao level §a§o" + getWarp().toString().replace("L_", ""), 20, 40, 20);
+                            welcome(player);
                         }
                     }.runTaskLater(MapUtils.getPlugin(), 10);
                 }
                 getObjectives().values().forEach(levelObjective -> {
+                    levelObjective.onLoadLevel();
                     levelObjective.setCanGetStar(levelObjective.canGetStarSettings());
                     if (levelObjective.isAutoSpawn()) {
                         levelObjective.spawnStar(false, null);
@@ -266,6 +266,11 @@ public class Level {
                 });
             }
         }.runTaskLater(MapUtils.getPlugin(), 20);
+    }
+
+    public void welcome(Player player) {
+        MapUtils.sendTitle(player, "§a§l" + getName(), "§f§oSeja bem-vindo ao level §a§o" + getWarp().toString().replace("L_", ""), 20, 40, 20);
+        MapUtils.playSound(player, getBackgroundMapSound(), SoundCategory.AMBIENT);
     }
 
     public void onLoad() {
@@ -441,6 +446,7 @@ public class Level {
                                 @Override
                                 public void run() {
                                     if (unload) {
+                                        Level.currentLevel = null;
                                         for (Player player : Bukkit.getOnlinePlayers()) {
                                             MapUtils.playSound(player, MapSound.CASTLE_MUSIC, SoundCategory.AMBIENT);
                                         }

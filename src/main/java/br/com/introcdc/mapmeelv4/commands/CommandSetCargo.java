@@ -28,7 +28,7 @@ public class CommandSetCargo extends CommandBase {
                 return;
             }
         }
-        connectUse(sender, label + " [nick] [convidado/admin]");
+        correctUse(sender, label + " [nick] [convidado/admin]");
     }
 
 }

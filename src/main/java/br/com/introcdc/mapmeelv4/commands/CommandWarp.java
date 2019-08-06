@@ -46,7 +46,7 @@ public class CommandWarp extends CommandBase {
                 sender.sendMessage(MapUtils.PREFIX + "§cWarp não encontrada!");
             }
         }
-        connectUse(sender, label + " [warp]");
+        correctUse(sender, label + " [warp]");
         TextComponent warps = new TextComponent(MapUtils.PREFIX + "§fWarps: §a");
         for (Warp warp : Warp.values()) {
             TextComponent warpp = new TextComponent("§a" + warp.getName() + "§f, ");

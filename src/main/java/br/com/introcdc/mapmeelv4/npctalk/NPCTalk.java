@@ -239,7 +239,7 @@ public class NPCTalk {
         new NPCTalk("DiegoSVP", new Location(Bukkit.getWorld("world"), -94, 55, -278, -50, -1), Arrays.asList(
                 "Mas olha só quem apareceu!", "Oi meu chapa!", "Eu estava dando uma volta na floresta e acabei me perdendo...",
                 "Ah sim...", "Uma pergunta...", "Como você fez para vir até aqui?", "Estou perdido e sem saber como onde eu vou!",
-                "Até que encontrei essa caverna quetinha para me aquecer...", "Até que na coindidencia", "POU!",
+                "Até que encontrei essa caverna quentinha para me aquecer...", "Até que na coindidencia", "POU!",
                 "Encontrei uma fase de uma estrela secreta!", "Então basicamente agora é com você!",
                 "Minha época de encontrar estrelas escondidas acabou...",
                 "Agora só posto toda a minha experiência no meu fórum...",

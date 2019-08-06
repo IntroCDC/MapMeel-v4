@@ -5,6 +5,7 @@ package br.com.introcdc.mapmeelv4.listeners.music;
 
 import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 import br.com.introcdc.mapmeelv4.level.Level;
+import br.com.introcdc.mapmeelv4.listeners.join.JoinEvents;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.timer.UpdateType;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
@@ -37,7 +38,7 @@ public class MusicUpdaterEvents implements Listener {
 
                 if (player.getWorld().getName().equalsIgnoreCase("world")) {
 
-                    if (Level.currentLevel != null) {
+                    if (Level.currentLevel != null || JoinEvents.buttonPlay.contains(player.getUniqueId())) {
                         continue;
                     }
 

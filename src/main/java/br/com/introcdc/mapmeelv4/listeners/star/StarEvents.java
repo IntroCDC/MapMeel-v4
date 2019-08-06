@@ -33,6 +33,8 @@ public class StarEvents implements Listener {
 
                         event.getItem().remove();
 
+                        LevelObjective objective = Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get(event.getItem().getItemStack().getItemMeta().getDisplayName());
+
                         MusicUpdaterEvents.musicPause = false;
                         for (Player player : Bukkit.getOnlinePlayers()) {
                             player.setGameMode(GameMode.SPECTATOR);
@@ -40,10 +42,10 @@ public class StarEvents implements Listener {
 
                         if (event.getItem().getItemStack().getItemMeta().getDisplayName().equalsIgnoreCase("Mate o Chefão")) {
 
-                            LevelObjective objective = Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get("Mate o Chefão");
+                            LevelObjective bossObjective = Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get("Mate o Chefão");
 
-                            if (!objective.isFinished()) {
-                                objective.setFinished(true);
+                            if (!bossObjective.isFinished()) {
+                                bossObjective.setFinished(true);
                                 Level.stars++;
                             }
 

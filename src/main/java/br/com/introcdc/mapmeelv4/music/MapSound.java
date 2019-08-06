@@ -19,6 +19,7 @@ public enum MapSound {
     EFFECT_JOINING("mapmeelv4.effect.joining", 1),
     EFFECT_LETSGO("mapmeelv4.effect.lets_go", 1),
 
+    MUSIC_THEME("mapmeelv4.music.theme", 207),
     CASTLE_MUSIC("mapmeelv4.music.castle_music", 117),
     MUSIC_ONE("mapmeelv4.music.music_one", 138),
     MUSIC_TWO("mapmeelv4.music.music_two", 165),
@@ -35,6 +36,8 @@ public enum MapSound {
     MUSIC_THIRTEEE("mapmeelv4.music.music_thirteen", 171),
 
     MUSIC_CUSTOM_DARK_FOREST("mapmeelv4.music.custom_dark_forest", 127),
+    MUSIC_BAD("mapmeelv4.music.music_bad", 13),
+    MUSIC_GOOD("mapmeelv4.music.music_good", 55),
 
     STARTING("mapmeelv4.music.starting", 1),
     MUSIC_END_ONE("mapmeelv4.music.end_one", 1),

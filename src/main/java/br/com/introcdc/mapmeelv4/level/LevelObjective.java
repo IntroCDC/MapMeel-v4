@@ -133,6 +133,9 @@ public class LevelObjective {
     public void ifGetStar() {
     }
 
+    public void onLoadLevel() {
+    }
+
     private void spawn(Location location) {
         if (location == null) {
             location = this.location;

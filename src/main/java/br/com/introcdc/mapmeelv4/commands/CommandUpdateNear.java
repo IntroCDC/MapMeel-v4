@@ -38,6 +38,6 @@ public class CommandUpdateNear extends CommandBase {
             player.sendMessage(PREFIX + "§aAtualizando... (" + blocks + ")");
             return;
         }
-        connectUse(sender, "/" + label + " [número]");
+        correctUse(sender, "/" + label + " [número]");
     }
 }

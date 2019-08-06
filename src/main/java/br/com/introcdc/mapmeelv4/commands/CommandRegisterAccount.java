@@ -22,7 +22,7 @@ public class CommandRegisterAccount extends CommandBase {
             }
             return;
         }
-        connectUse(sender, label + " [Nick]");
+        correctUse(sender, label + " [Nick]");
     }
 
 }

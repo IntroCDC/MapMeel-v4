@@ -60,6 +60,6 @@ public class CommandLevelInfo extends CommandBase {
 
             return;
         }
-        connectUse(sender, "/" + label + " [Level]");
+        correctUse(sender, "/" + label + " [Level]");
     }
 }

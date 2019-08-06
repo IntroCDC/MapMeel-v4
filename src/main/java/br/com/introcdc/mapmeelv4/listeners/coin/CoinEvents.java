@@ -69,6 +69,15 @@ public class CoinEvents implements Listener {
 
                         MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS, 1);
                     }
+
+                    if (level != null) {
+                        if (redCoins == 8) {
+                            if (level.getObjectives().containsKey("Pegue 8 Corações")) {
+                                level.getObjectives().get("Pegue 8 Corações").spawnStar(true, null);
+                            }
+                        }
+                    }
+
                 }
                 if (coinType.equals(CoinType.X5)) {
                     blueCoins++;
@@ -76,14 +85,6 @@ public class CoinEvents implements Listener {
                         MapUtils.sendTitle(player, "§f", "§9§l" + blueCoins, 0, 20, 10);
 
                         MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS);
-                    }
-                }
-
-                if (level != null) {
-                    if (redCoins == 8) {
-                        if (level.getObjectives().containsKey("Pegue 8 Corações")) {
-                            level.getObjectives().get("Pegue 8 Corações").spawnStar(true, null);
-                        }
                     }
                 }
             }

@@ -20,7 +20,7 @@ public class LevelUpdaterEvents implements Listener {
             Bukkit.getOnlinePlayers().forEach(player -> {
                 if (Level.getLevel(player.getWorld().getName()) != null) {
                     try {
-                        MapUtils.sendActionBar(player, "Moedas: §a" + CoinEvents.coins);
+                        MapUtils.sendActionBar(player, "Total de Moedas: §b§l" + CoinEvents.coins + " §f- Moedas: §e" + (CoinEvents.coins - ((CoinEvents.redCoins * 2) + (CoinEvents.blueCoins * 5))) + " §f- Corações: §c" + CoinEvents.redCoins + " §f- Cubos: §9" + CoinEvents.blueCoins);
                     } catch (Exception ignored) {
                     }
                 }
