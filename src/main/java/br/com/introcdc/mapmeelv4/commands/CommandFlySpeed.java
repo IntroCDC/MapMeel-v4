@@ -22,7 +22,7 @@ public class CommandFlySpeed extends CommandBase {
         }
         Player player = (Player) sender;
         if (args.length > 0) {
-            player.setFlySpeed(Float.valueOf(args[0]));
+            player.setFlySpeed(Float.parseFloat(args[0]) / 100);
             player.sendMessage(PREFIX + "§aVelocidade de voo alterada!");
             return;
         }

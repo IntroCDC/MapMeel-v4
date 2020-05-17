@@ -7,6 +7,7 @@ import br.com.introcdc.mapmeelv4.profile.MapProfile;
 import br.com.introcdc.mapmeelv4.timer.UpdateType;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,25 +19,38 @@ public class ScoreManager implements Listener {
         if (profile.getPlayer() == null) {
             return;
         }
-        String header = "\n§5§l§oMap§f§l§oMeel\n\n§a§l" + (profile.getPlayer().getWorld().getName().equalsIgnoreCase("world") ? "Mundo Normal\n§b§l§oLobby" : profile.getPlayer().getWorld().getName() + "\n§b§l§o" + (Level.getLevel(profile.getPlayer().getWorld().getName()) != null ? Level.getLevel(profile.getPlayer().getWorld().getName()).getName() : "Não Localizado"))
-                + "\n\n§e§l" + Level.stars + "§f estrelas\n§0.";
+        Player player = profile.getPlayer();
+        World world = player.getWorld();
+
+        String header = "\n§5§l§oMap§f§l§oMeel\n" +
+                "\n" +
+                "§a§l" + (world.getName().equalsIgnoreCase("world") ? "Mundo Normal\n" + "§b§l§oLobby" :
+
+                (Level.getLevel(world.getName()) != null ?
+                        Level.getLevel(world.getName()).getWarp().getName() :
+                        world.getName()) + "\n" + "§b§l§o" + (Level.getLevel(world.getName()) != null ? Level.getLevel(world.getName()).getName() : "Não Localizado"))
+
+                + "\n" +
+                "\n" +
+                "§e§l" + Level.stars + "§f estrelas\n ";
         StringBuilder footer = new StringBuilder();
 
-        if (profile.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
-            footer = new StringBuilder("\n§f§l§oVocê está no Lobby!\n§0.");
+        if (world.getName().equalsIgnoreCase("world")) {
+            footer = new StringBuilder("\n§f§l§oVocê está no Lobby!\n ");
         } else {
-            if (Level.getLevel(profile.getPlayer().getWorld().getName()) != null) {
+            if (Level.getLevel(world.getName()) != null) {
                 footer = new StringBuilder("\n§l§oObjetivos:\n\n");
-                for (String key : Level.getLevel(profile.getPlayer().getWorld().getName()).getObjectives().keySet()) {
-                    LevelObjective levelObjective = Level.getLevel(profile.getPlayer().getWorld().getName()).getObjectives().get(key);
-                    footer.append("§f§l").append(levelObjective.getStringObjective()).append(": ").append(levelObjective.isFinished() ? "§a§oFinalizado" : "§cNão Finalizado").append("\n§0.");
+                for (String key : Level.getLevel(world.getName()).getObjectives().keySet()) {
+                    LevelObjective levelObjective = Level.getLevel(world.getName()).getObjectives().get(key);
+                    footer.append("§f§l").append(levelObjective.getStringObjective()).append(": ").append(levelObjective.isFinished() ? "§a§oFinalizado" : "§cNão Finalizado").append("\n");
                 }
+                footer.append(" ");
             } else {
-                footer = new StringBuilder("\n§cLevel não localizado!\n§0.");
+                footer = new StringBuilder("\n§cLevel não localizado!\n ");
             }
         }
 
-        MapUtils.sendTablist(profile.getPlayer(), header, footer.toString());
+        MapUtils.sendTablist(player, header, footer.toString());
     }
 
     @EventHandler

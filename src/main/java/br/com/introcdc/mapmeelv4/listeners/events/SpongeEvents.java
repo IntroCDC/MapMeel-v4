@@ -3,6 +3,7 @@ package br.com.introcdc.mapmeelv4.listeners.events;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 08:33
  */
 
+import br.com.introcdc.mapmeelv4.MapMain;
 import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 import br.com.introcdc.mapmeelv4.timer.UpdateType;
 import org.bukkit.Bukkit;
@@ -30,7 +31,9 @@ public class SpongeEvents implements Listener {
         if (event.getType() == UpdateType.SECONDS && event.getTimes() == 1) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.isOnGround() && hasFallProtection(player)) {
-                    removeFallProtection(player);
+                    Bukkit.getScheduler().runTask(MapMain.getPlugin(), () -> {
+                        //removeFallProtection(player);
+                    });
                 }
             }
         }
@@ -42,9 +45,10 @@ public class SpongeEvents implements Listener {
             Player player = (Player) event.getEntity();
 
             if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
+                event.setCancelled(true);
                 if (hasFallProtection(player)) {
                     event.setCancelled(true);
-                    removeFallProtection(player);
+                    // removeFallProtection(player);
                 }
                 if (hasSpongeUnderneath(player.getLocation())) {
                     event.setCancelled(true);

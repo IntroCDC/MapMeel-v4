@@ -175,6 +175,7 @@ public class Level {
     public static PotionEffect blindness = new PotionEffect(PotionEffectType.BLINDNESS, 50, 100);
 
     public void joinPortal() {
+        Level.currentLevel = this;
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.setFlySpeed(0.0f);
             player.setGameMode(GameMode.SPECTATOR);
@@ -310,7 +311,7 @@ public class Level {
         }
     }
 
-    public void unloadLevel(LevelObjective objective) {
+    public void unloadLevel(LevelObjective objective, String whoFinished) {
         boolean already = false;
 
         boolean unload = objective == null || objective.isUnloadLevel();
@@ -325,7 +326,7 @@ public class Level {
             if (objective.canGetStar()) {
 
                 if (!objective.isFinished()) {
-                    objective.setFinished(true);
+                    objective.setFinished(true, whoFinished);
                     Level.stars++;
                 } else {
                     already = true;
@@ -489,6 +490,7 @@ public class Level {
                     jsonElement.getAsJsonObject().addProperty(levelObjective.stringObjective, false);
                 }
                 jsonElement.getAsJsonObject().addProperty(levelObjective.stringObjective, levelObjective.isFinished());
+                jsonElement.getAsJsonObject().addProperty(levelObjective.stringObjective + ".who", levelObjective.getWhoFinished());
             }
             PrintWriter writer = new PrintWriter(levelFile);
             writer.println(jsonElement.toString());

@@ -22,7 +22,7 @@ public class CommandResetAll extends CommandBase {
         sender.sendMessage(PREFIX + "Resetando objetivos...");
         for (Level level : Level.getLeveis().values()) {
             for (LevelObjective levelObjective : level.getObjectives().values()) {
-                levelObjective.setFinished(false);
+                levelObjective.setFinished(false, null);
             }
             level.save();
         }
@@ -33,7 +33,7 @@ public class CommandResetAll extends CommandBase {
         }
 
         if (args.length > 0) {
-            Level.stars = Integer.valueOf(args[0]);
+            Level.stars = Integer.parseInt(args[0]);
         }
 
         sender.sendMessage(PREFIX + "Objetivos resetados!");

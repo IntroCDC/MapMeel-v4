@@ -20,6 +20,7 @@ public class LevelObjective {
     public String stringObjective;
     public Location location;
     public boolean finished;
+    private String whoFinished;
     public Level level;
     private Item item;
     private Vector nullVector = new Vector(0, 1, 0);
@@ -57,11 +58,21 @@ public class LevelObjective {
         return stringObjective;
     }
 
+    public String getWhoFinished() {
+        return whoFinished;
+    }
+
     public boolean isFinished() {
         return finished;
     }
 
-    public void setFinished(boolean finished) {
+    public void setFinished(boolean finished, String whoFinished) {
+        if (!this.finished && whoFinished != null) {
+            this.whoFinished = whoFinished;
+        }
+        if (this.finished && this.whoFinished != null) {
+            this.whoFinished = null;
+        }
         this.finished = finished;
     }
 
@@ -148,6 +159,7 @@ public class LevelObjective {
         item.setGravity(true);
         item.setInvulnerable(true);
         item.setVelocity(nullVector);
+        item.setPickupDelay(5 * 20);
 
         this.item = item;
     }

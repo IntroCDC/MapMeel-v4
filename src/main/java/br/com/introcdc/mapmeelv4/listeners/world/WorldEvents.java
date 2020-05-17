@@ -3,6 +3,8 @@ package br.com.introcdc.mapmeelv4.listeners.world;
  * Written by IntroCDC, Bruno Coêlho at 26/08/2017 - 22:36
  */
 
+import br.com.introcdc.mapmeelv4.commands.CommandObjectives;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,18 +26,22 @@ public class WorldEvents implements Listener {
 
     @EventHandler
     public void onWeather(WorldLoadEvent event) {
-        if (event.getWorld().hasStorm()) {
-            event.getWorld().setStorm(false);
+        World world = event.getWorld();
+
+        if (world.hasStorm()) {
+            world.setStorm(false);
         }
-        event.getWorld().setWeatherDuration(999999999);
+        world.setWeatherDuration(999999999);
     }
 
     @EventHandler
     public void onWeather(WorldSaveEvent event) {
-        if (event.getWorld().hasStorm()) {
-            event.getWorld().setStorm(false);
+        World world = event.getWorld();
+
+        if (world.hasStorm()) {
+            world.setStorm(false);
         }
-        event.getWorld().setWeatherDuration(999999999);
+        world.setWeatherDuration(999999999);
     }
 
     @EventHandler
@@ -52,7 +58,7 @@ public class WorldEvents implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        if (event.getInventory().getName() != null && event.getInventory().getName().equalsIgnoreCase("Objetivos")) {
+        if (event.getInventory().getHolder() != null & event.getInventory().getHolder() instanceof CommandObjectives.ObjectivesHolder) {
             event.setCancelled(true);
         }
     }

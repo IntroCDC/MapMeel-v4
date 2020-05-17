@@ -65,9 +65,9 @@ public class MapMain extends JavaPlugin {
                 }
             }
         }
+        MapClassGetter.loadCommands("br.com.introcdc.mapmeelv4.commands", MapMain.class);
         MapClassGetter.loadListeners("br.com.introcdc.mapmeelv4.histories", MapMain.class);
         MapClassGetter.loadListeners("br.com.introcdc.mapmeelv4.listeners", MapMain.class);
-        MapClassGetter.loadCommands("br.com.introcdc.mapmeelv4.commands", MapMain.class);
         Bukkit.getPluginManager().registerEvents(new ScoreManager(), MapMain.getPlugin());
         UpdateEventStarter.startAll();
         Level.loadLeveis();
@@ -88,7 +88,7 @@ public class MapMain extends JavaPlugin {
             }
         }.runTaskLater(getPlugin(), 10);
 
-        new BukkitRunnable() {
+        /*new BukkitRunnable() {
             int times = 0;
 
             @Override
@@ -120,7 +120,7 @@ public class MapMain extends JavaPlugin {
                     }
                 }
             }
-        };
+        };*/
     }
 
 }

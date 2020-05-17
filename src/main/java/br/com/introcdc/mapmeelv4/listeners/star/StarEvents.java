@@ -45,7 +45,7 @@ public class StarEvents implements Listener {
                             LevelObjective bossObjective = Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get("Mate o Chefão");
 
                             if (!bossObjective.isFinished()) {
-                                bossObjective.setFinished(true);
+                                bossObjective.setFinished(true, event.getPlayer().getName());
                                 Level.stars++;
                             }
 
@@ -65,7 +65,7 @@ public class StarEvents implements Listener {
                         } else {
                             Level.getLevel(event.getPlayer().getWorld().getName())
                                     .unloadLevel(
-                                            Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get(event.getItem().getItemStack().getItemMeta().getDisplayName())
+                                            Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get(event.getItem().getItemStack().getItemMeta().getDisplayName()), event.getPlayer().getName()
                                     );
                         }
 

@@ -24,6 +24,9 @@ public class PlayerDeathEvents implements Listener {
                 event.setCancelled(true);
                 return;
             }
+            if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL) || event.isCancelled()) {
+                return;
+            }
 
             if (Level.getLevel(player.getWorld().getName()) != null) {
                 if (player.getHealth() - event.getDamage() <= 0 && !event.isCancelled()) {
@@ -31,10 +34,10 @@ public class PlayerDeathEvents implements Listener {
                     player.setHealth(20);
 
                     for (Player player1 : Bukkit.getOnlinePlayers()) {
-                        MapUtils.sendTitle(player1, "§c§lVocê morreu", "§f§oIndo para o Lobby...", 0, 40, 20);
+                        MapUtils.sendTitle(player1, "§c§lVocê morreu", "§f§o" + event.getEntity().getName() + " morreu... Voltando para o Lobby...", 0, 40, 20);
                     }
 
-                    Level.getLevel(player.getWorld().getName()).unloadLevel(null);
+                    Level.getLevel(player.getWorld().getName()).unloadLevel(null, null);
                 }
             } else {
                 if (player.getHealth() - event.getDamage() <= 0 && !event.isCancelled()) {

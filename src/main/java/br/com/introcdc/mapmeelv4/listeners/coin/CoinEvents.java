@@ -39,11 +39,8 @@ public class CoinEvents implements Listener {
                 int air = coinType.getCoins() * 100;
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    if (player.getRemainingAir() + air >= 300) {
-                        player.setRemainingAir(300);
-                    } else {
-                        player.setRemainingAir(player.getRemainingAir() + air);
-                    }
+                    player.setRemainingAir(Math.min(player.getRemainingAir() + air, 300));
+                    player.setHealth(Math.min(player.getHealth() + (coinType.getCoins() * 2), 20));
                 }
 
                 Level level = Level.getLevel(event.getPlayer().getWorld().getName());

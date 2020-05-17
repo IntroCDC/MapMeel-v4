@@ -9,6 +9,7 @@ import br.com.introcdc.mapmeelv4.listeners.coin.CoinEvents;
 import br.com.introcdc.mapmeelv4.timer.UpdateType;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -18,7 +19,9 @@ public class LevelUpdaterEvents implements Listener {
     public void onUpdate(UpdateEvent event) {
         if (event.getType().equals(UpdateType.SECONDS) && event.getTimes() == 1) {
             Bukkit.getOnlinePlayers().forEach(player -> {
-                if (Level.getLevel(player.getWorld().getName()) != null) {
+                World world = player.getWorld();
+
+                if (Level.getLevel(world.getName()) != null) {
                     try {
                         MapUtils.sendActionBar(player, "Total de Moedas: §b§l" + CoinEvents.coins + " §f- Moedas: §e" + (CoinEvents.coins - ((CoinEvents.redCoins * 2) + (CoinEvents.blueCoins * 5))) + " §f- Corações: §c" + CoinEvents.redCoins + " §f- Cubos: §9" + CoinEvents.blueCoins);
                     } catch (Exception ignored) {

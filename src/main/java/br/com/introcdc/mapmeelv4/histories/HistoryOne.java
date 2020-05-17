@@ -19,7 +19,7 @@ public class HistoryOne implements Listener {
     public static void start(Player player) {
         MapProfile profile = MapUtils.getProfile(player.getName());
         if (profile.getAward("level") <= 1) {
-            profile.setAward("level", 2);
+            profile.setAward("level", 1);
 
             Location DEFAULT = new Location(Bukkit.getWorld("world"), 0, 80, 0);
             for (int x = -5; x <= 5; x++) {

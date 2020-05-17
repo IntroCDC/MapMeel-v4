@@ -10,8 +10,10 @@ import br.com.introcdc.mapmeelv4.listeners.music.MusicUpdaterEvents;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -50,22 +52,27 @@ public class FinalLevelEvents implements Listener {
                         Location location = new Location(Bukkit.getWorld("FINAL-BOSS"), 5000, 102, 5000);
 
                         location.getWorld().setDifficulty(Difficulty.NORMAL);
-                        location.getWorld().spawnEntity(location.clone().add(0, 30, 0), EntityType.WITHER);
 
                         for (Player player : Bukkit.getOnlinePlayers()) {
                             player.teleport(location);
                             MapUtils.playSound(player, MapSound.MUSIC_TWELVE, SoundCategory.AMBIENT);
 
                             // Temp Itens
+                            player.getInventory().addItem(new ItemStack(Material.DIAMOND_SWORD));
                             player.getInventory().addItem(new ItemStack(Material.BOW));
                             player.getInventory().addItem(new ItemStack(Material.ARROW, 64));
-                            player.getInventory().addItem(new ItemStack(Material.DIAMOND_SWORD));
+                            player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 64));
                             player.getInventory().addItem(new ItemStack(Material.DIAMOND_HELMET));
                             player.getInventory().addItem(new ItemStack(Material.DIAMOND_CHESTPLATE));
                             player.getInventory().addItem(new ItemStack(Material.DIAMOND_LEGGINGS));
                             player.getInventory().addItem(new ItemStack(Material.DIAMOND_BOOTS));
 
                         }
+
+                        for (Entity entity : location.getWorld().getEntitiesByClass(Wither.class)) {
+                            entity.remove();
+                        }
+                        location.getWorld().spawnEntity(location.clone().add(0, 30, 0), EntityType.WITHER);
 
                     }
                 }.runTaskLater(MapMain.getPlugin(), 30);

@@ -465,10 +465,6 @@ public class MapUtils {
         return loc;
     }
 
-    public static void sendActionBar(Player player, String message) {
-        player.sendActionBar(message);
-    }
-
     public static void sendPlayer(Player player, String server) {
         sendPluginMessage(player, "Connect", server);
     }
@@ -491,12 +487,16 @@ public class MapUtils {
         player.setPlayerListHeaderFooter(header, footer);
     }
 
+    public static void sendActionBar(Player player, String message) {
+        player.sendActionBar(message);
+    }
+
     public static void sendTitle(Player player, String title, String subtitle, int fadeIn, int duration, int fadeOut) {
         player.sendTitle(title, subtitle, fadeIn, duration, fadeOut);
     }
 
     public static String placeZero(long number) {
-        return number >= 10 ? Long.toString(number) : String.format("0%s", Long.toString(number));
+        return number >= 10 ? Long.toString(number) : String.format("0%s", number);
     }
 
     public static String sToTime(long totalTime) {

@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class CommandObjectives extends CommandBase {
 
     @Override
     public void onExecute(CommandSender sender, String label, String[] args) throws Exception {
-        Inventory inventory = Bukkit.createInventory(null, 54, "Objetivos");
+        Inventory inventory = Bukkit.createInventory(new ObjectivesHolder(getPlayerSender(sender).getInventory()), 54, "Objetivos");
 
         for (String[] levelName : new String[][]{
                 new String[]{"1A", "2"}, new String[]{"1B", "3"}, new String[]{"1C", "5"}, new String[]{"1D", "6"},
@@ -50,10 +51,24 @@ public class CommandObjectives extends CommandBase {
                 lore.add("§f§o" + levelObjective.getStringObjective() + ": " + (levelObjective.isFinished() ? "§aFinalizado" : "§cNão Finalizado!"));
             }
 
-            inventory.setItem(Integer.valueOf(levelName[1]), itemBuilder.setLore(lore).toItem());
+            inventory.setItem(Integer.parseInt(levelName[1]), itemBuilder.setLore(lore).toItem());
         }
 
         getPlayerSender(sender).openInventory(inventory);
+    }
+
+    public static class ObjectivesHolder implements InventoryHolder {
+
+        private Inventory inventory;
+
+        public ObjectivesHolder(Inventory inventory) {
+            this.inventory = inventory;
+        }
+
+        @Override
+        public Inventory getInventory() {
+            return inventory;
+        }
     }
 
 }

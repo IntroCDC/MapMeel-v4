@@ -39,9 +39,9 @@ public class JoinEvents implements Listener {
         event.setJoinMessage(null);
         MapUtils.getProfile(event.getPlayer().getName());
         event.getPlayer().setOp(MapUtils.getProfile(event.getPlayer().getName()).getCargo().equals(Cargo.ADMIN));
-        event.getPlayer().teleport(Warp.LOBBY.getLocation());
         event.getPlayer().setGameMode(GameMode.ADVENTURE);
         event.getPlayer().getActivePotionEffects().forEach(effect -> event.getPlayer().removePotionEffect(effect.getType()));
+        event.getPlayer().teleport(Warp.LOBBY.getLocation());
 
         MapProfile mapProfile = new MapProfile(event.getPlayer().getName());
         if (!mapProfile.existsProfile()) {
@@ -52,8 +52,8 @@ public class JoinEvents implements Listener {
             @Override
             public void run() {
                 if (!buttonPlay.contains(event.getPlayer().getUniqueId())) {
-                    buttonPlay.add(event.getPlayer().getUniqueId());
                     event.getPlayer().teleport(new Location(Bukkit.getWorld("world"), -109.0, 47, 235.5, -90, 0));
+                    buttonPlay.add(event.getPlayer().getUniqueId());
                     event.getPlayer().setResourcePack("http://local.introbase64.com.br:8080/MapMeelv4Texture.zip");
                 }
             }
@@ -95,7 +95,7 @@ public class JoinEvents implements Listener {
 
         if (Bukkit.getOnlinePlayers().size() == 1) {
             if (Level.currentLevel != null) {
-                Level.currentLevel.unloadLevel(null);
+                Level.currentLevel.unloadLevel(null, null);
             }
         }
 

@@ -255,10 +255,12 @@ public class FinalHistory implements Listener {
             }
         }.runTaskTimer(MapUtils.getPlugin(), 5, 2);
 
+        String playerName = ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName();
+
         NPC sombraOne = MapUtils.createNPC(EntityType.PLAYER, "SombraXD", new Location(Bukkit.getWorld("world"), -36.5, 49, -17.5, -229, 0));
         NPC sombraTwo = MapUtils.createNPC(EntityType.PLAYER, "SombraXD", new Location(Bukkit.getWorld("world"), -36.5, 49, -25.5, -313, 0));
 
-        NPC playerViewer = MapUtils.createNPC(EntityType.PLAYER, ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName(), new Location(Bukkit.getWorld("world"), -40.5, 49, -21.5, 269, 0));
+        NPC playerViewer = MapUtils.createNPC(EntityType.PLAYER, playerName, new Location(Bukkit.getWorld("world"), -40.5, 49, -21.5, 269, 0));
 
         new BukkitRunnable() {
 
@@ -292,6 +294,7 @@ public class FinalHistory implements Listener {
                     sombraTwo.destroy();
                     playerViewer.destroy();
                     this.cancel();
+                    return;
                 }
 
                 if (times < 83) {
@@ -307,92 +310,106 @@ public class FinalHistory implements Listener {
                     meelEntity.setInvulnerable(true);
                 }
                 if (times == 149) {
-                    meel.teleport(meel.getStoredLocation().clone().add(0, -1, 0), PlayerTeleportEvent.TeleportCause.PLUGIN);
-
                     meelEntity.setGravity(true);
-
                 }
 
                 if (times == 215) {
+                    meel.faceLocation(playerViewer.getStoredLocation());
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: " + ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName() + "!");
+                        player.sendMessage("§d§liMeel§f: " + playerName + "!");
                     }
                 }
+
                 if (times == 230) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: O poder das estrelas me salvaram do castelo!");
+                        player.sendMessage("§d§liMeel§f: O poder das estrelas me salvaram do wither!");
                     }
                 }
+
                 if (times == 250) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Eu pensava que ia ficar presa no meu próprio castelo para sempre...");
                     }
                 }
+
                 if (times == 270) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Mas o rumo dessa história mudou!");
                     }
                 }
+
                 if (times == 290) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: Graças a você, obrigada " + ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName() + "...");
+                        player.sendMessage("§d§liMeel§f: Graças a você, obrigada " + playerName + "...");
                     }
                 }
+
                 if (times == 310) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: Eu adimiro a sua caminhada até aqui");
+                        player.sendMessage("§d§liMeel§f: Eu admiro a sua caminhada até aqui!");
                     }
                 }
+
                 if (times == 310) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: Mesmo estando presa nas paredes do castelo");
+                        player.sendMessage("§d§liMeel§f: Mesmo estando presa nas paredes do castelo...");
                     }
                 }
+
                 if (times == 330) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Eu vim te observando...");
                     }
                 }
+
                 if (times == 350) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: É lindo saber que mesmo depois de tantos erros");
+                        player.sendMessage("§d§liMeel§f: É lindo saber que mesmo depois de tantos erros,");
                     }
                 }
+
                 if (times == 370) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Você continuou de pé até chegar ao seu destino...");
                     }
                 }
+
                 if (times == 390) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Muito obrigada mesmo com todos os seus erros, você continuou de pé até me salvar...");
                     }
                 }
+
                 if (times == 410) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: Precisamos fazer alguma coisa para agradecer...");
+                        player.sendMessage("§d§liMeel§f: Precisamos fazer alguma coisa para lhe agradecer...");
                     }
                 }
+
                 if (times == 420) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: Já sei!");
+                        player.sendMessage("§d§liMeel§f: Já sei! Sombras!");
                     }
                     meel.faceLocation(sombraOne.getStoredLocation());
                 }
+
                 if (times == 430) {
                     meel.faceLocation(sombraTwo.getStoredLocation());
                 }
+
                 if (times == 440) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: Vamos fazer um bolo delicioso");
+                        player.sendMessage("§d§liMeel§f: Vamos fazer um bolo delicioso!");
                     }
                     meel.faceLocation(playerViewer.getStoredLocation());
                 }
+
                 if (times == 450) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: Para " + ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName() + "...");
+                        player.sendMessage("§d§liMeel§f: Para " + playerName + "...");
                     }
                 }
+
                 if (times == 460) {
                     meel.getNavigator().setTarget(new Location(Bukkit.getWorld("world"), -22, 53, -21, -90, 1));
                     sombraOne.getNavigator().setTarget(new Location(Bukkit.getWorld("world"), -21, 53, -16, -90, 0));
@@ -400,13 +417,13 @@ public class FinalHistory implements Listener {
 
                     playerViewer.faceLocation(((Player) Bukkit.getOnlinePlayers().toArray()[0]).getLocation());
                 }
+
                 if (times == 480) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: " + ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName() + "!");
+                        player.sendMessage("§d§liMeel§f: " + playerName + "!");
                     }
                     playerViewer.getNavigator().setTarget(new Location(Bukkit.getWorld("world"), -23, 53, -19, -92, 0));
                 }
-
 
             }
         }.runTaskTimer(MapMain.getPlugin(), 160, 3);
