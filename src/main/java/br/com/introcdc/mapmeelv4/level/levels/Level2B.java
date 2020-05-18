@@ -18,6 +18,7 @@ public class Level2B extends Level {
         super(
                 "Santa Claus Temple",
                 Material.LIME_STAINED_GLASS_PANE,
+                Material.RED_WOOL,
                 Warp.L_2B,
                 MapSound.MUSIC_NINE,
                 null,

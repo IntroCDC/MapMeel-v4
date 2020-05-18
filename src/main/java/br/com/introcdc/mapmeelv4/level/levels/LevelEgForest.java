@@ -16,6 +16,7 @@ public class LevelEgForest extends Level {
     public LevelEgForest() {
         super("The Forest",
                 Material.GLASS_PANE,
+                Material.OAK_LEAVES,
                 Warp.EG_FOREST,
                 MapSound.MUSIC_SIX,
                 null,

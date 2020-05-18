@@ -4,6 +4,7 @@ package br.com.introcdc.mapmeelv4.level;
  */
 
 import br.com.introcdc.mapmeelv4.MapMain;
+import br.com.introcdc.mapmeelv4.advancement.CustomAdvancement;
 import br.com.introcdc.mapmeelv4.classes.MapClassGetter;
 import br.com.introcdc.mapmeelv4.coin.CoinType;
 import br.com.introcdc.mapmeelv4.coin.MapCoin;
@@ -15,6 +16,7 @@ import br.com.introcdc.mapmeelv4.listeners.finallevel.FinalLevelEvents;
 import br.com.introcdc.mapmeelv4.listeners.music.MusicUpdaterEvents;
 import br.com.introcdc.mapmeelv4.mob.MapMob;
 import br.com.introcdc.mapmeelv4.music.MapSound;
+import br.com.introcdc.mapmeelv4.serjao.SerjaoInteract;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import br.com.introcdc.mapmeelv4.warp.Warp;
 import com.google.gson.JsonElement;
@@ -63,6 +65,7 @@ public class Level {
 
     private String name;
     private Material material;
+    private Material itemStack;
     private Warp warp;
     private MapSound backgroundMapSound;
     private MapSound tempBackgroungMapSound;
@@ -75,15 +78,17 @@ public class Level {
     private File levelFile;
     private JsonElement jsonElement;
 
-    public Level(String name, Material material, Warp warp, MapSound backgroundMapSound, PotionEffect potionEffect, Location portalSpec, LevelObjective[] objectives) {
+    public Level(String name, Material material, Material itemStack, Warp warp, MapSound backgroundMapSound, PotionEffect potionEffect, Location portalSpec, LevelObjective[] objectives) {
         Bukkit.getConsoleSender().sendMessage(MapUtils.PREFIX + "§fRegistrando level §a" + name + "§f...");
         this.name = name;
         this.material = material;
+        this.itemStack = itemStack;
         this.warp = warp;
         this.backgroundMapSound = backgroundMapSound;
         this.potionEffect = potionEffect;
         this.portalSpec = portalSpec;
         this.objectives = new HashMap<>();
+
         for (LevelObjective objective : objectives) {
             this.objectives.put(objective.getStringObjective(), objective);
         }
@@ -91,6 +96,58 @@ public class Level {
         if (!warp.toString().contains("EG_") && !warp.toString().contains("FINAL")) {
             LevelObjective coins = new LevelObjective("Colete 100 Moedas", warp.getLocation(), false, false);
             this.objectives.put(coins.getStringObjective(), coins);
+        }
+
+        String lastObjective = null;
+        int current = 1;
+        for (String keySet : this.objectives.keySet()) {
+            LevelObjective objective = this.objectives.get(keySet);
+
+            String key;
+            String patern;
+            String folder;
+            CustomAdvancement.FrameType frameType;
+            boolean hidden;
+
+            String description;
+            if (warp.getName().contains("EG")) {
+                key = warp.getName();
+                patern = "niveisescondidos/root";
+                folder = "niveisescondidos";
+                frameType = CustomAdvancement.FrameType.CHALLENGE;
+                hidden = true;
+
+                description = name + " | Objetivo único na fase!";
+            } else if (warp.getName().contains("FINAL")) {
+                key = "boss_level";
+                patern = "mapmeel/boss_door";
+                folder = "mapmeel";
+                frameType = CustomAdvancement.FrameType.CHALLENGE;
+                hidden = false;
+
+                description = "Mate o chefão e liberte a Meel!";
+            } else {
+                key = warp.getName().toLowerCase() + objective.getStringObjective().toLowerCase();
+                folder = warp.getName().startsWith("1") ? "level1" : warp.getName().startsWith("2") ? "level2" : warp.getName().startsWith("3") ? "level3" : "level4";
+                patern = lastObjective != null ? folder + "/" + lastObjective : folder + "/root";
+                if (objective.getStringObjective().equalsIgnoreCase("Colete 100 Moedas")) {
+                    frameType = CustomAdvancement.FrameType.CHALLENGE;
+                    hidden = true;
+                } else {
+                    frameType = CustomAdvancement.FrameType.GOAL;
+                    hidden = false;
+                }
+
+                description = warp.getName() + " | " + name + " | Objetivo #" + current + " (" + current + "/" + (current == this.objectives.size() ? this.objectives.size() : (this.objectives.size() - 1)) + ")";
+            }
+
+            key = SerjaoInteract.removeAcents(key.toLowerCase().replace(" ", "").replace(",", "").replace(".", "").replace("-", ""));
+
+            objective.customAdvancement = new CustomAdvancement(key, objective.getStringObjective(),
+                    description, itemStack, patern, folder, hidden, true, frameType).install();
+
+            current++;
+            lastObjective = key;
         }
 
         this.loadedCoins = new ArrayList<>();
@@ -134,6 +191,10 @@ public class Level {
 
     public Material getMaterial() {
         return material;
+    }
+
+    public Material getItemStack() {
+        return itemStack;
     }
 
     public List<MapCoin> getLoadedCoins() {
@@ -328,6 +389,11 @@ public class Level {
                 if (!objective.isFinished()) {
                     objective.setFinished(true, whoFinished);
                     Level.stars++;
+                    if (Level.stars >= 120) {
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            CustomAdvancement.GET_120_STARS.awardPlayer(player);
+                        }
+                    }
                 } else {
                     already = true;
                 }

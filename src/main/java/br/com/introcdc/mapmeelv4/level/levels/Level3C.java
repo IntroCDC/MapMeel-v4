@@ -3,7 +3,6 @@ package br.com.introcdc.mapmeelv4.level.levels;
  * Written by IntroCDC, Bruno Coêlho at 14/05/2018 - 02:51
  */
 
-import br.com.introcdc.mapmeelv4.block.BlockId;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.music.MapSound;
@@ -19,6 +18,7 @@ public class Level3C extends Level {
         super(
                 "The Big Tower",
                 Material.PURPLE_STAINED_GLASS_PANE,
+                Material.SPRUCE_LOG,
                 Warp.L_3C,
                 MapSound.MUSIC_SEVEN,
                 null,

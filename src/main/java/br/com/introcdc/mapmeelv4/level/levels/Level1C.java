@@ -18,6 +18,7 @@ public class Level1C extends Level {
         super(
                 "The Villager Village",
                 Material.MAGENTA_STAINED_GLASS_PANE,
+                Material.OAK_LOG,
                 Warp.L_1C,
                 MapSound.MUSIC_TWO,
                 null,

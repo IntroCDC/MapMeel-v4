@@ -17,6 +17,7 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.Plugin;
 
@@ -52,13 +53,14 @@ public class MapUtils {
     public static String PREFIX = "§5§l§oMap§f§l§oMeel §5§l§o>§f§l§o> §f";
     public static Location FRONTCASTLE = new Location(Bukkit.getWorld("world"), -16, 50, 46, 145, 0);
 
-    public static Random random = new Random();
+    public static Random RANDOM = new Random();
 
     private static DateTimeFormatter TIME_FORMATTER = new DateTimeFormatterBuilder().appendValue(DAY_OF_MONTH, 2).appendLiteral('/').appendValue(MONTH_OF_YEAR, 2).appendLiteral('/').appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD).appendLiteral(" - ").appendValue(HOUR_OF_DAY, 2).appendLiteral(':').appendValue(MINUTE_OF_HOUR, 2).appendLiteral(':').appendValue(SECOND_OF_MINUTE, 2).toFormatter();
 
     public static void broadcastMessage(String message) {
         Bukkit.broadcastMessage(message);
     }
+
 
     public static NPC createNPC(EntityType type, String name, Location location) {
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(type, name);
@@ -311,7 +313,7 @@ public class MapUtils {
         try {
             Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
             FireworkMeta fMeta = firework.getFireworkMeta();
-            FireworkEffect effect = FireworkEffect.builder().withFade(colors[random.nextInt(colors.length)], colors[random.nextInt(colors.length)]).withColor(colors[random.nextInt(colors.length)], colors[random.nextInt(colors.length)]).flicker(true).trail(true).build();
+            FireworkEffect effect = FireworkEffect.builder().withFade(getRandom(colors), getRandom(colors)).withColor(getRandom(colors), getRandom(colors)).flicker(true).trail(true).build();
             fMeta.addEffect(effect);
             firework.setFireworkMeta(fMeta);
             firework.setCustomName("Kindome");
@@ -565,6 +567,45 @@ public class MapUtils {
             return result;
         }
         return "0 segundos";
+    }
+
+    public static MerchantRecipe createRecipe(Material material, int coins) {
+        return createRecipe(new ItemStack(material), 100, new ItemStack(CoinType.X1.getMaterial(), coins));
+    }
+
+    public static MerchantRecipe createRecipe(Material material, int maxUses, ItemStack... ingredients) {
+        return createRecipe(new ItemStack(material), maxUses, ingredients);
+    }
+
+    public static MerchantRecipe createRecipe(ItemStack itemStack, int maxUses, ItemStack... ingredients) {
+        MerchantRecipe merchantRecipe = new MerchantRecipe(itemStack, maxUses);
+        for (ItemStack ingredient : ingredients) {
+            merchantRecipe.addIngredient(ingredient);
+        }
+        return merchantRecipe;
+    }
+
+    /**
+     * Cast Objects
+     */
+    public static <T> T cast(Object o) {
+        return (T) o;
+    }
+
+    public static <T> T getRandom(T[] arrayOfT) {
+        return arrayOfT[RANDOM.nextInt(arrayOfT.length)];
+    }
+
+    public static <T> T getRandom(Set<T> setOfT) {
+        return (T) getRandom(setOfT.toArray());
+    }
+
+    public static <T> T getRandom(List<T> listOfT) {
+        return (T) getRandom(listOfT.toArray());
+    }
+
+    public static <T> T getRandom(Collection<T> collectionOfT) {
+        return (T) getRandom(collectionOfT.toArray());
     }
 
 }

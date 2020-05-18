@@ -3,7 +3,6 @@ package br.com.introcdc.mapmeelv4.level.levels;
  * Written by IntroCDC, Bruno Coêlho at 26/08/2017 - 22:31
  */
 
-import br.com.introcdc.mapmeelv4.block.BlockId;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.music.MapSound;
@@ -12,14 +11,13 @@ import br.com.introcdc.mapmeelv4.warp.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 public class Level1B extends Level {
 
     public Level1B() {
         super("Ghost Village",
                 Material.ORANGE_STAINED_GLASS_PANE,
+                Material.WHITE_STAINED_GLASS,
                 Warp.L_1B,
                 MapSound.MUSIC_SIX,
                 null,

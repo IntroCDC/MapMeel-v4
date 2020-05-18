@@ -5,6 +5,7 @@ package br.com.introcdc.mapmeelv4.listeners.fly;
 
 import br.com.introcdc.mapmeelv4.MapMain;
 import br.com.introcdc.mapmeelv4.listeners.events.SpongeEvents;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,7 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,17 +25,9 @@ public class PlayerFlyEvents implements Listener {
 
     @EventHandler
     public void onGameMode(PlayerGameModeChangeEvent event) {
-        if (event.getNewGameMode().equals(GameMode.SURVIVAL)) {
-            event.setCancelled(true);
+        if (event.getNewGameMode().equals(GameMode.SURVIVAL) || event.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
+            Bukkit.getScheduler().runTask(MapMain.getPlugin(), () -> event.getPlayer().setGameMode(GameMode.ADVENTURE));
         }
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (event.getNewGameMode().equals(GameMode.SURVIVAL)) {
-                    event.getPlayer().setGameMode(GameMode.ADVENTURE);
-                }
-            }
-        }.runTaskLater(MapMain.getPlugin(), 5);
     }
 
     @EventHandler
@@ -61,9 +54,14 @@ public class PlayerFlyEvents implements Listener {
                 event.setCancelled(true);
 
                 SpongeEvents.addFallProtection(player);
-
                 player.setAllowFlight(false);
-                player.setVelocity(player.getLocation().getDirection().multiply(1.5));
+
+                Vector vector = player.getLocation().getDirection();
+                double multiply = 1.1;
+                vector.setX(vector.getX() * multiply);
+                vector.setY(vector.getY() / multiply);
+                vector.setZ(vector.getZ() * multiply);
+                player.setVelocity(vector);
             }
         }
     }

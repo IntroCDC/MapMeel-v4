@@ -16,6 +16,7 @@ public class LevelEgHell extends Level {
     public LevelEgHell() {
         super("The Hell",
                 Material.GLASS_PANE,
+                Material.NETHERRACK,
                 Warp.EG_HELL,
                 MapSound.MUSIC_SEVEN,
                 null,

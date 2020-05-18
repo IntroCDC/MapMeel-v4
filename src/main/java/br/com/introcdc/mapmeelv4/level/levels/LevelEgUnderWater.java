@@ -18,6 +18,7 @@ public class LevelEgUnderWater extends Level {
     public LevelEgUnderWater() {
         super("The Underwater Temple",
                 Material.GLASS_PANE,
+                Material.PRISMARINE_BRICKS,
                 Warp.EG_UNDERWATER,
                 MapSound.MUSIC_THREE,
                 new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 100),

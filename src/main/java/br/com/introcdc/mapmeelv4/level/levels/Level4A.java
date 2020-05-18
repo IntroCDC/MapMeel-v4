@@ -3,7 +3,6 @@ package br.com.introcdc.mapmeelv4.level.levels;
  * Written by IntroCDC, Bruno Coêlho at 14/05/2018 - 02:55
  */
 
-import br.com.introcdc.mapmeelv4.block.BlockId;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.music.MapSound;
@@ -19,6 +18,7 @@ public class Level4A extends Level {
         super(
                 "Oriental Village",
                 Material.BROWN_STAINED_GLASS_PANE,
+                Material.IRON_SWORD,
                 Warp.L_4A,
                 MapSound.MUSIC_SIX,
                 null,

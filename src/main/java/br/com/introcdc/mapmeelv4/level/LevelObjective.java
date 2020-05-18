@@ -3,6 +3,7 @@ package br.com.introcdc.mapmeelv4.level;
  * Written by IntroCDC, Bruno Coêlho at 23/08/2017 - 08:04
  */
 
+import br.com.introcdc.mapmeelv4.advancement.CustomAdvancement;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Bukkit;
@@ -20,6 +21,7 @@ public class LevelObjective {
     public String stringObjective;
     public Location location;
     public boolean finished;
+    public CustomAdvancement customAdvancement;
     private String whoFinished;
     public Level level;
     private Item item;
@@ -74,6 +76,17 @@ public class LevelObjective {
             this.whoFinished = null;
         }
         this.finished = finished;
+        if (customAdvancement != null) {
+            if (finished) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    customAdvancement.awardPlayer(player);
+                }
+            } else {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    customAdvancement.revokePlayer(player);
+                }
+            }
+        }
     }
 
     public boolean isAutoSpawn() {

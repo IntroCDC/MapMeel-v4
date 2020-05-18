@@ -17,6 +17,7 @@ public class LevelEgCave extends Level {
     public LevelEgCave() {
         super("The Cave",
                 Material.GLASS_PANE,
+                Material.COBBLESTONE,
                 Warp.EG_CAVE,
                 MapSound.MUSIC_SEVEN,
                 null,

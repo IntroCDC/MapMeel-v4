@@ -3,7 +3,6 @@ package br.com.introcdc.mapmeelv4.level.levels;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 22:52
  */
 
-import br.com.introcdc.mapmeelv4.block.BlockId;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.music.MapSound;
@@ -21,6 +20,7 @@ public class Level2C extends Level {
         super(
                 "Underwater City",
                 Material.PINK_STAINED_GLASS_PANE,
+                Material.WATER_BUCKET,
                 Warp.L_2C,
                 MapSound.MUSIC_THREE,
                 new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 100),

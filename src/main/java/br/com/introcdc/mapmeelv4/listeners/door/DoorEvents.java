@@ -82,6 +82,8 @@ public class DoorEvents implements Listener {
                             MapUtils.playSound(player, MapSound.EFFECT_BAD_MESSAGE);
                             MapUtils.sendTitle(player, "§4§lPorta Trancada!", "§c§oVocê precisa ter " + littleDoor.getNeedStars() + " estrelas! (falta: " + (littleDoor.getNeedStars() - Level.stars) + ")", 10, 40, 20);
                         }
+                    } else {
+                        littleDoor.onEnterDoor();
                     }
 
                 }

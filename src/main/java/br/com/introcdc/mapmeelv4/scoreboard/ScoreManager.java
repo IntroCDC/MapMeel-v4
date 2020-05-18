@@ -39,10 +39,12 @@ public class ScoreManager implements Listener {
             footer = new StringBuilder("\n§f§l§oVocê está no Lobby!\n ");
         } else {
             if (Level.getLevel(world.getName()) != null) {
-                footer = new StringBuilder("\n§l§oObjetivos:\n\n");
+                footer = new StringBuilder("\n§l§oObjetivos finalizados:\n\n");
                 for (String key : Level.getLevel(world.getName()).getObjectives().keySet()) {
                     LevelObjective levelObjective = Level.getLevel(world.getName()).getObjectives().get(key);
-                    footer.append("§f§l").append(levelObjective.getStringObjective()).append(": ").append(levelObjective.isFinished() ? "§a§oFinalizado" : "§cNão Finalizado").append("\n");
+                    if (levelObjective.isFinished() || Level.getLevel(world.getName()).getObjectives().size() == 1) {
+                        footer.append("§f§l").append(levelObjective.getStringObjective()).append(": §b").append(levelObjective.getWhoFinished()).append("\n");
+                    }
                 }
                 footer.append(" ");
             } else {

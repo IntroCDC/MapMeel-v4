@@ -61,7 +61,7 @@ public class MapHologram implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
-        if (!event.getEntity().equals(getArmorStand())) {
+        if (event.getEntity() != getArmorStand()) {
             return;
         }
         event.setCancelled(true);
@@ -70,7 +70,7 @@ public class MapHologram implements Listener {
 
     @EventHandler
     public void onInteractAtEntity(PlayerInteractAtEntityEvent event) {
-        if (!event.getRightClicked().equals(getArmorStand())) {
+        if (event.getRightClicked() != getArmorStand()) {
             return;
         }
         event.setCancelled(true);
@@ -78,7 +78,7 @@ public class MapHologram implements Listener {
 
     @EventHandler
     public void onInteractEntity(PlayerInteractEntityEvent event) {
-        if (!event.getRightClicked().equals(getArmorStand())) {
+        if (event.getRightClicked() != getArmorStand()) {
             return;
         }
         event.setCancelled(true);

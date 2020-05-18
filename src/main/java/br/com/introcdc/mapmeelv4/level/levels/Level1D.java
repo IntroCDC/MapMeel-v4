@@ -3,7 +3,6 @@ package br.com.introcdc.mapmeelv4.level.levels;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 22:40
  */
 
-import br.com.introcdc.mapmeelv4.block.BlockId;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.music.MapSound;
@@ -19,6 +18,7 @@ public class Level1D extends Level {
         super(
                 "Watch Big City",
                 Material.LIGHT_BLUE_STAINED_GLASS_PANE,
+                Material.CLOCK,
                 Warp.L_1D,
                 MapSound.MUSIC_SIX,
                 null,

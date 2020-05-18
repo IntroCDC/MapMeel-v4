@@ -17,6 +17,7 @@ public class LevelEgCastle extends Level {
     public LevelEgCastle() {
         super("The Castle",
                 Material.GLASS_PANE,
+                Material.STONE_BRICK_WALL,
                 Warp.EG_CASTLE,
                 MapSound.CASTLE_MUSIC,
                 null,

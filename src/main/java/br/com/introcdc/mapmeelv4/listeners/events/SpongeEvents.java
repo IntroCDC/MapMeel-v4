@@ -31,9 +31,7 @@ public class SpongeEvents implements Listener {
         if (event.getType() == UpdateType.SECONDS && event.getTimes() == 1) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.isOnGround() && hasFallProtection(player)) {
-                    Bukkit.getScheduler().runTask(MapMain.getPlugin(), () -> {
-                        //removeFallProtection(player);
-                    });
+                    Bukkit.getScheduler().runTask(MapMain.getPlugin(), () -> removeFallProtection(player));
                 }
             }
         }
@@ -48,7 +46,7 @@ public class SpongeEvents implements Listener {
                 event.setCancelled(true);
                 if (hasFallProtection(player)) {
                     event.setCancelled(true);
-                    // removeFallProtection(player);
+                    removeFallProtection(player);
                 }
                 if (hasSpongeUnderneath(player.getLocation())) {
                     event.setCancelled(true);
@@ -84,7 +82,7 @@ public class SpongeEvents implements Listener {
     }
 
     public static void removeFallProtection(final Player player) {
-        fallProtection.remove(player.getUniqueId());
+        // fallProtection.remove(player.getUniqueId());
     }
 
 }

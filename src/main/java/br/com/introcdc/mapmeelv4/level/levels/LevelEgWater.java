@@ -16,6 +16,7 @@ public class LevelEgWater extends Level {
     public LevelEgWater() {
         super("The Water Temple",
                 Material.GLASS_PANE,
+                Material.SEA_LANTERN,
                 Warp.EG_WATER,
                 MapSound.MUSIC_EIGHT,
                 null,

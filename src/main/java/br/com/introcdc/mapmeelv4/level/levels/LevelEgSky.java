@@ -16,6 +16,7 @@ public class LevelEgSky extends Level {
     public LevelEgSky() {
         super("The Sky",
                 Material.GLASS_PANE,
+                Material.QUARTZ_PILLAR,
                 Warp.EG_SKY,
                 MapSound.MUSIC_TWO,
                 null,

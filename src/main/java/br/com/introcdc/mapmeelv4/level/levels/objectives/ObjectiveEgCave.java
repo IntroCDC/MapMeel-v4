@@ -65,8 +65,8 @@ public class ObjectiveEgCave extends LevelObjective {
                 }
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    MapUtils.sendTitle(player, (MapUtils.random.nextBoolean() ? "§0" : "§f") + messages.get(MapUtils.random.nextInt(messages.size())),
-                            (MapUtils.random.nextBoolean() ? "§0" : "§f") + messages.get(MapUtils.random.nextInt(messages.size())), 0, 20, 20);
+                    MapUtils.sendTitle(player, (MapUtils.RANDOM.nextBoolean() ? "§0" : "§f") + MapUtils.getRandom(messages),
+                            (MapUtils.RANDOM.nextBoolean() ? "§0" : "§f") + MapUtils.getRandom(messages), 0, 20, 20);
 
                     for (NPC npc : npcs) {
                         if (npc.getNavigator().getTargetAsLocation() == null || npc.getNavigator().getEntityTarget() == null) {

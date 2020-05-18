@@ -3,7 +3,6 @@ package br.com.introcdc.mapmeelv4.level.levels;
  * Written by IntroCDC, Bruno Coêlho at 14/05/2018 - 01:57
  */
 
-import br.com.introcdc.mapmeelv4.block.BlockId;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.music.MapSound;
@@ -19,6 +18,7 @@ public class Level2D extends Level {
         super(
                 "Desert City",
                 Material.GRAY_STAINED_GLASS_PANE,
+                Material.SAND,
                 Warp.L_2D,
                 MapSound.MUSIC_FOUR,
                 null,

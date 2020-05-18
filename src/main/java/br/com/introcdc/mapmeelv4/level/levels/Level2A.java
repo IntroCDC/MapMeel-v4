@@ -3,7 +3,6 @@ package br.com.introcdc.mapmeelv4.level.levels;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 22:43
  */
 
-import br.com.introcdc.mapmeelv4.block.BlockId;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.music.MapSound;
@@ -19,6 +18,7 @@ public class Level2A extends Level {
         super(
                 "Snow Temple",
                 Material.YELLOW_STAINED_GLASS_PANE,
+                Material.SNOW_BLOCK,
                 Warp.L_2A,
                 MapSound.MUSIC_FIVE,
                 null,

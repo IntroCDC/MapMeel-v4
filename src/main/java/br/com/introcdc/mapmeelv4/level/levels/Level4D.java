@@ -18,6 +18,7 @@ public class Level4D extends Level {
         super(
                 "Desert Village",
                 Material.BLACK_STAINED_GLASS_PANE,
+                Material.SANDSTONE_WALL,
                 Warp.L_4D,
                 MapSound.MUSIC_FOUR,
                 null,

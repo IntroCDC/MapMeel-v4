@@ -4,6 +4,7 @@ package br.com.introcdc.mapmeelv4.listeners.level;
  */
 
 import br.com.introcdc.mapmeelv4.MapMain;
+import br.com.introcdc.mapmeelv4.advancement.CustomAdvancement;
 import br.com.introcdc.mapmeelv4.histories.HistoryOne;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.listeners.join.JoinEvents;
@@ -58,7 +59,9 @@ public class LevelLoaderEvents implements Listener {
                         MapUtils.playSound(player, MapSound.STOP, SoundCategory.AMBIENT);
                         MapUtils.playSound(player, MapSound.EFFECT_JOINING);
                         MapUtils.sendTitle(player, "§5§l§oMap§f§l§oMeel v4", "§f§oSeja bem-vindo ao MapMeel v4!", 10, 30, 20);
+                        player.sendMessage(MapUtils.PREFIX + "Seja bem-vindo ao MapMeel v4! §lAPERTE L PARA ACESSAR OS OBJETIVOS!");
                         player.teleport(Warp.LOBBY.getLocation());
+                        CustomAdvancement.FIRST_ENTRACE.awardPlayer(player);
 
                         if (Level.currentLevel != null) {
                             player.teleport(Level.currentLevel.getWarp().getLocation());

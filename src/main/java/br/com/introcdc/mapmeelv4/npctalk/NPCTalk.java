@@ -4,6 +4,7 @@ package br.com.introcdc.mapmeelv4.npctalk;
  */
 
 import br.com.introcdc.mapmeelv4.MapMain;
+import br.com.introcdc.mapmeelv4.advancement.CustomAdvancement;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import net.citizensnpcs.api.CitizensAPI;
@@ -140,6 +141,7 @@ public class NPCTalk {
             public void postTalk() {
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
+                    CustomAdvancement.FINISHED_GAME.awardPlayer(player);
                     MapUtils.sendTitle(player, "§2§lParabéns!", "§oVocê finalizou o §5§oMapMeel §f§ov4 com sucesso!", 20, 100, 20);
                     player.sendMessage(MapUtils.PREFIX + "§2§lParabéns! §f§oVocê finalizou o MapMeel v4 com sucesso!");
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 50000, 1);
@@ -165,12 +167,18 @@ public class NPCTalk {
                 "no caso...", "do poder das meels!", "comece jogando pela 'Mountain Village'", "que a porta está logo a atrás de você a sua direita",
                 "basta entrar na pintura que você entrará na fase!",
                 "Quando você conseguir pegar 1 estrela", "as outras portas vão começar a abrir", "então o que está esperando?", "Boa sorte!"
-        ));
+        )) {
+            @Override
+            public void postTalk() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    CustomAdvancement.FIRST_SOMBRA.awardPlayer(player);
+                }
+            }
+        };
 
         new NPCTalk("SombraXD", new Location(Bukkit.getWorld("world"), 29, 49, -80, -72, -19), Arrays.asList(
                 "Oi!", "Parece que você conseguiu mais algumas estrelas", "bem...", "Seja bem-vindo ao nível 2!",
-                "Aqui você irá passar por nível do mesmo estilo", "6 objetivos principais e o objetivo das 100 moedas!",
-                "Basicamente você já sabe como andar pelo mapa e como se virar", "então boa sorte!",
+                "Aqui você irá passar por nível do mesmo estilo", "Basicamente você já sabe como andar pelo mapa e como se virar", "então boa sorte!",
                 "ah, espere...", "eu ouvi falar por aí", "que possui estrelas secretas escondidas pelo mapa",
                 "guardadas pelo Diego", "não sei se esses boatos são verdadeiros", "por que sempre tive medo de sair do castelo",
                 "mas enfim", "Boa sorte!"
@@ -178,7 +186,7 @@ public class NPCTalk {
 
         new NPCTalk("SombraXD", new Location(Bukkit.getWorld("world"), 29, 49, 30, -73, -19), Arrays.asList(
                 "Oi!", "Seu progresso pelo mapa está indo muito bem", "Parabéns!", "mas não é hora de descanso", "precisamos salvar a Meel do Wither!",
-                "Você acaba de chegar no nível 3", "não preciso dizer que basicamente é a mesma coisa", "6 objetivos principais, mais o das 100 moedas",
+                "Você acaba de chegar no nível 3", "não preciso dizer que basicamente é a mesma coisa",
                 "ah, estou começando a desconfiar que essa história", "das estrelas secretas são reais", "e eu desconfio que uma dessas",
                 "está no jardim desta torre", "tente depois subir até lá com seu super pulo!", "mas enfim", "Boa Sorte!"
         ));
@@ -205,12 +213,17 @@ public class NPCTalk {
         ));
 
         new NPCTalk("DiegoSVP", new Location(Bukkit.getWorld("world"), 22, 100, 29, -52, -1), Arrays.asList(
-                "Seja bem-vindo ao gramado da torre sul!", "Mua-hahahahaha", "Você nunca conseguirá subir nesta parede para a entrada!",
-                "Mua-hahahahaha", "Na verdade consegue...", "Só dar um super-pulo...", "Mas enfim...",
-                "Parabéns!", "Você encontrou a fase de uma estrela escondida!", "Basicamente...", "Esta fase só possui 1 objetivo!",
-                "Nem o objetivo das 100 moedas é ativo nesta fase!", "o objetivo desta fase é única e exclusivamente...",
-                "Você conseguir essa tal estrela secreta", "Mas enfim...", "Não perca tempo e vá pegar a primeira estrela secreta!"
-        ));
+                "Seja bem-vindo ao gramado da torre sul!", "Parabéns!", "Você encontrou a fase de uma estrela escondida!", "Basicamente...",
+                "Esta fase só possui 1 objetivo!", "Você conseguir essa tal estrela secreta",
+                "Mas enfim...", "Não perca tempo e vá pegar a primeira estrela secreta!"
+        )) {
+            public void postTalk() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    CustomAdvancement.SECRET_LEVELS.awardPlayer(player);
+                    CustomAdvancement.SECRET_LEVELS_FOLDER.awardPlayer(player);
+                }
+            }
+        };
 
         new NPCTalk("DiegoSVP", new Location(Bukkit.getWorld("world"), 224, 209, -184, -29, 0), Arrays.asList(
                 "Ah, oi!", "Eu estava...", "Enfim...", "Como você conseguiu subir até aqui?",

@@ -18,7 +18,7 @@ public class HistoryOne implements Listener {
 
     public static void start(Player player) {
         MapProfile profile = MapUtils.getProfile(player.getName());
-        if (profile.getAward("level") <= 1) {
+        if (profile.getAward("level") < 1) {
             profile.setAward("level", 1);
 
             Location DEFAULT = new Location(Bukkit.getWorld("world"), 0, 80, 0);
@@ -45,12 +45,7 @@ public class HistoryOne implements Listener {
                             new Location(world, -50, 60, 122, -166, -8),
                             new Location(world, -115, 122, 192, -140, 20),
                             new Location(world, -106, 47, 262, -134, -5)
-                    )) {
-
-                        @Override
-                        public void onEnd(Player player) {
-                        }
-                    };
+                    ));
 
                     path.start();
                     path.watch(player);

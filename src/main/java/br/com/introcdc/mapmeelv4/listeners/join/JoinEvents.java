@@ -5,6 +5,7 @@ package br.com.introcdc.mapmeelv4.listeners.join;
 
 import br.com.introcdc.mapmeelv4.MapMain;
 import br.com.introcdc.mapmeelv4.level.Level;
+import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.profile.Cargo;
 import br.com.introcdc.mapmeelv4.profile.MapProfile;
@@ -14,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.SoundCategory;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -37,24 +39,38 @@ public class JoinEvents implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onJoin(PlayerJoinEvent event) throws Exception {
         event.setJoinMessage(null);
-        MapUtils.getProfile(event.getPlayer().getName());
-        event.getPlayer().setOp(MapUtils.getProfile(event.getPlayer().getName()).getCargo().equals(Cargo.ADMIN));
-        event.getPlayer().setGameMode(GameMode.ADVENTURE);
-        event.getPlayer().getActivePotionEffects().forEach(effect -> event.getPlayer().removePotionEffect(effect.getType()));
-        event.getPlayer().teleport(Warp.LOBBY.getLocation());
+        Player player = event.getPlayer();
 
-        MapProfile mapProfile = new MapProfile(event.getPlayer().getName());
+        MapUtils.getProfile(player.getName());
+        player.setOp(MapUtils.getProfile(player.getName()).getCargo().equals(Cargo.ADMIN));
+        player.setGameMode(GameMode.ADVENTURE);
+        player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
+        player.teleport(Warp.LOBBY.getLocation());
+
+        MapProfile mapProfile = new MapProfile(player.getName());
         if (!mapProfile.existsProfile()) {
             mapProfile.createFile();
+        }
+
+        for (Level level : Level.getLeveis().values()) {
+            for (LevelObjective levelObjective : level.getObjectives().values()) {
+                if (levelObjective.customAdvancement != null) {
+                    if (levelObjective.isFinished()) {
+                        levelObjective.customAdvancement.awardPlayer(player);
+                    } else {
+                        levelObjective.customAdvancement.revokePlayer(player);
+                    }
+                }
+            }
         }
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!buttonPlay.contains(event.getPlayer().getUniqueId())) {
-                    event.getPlayer().teleport(new Location(Bukkit.getWorld("world"), -109.0, 47, 235.5, -90, 0));
-                    buttonPlay.add(event.getPlayer().getUniqueId());
-                    event.getPlayer().setResourcePack("http://local.introbase64.com.br:8080/MapMeelv4Texture.zip");
+                if (!buttonPlay.contains(player.getUniqueId())) {
+                    player.teleport(new Location(Bukkit.getWorld("world"), -109.0, 47, 235.5, -90, 0));
+                    buttonPlay.add(player.getUniqueId());
+                    player.setResourcePack("http://local.introbase64.com.br:8080/MapMeelv4Texture.zip");
                 }
             }
         }.runTaskLater(MapMain.getPlugin(), 20);

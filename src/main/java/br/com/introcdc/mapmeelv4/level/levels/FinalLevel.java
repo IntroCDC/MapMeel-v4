@@ -17,6 +17,7 @@ public class FinalLevel extends Level {
         super(
                 "Final Level",
                 Material.END_PORTAL,
+                Material.DIAMOND_SWORD,
                 Warp.FINAL_BOSS,
                 MapSound.MUSIC_ELEVEN,
                 null,

@@ -3,8 +3,10 @@ package br.com.introcdc.mapmeelv4.door;
  * Written by IntroCDC, Bruno Coêlho at 20/04/2019 - 19:20
  */
 
+import br.com.introcdc.mapmeelv4.advancement.CustomAdvancement;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +38,18 @@ public class LittleDoor {
         return location;
     }
 
+    public void onEnterDoor() {
+    }
+
     public static void loadDoors() {
-        new LittleDoor("1A", 0, new Location(Bukkit.getWorlds().get(0), -44, 50, 72));
+        new LittleDoor("1A", 0, new Location(Bukkit.getWorlds().get(0), -44, 50, 72)) {
+            public void onEnterDoor() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    CustomAdvancement.OBJECTIVES.awardPlayer(player);
+                    CustomAdvancement.OBJECTIVES_FOLDER.awardPlayer(player);
+                }
+            }
+        };
         new LittleDoor("1B", 1, new Location(Bukkit.getWorlds().get(0), -43, 50, 33));
         new LittleDoor("1C", 3, new Location(Bukkit.getWorlds().get(0), -43, 50, -76));
         new LittleDoor("1D", 5, new Location(Bukkit.getWorlds().get(0), -44, 50, -115));

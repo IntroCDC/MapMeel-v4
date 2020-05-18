@@ -8,7 +8,6 @@ import br.com.introcdc.mapmeelv4.item.ItemBuilder;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -21,6 +20,7 @@ public class CommandObjectives extends CommandBase {
     public CommandObjectives() {
         super("objetivos");
         this.description = "Listar objetivos pendentes do MapMeel v4!";
+        this.onlyStaff = true;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class CommandObjectives extends CommandBase {
                 return;
             }
 
-            ItemBuilder itemBuilder = new ItemBuilder(new ItemStack(Material.ACACIA_PLANKS));
+            ItemBuilder itemBuilder = new ItemBuilder(new ItemStack(level.getItemStack()));
             itemBuilder.setName("§a" + level.getWarp().toString());
 
             ArrayList<String> lore = new ArrayList<>();
@@ -48,7 +48,7 @@ public class CommandObjectives extends CommandBase {
             lore.add("§fWarp: §a" + level.getWarp().toString());
             lore.add("§f");
             for (LevelObjective levelObjective : level.getObjectives().values()) {
-                lore.add("§f§o" + levelObjective.getStringObjective() + ": " + (levelObjective.isFinished() ? "§aFinalizado" : "§cNão Finalizado!"));
+                lore.add("§f§o" + levelObjective.getStringObjective() + ": " + (levelObjective.isFinished() ? "§aFinalizado §f(§b" + levelObjective.getWhoFinished() + "§f)" : "§cNão Finalizado!"));
             }
 
             inventory.setItem(Integer.parseInt(levelName[1]), itemBuilder.setLore(lore).toItem());

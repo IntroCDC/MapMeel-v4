@@ -3,6 +3,7 @@ package br.com.introcdc.mapmeelv4.listeners.music;
  * Written by IntroCDC, Bruno Coêlho at 13/05/2018 - 08:39
  */
 
+import br.com.introcdc.mapmeelv4.advancement.CustomAdvancement;
 import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.listeners.join.JoinEvents;
@@ -52,20 +53,21 @@ public class MusicUpdaterEvents implements Listener {
                             if (!inside.contains(player.getUniqueId())) {
                                 MapUtils.sendTitle(player, "§f", "§f§oEntrando no castelo...", 10, 30, 10);
                                 inside.add(player.getUniqueId());
+                                CustomAdvancement.CASTLE.awardPlayer(player);
                             }
                         }
 
                     } else {
-                        int tick = MapUtils.random.nextInt(60);
+                        int tick = MapUtils.RANDOM.nextInt(60);
                         if (inside.contains(player.getUniqueId())) {
                             MapUtils.playSound(player, MapSound.STOP);
 
                             inside.remove(player.getUniqueId());
                             MapUtils.sendTitle(player, "§f", "§f§oSaindo do castelo...", 10, 30, 10);
                         } else if (event.getTimes() == tick) {
-                            if (MapUtils.random.nextBoolean()) {
-                                MapSound sound = (MapUtils.random.nextBoolean() ? MapSound.EFFECT_BIRD_ONE : MapSound.EFFECT_BIRD_TWO);
-                                float tom = Float.parseFloat((MapUtils.random.nextBoolean() ? "1" : "0") + "." + MapUtils.random.nextInt(10));
+                            if (MapUtils.RANDOM.nextBoolean()) {
+                                MapSound sound = (MapUtils.RANDOM.nextBoolean() ? MapSound.EFFECT_BIRD_ONE : MapSound.EFFECT_BIRD_TWO);
+                                float tom = Float.parseFloat((MapUtils.RANDOM.nextBoolean() ? "1" : "0") + "." + MapUtils.RANDOM.nextInt(10));
                                 MapUtils.playSound(player, sound, SoundCategory.NEUTRAL, tom);
                             }
                         }
