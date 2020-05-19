@@ -27,6 +27,7 @@ public class CustomAdvancement implements Advancement {
     public static CustomAdvancement FIRST_ENTRACE;
     public static CustomAdvancement CASTLE;
     public static CustomAdvancement FIRST_SOMBRA;
+    public static CustomAdvancement STILL_HERE;
 
     public static CustomAdvancement OBJECTIVES;
     public static CustomAdvancement OBJECTIVES_FOLDER;
@@ -45,12 +46,14 @@ public class CustomAdvancement implements Advancement {
 
     public static CustomAdvancement BOSS_DOOR;
     public static CustomAdvancement GET_120_STARS;
+    public static CustomAdvancement FIND_THE_GATE;
     public static CustomAdvancement FINISHED_GAME;
 
     public static void installAdvancements() {
         FIRST_ENTRACE = new CustomAdvancement("root", "O Início", "Entre no mapa pela primeira vez", Material.APPLE, null, "mapmeel", false, true, FrameType.TASK).install();
         CASTLE = new CustomAdvancement("castle", "Um Belo Castelo", "Entre no Castelo da Meel", Material.STONE_BRICKS, "mapmeel/root", "mapmeel", false, true, FrameType.TASK).install();
         FIRST_SOMBRA = new CustomAdvancement("first_sombra", "Socialize com o Sombra", "Converse com o Sombra na entrada do Castelo", Material.BOOK, "mapmeel/castle", "mapmeel", false, true, FrameType.TASK).install();
+        STILL_HERE = new CustomAdvancement("still_here", "Ainda está aqui?!", "Espere o Sombra parar de falar...", Material.BOOK, "mapmeel/first_sombra", "mapmeel", true, true, FrameType.TASK).install();
 
         OBJECTIVES = new CustomAdvancement("objectives", "O Início de Tudo", "Encontre a entrada do primeiro nível!", Material.BOOK, "mapmeel/first_sombra", "mapmeel", false, true, FrameType.TASK).install();
         OBJECTIVES_FOLDER = new CustomAdvancement("root", "O Primeiro Nível", "Encontre a entrada do primeiro nível!", Material.BOOK, null, "level1", false, false, FrameType.TASK).install();
@@ -68,8 +71,9 @@ public class CustomAdvancement implements Advancement {
         SECRET_LEVELS_FOLDER = new CustomAdvancement("root", "Níveis Escondidos", "Encontre o primeiro nível escondido!", Material.GLASS, null, "niveisescondidos", true, false, FrameType.CHALLENGE).install();
 
         BOSS_DOOR = new CustomAdvancement("boss_door", "Não se preocupe Meel, to indo!", "Consiga 70 estrelas e abra a porta do topo do castelo!", Material.IRON_BARS, "mapmeel/fourthdoor", "mapmeel", false, true, FrameType.CHALLENGE).install();
-        GET_120_STARS = new CustomAdvancement("get120stars", "Finalize o jogo!", "Consiga 120 estrelas e vá atrás do criador!", Material.PLAYER_HEAD, "mapmeel/boss_level", "mapmeel", false, true, FrameType.CHALLENGE).install();
-        FINISHED_GAME = new CustomAdvancement("finishedgame", "MapMeel v4 Finalizado!", "Converse com o Intro e finalize o jogo!", Material.DIAMOND, "mapmeel/get120stars", "mapmeel", true, true, FrameType.CHALLENGE).install();
+        GET_120_STARS = new CustomAdvancement("get120stars", "Finalize o jogo!", "Consiga todas as 120 estrelas do jogo!", Material.PLAYER_HEAD, "mapmeel/boss_level", "mapmeel", false, true, FrameType.CHALLENGE).install();
+        FIND_THE_GATE = new CustomAdvancement("findthegate", "O Portão das 120 Estrelas!", "Procure e encontre o portão das 120 estrelas!", Material.IRON_BARS, "mapmeel/get120stars", "mapmeel", false, true, FrameType.CHALLENGE).install();
+        FINISHED_GAME = new CustomAdvancement("finishedgame", "MapMeel v4 Finalizado!", "Converse com o Intro e finalize o jogo!", Material.DIAMOND, "mapmeel/findthegate", "mapmeel", true, true, FrameType.CHALLENGE).install();
     }
 
     private final String name = "mapmeelv4";
@@ -198,9 +202,21 @@ public class CustomAdvancement implements Advancement {
         return Bukkit.getAdvancement(getKey());
     }
 
+    public void awardAllPlayers() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            awardPlayer(player);
+        }
+    }
+
     public void awardPlayer(Player player) {
         if (!player.getAdvancementProgress(getAdvancement()).isDone()) {
             player.getAdvancementProgress(getAdvancement()).awardCriteria(getFileName());
+        }
+    }
+
+    public void revokeAllPlayers() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            revokePlayer(player);
         }
     }
 

@@ -75,8 +75,11 @@ public class ArmorStandPath {
     public void onEnd(Player player) {
     }
 
+    int times = 0;
+
     public void update() {
         ArmorStand entity = this.entity;
+        entity.setVisible(false);
 
         Location from = this.from;
         Location to = this.to;
@@ -93,10 +96,26 @@ public class ArmorStandPath {
 
         entity.teleport(pos);
 
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getGameMode().equals(GameMode.SPECTATOR)) {
+                if (player.getSpectatorTarget() == null || player.getSpectatorTarget() != this.entity) {
+                    player.setSpectatorTarget(this.entity);
+                }
+            }
+        }
+
         if (Math.abs(pos.distance(to)) == 0) {
             this.from = to;
             this.to = this.takeLocation();
             this.progress = 0.0F;
+
+            times++;
+            if (times == 5) {
+                times = 0;
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    player.setSpectatorTarget(null);
+                }
+            }
 
             if (this.to == null) {
                 this.ended = true;

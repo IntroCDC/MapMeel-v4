@@ -4,7 +4,6 @@ package br.com.introcdc.mapmeelv4.listeners.star;
  */
 
 import br.com.introcdc.mapmeelv4.histories.FinalHistory;
-import br.com.introcdc.mapmeelv4.item.InventoryBase;
 import br.com.introcdc.mapmeelv4.level.Level;
 import br.com.introcdc.mapmeelv4.level.LevelObjective;
 import br.com.introcdc.mapmeelv4.listeners.coin.CoinEvents;
@@ -55,7 +54,6 @@ public class StarEvents implements Listener {
                             CoinEvents.blueCoins = 0;
                             for (Player player : Bukkit.getOnlinePlayers()) {
                                 player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
-                                InventoryBase.clearInventory(player);
                             }
                             Level.getLevel(event.getPlayer().getWorld().getName()).unloadCoins();
                             Level.getLevel(event.getPlayer().getWorld().getName()).unloadMobs();

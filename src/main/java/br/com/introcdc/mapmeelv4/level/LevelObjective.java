@@ -78,13 +78,9 @@ public class LevelObjective {
         this.finished = finished;
         if (customAdvancement != null) {
             if (finished) {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    customAdvancement.awardPlayer(player);
-                }
+                customAdvancement.awardAllPlayers();
             } else {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    customAdvancement.revokePlayer(player);
-                }
+                customAdvancement.revokeAllPlayers();
             }
         }
     }

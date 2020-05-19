@@ -242,7 +242,6 @@ public class Level {
             player.setGameMode(GameMode.SPECTATOR);
             player.teleport(getPortalSpec());
             MapUtils.playSound(player, MapSound.EFFECT_JOINING);
-            InventoryBase.clearInventory(player);
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -295,7 +294,6 @@ public class Level {
         MusicUpdaterEvents.musicPause = false;
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            InventoryBase.clearInventory(player);
             MapUtils.sendTitle(player, "§l§oCarregando...", "§f§oAguarde", 0, 20, 20);
             MapUtils.playSound(player, MapSound.EFFECT_LETSGO);
             player.addPotionEffect(blindness);
@@ -389,11 +387,11 @@ public class Level {
                 if (!objective.isFinished()) {
                     objective.setFinished(true, whoFinished);
                     Level.stars++;
-                    if (Level.stars >= 120) {
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            CustomAdvancement.GET_120_STARS.awardPlayer(player);
+                    Bukkit.getScheduler().runTask(MapMain.getPlugin(), () -> {
+                        if (Level.stars >= 120) {
+                            CustomAdvancement.GET_120_STARS.awardAllPlayers();
                         }
-                    }
+                    });
                 } else {
                     already = true;
                 }
@@ -434,11 +432,14 @@ public class Level {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         MapUtils.playSound(player, MapSound.EFFECT_GETSTAR);
                     }
+                } else {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        InventoryBase.clearInventory(player);
+                    }
                 }
                 if (unload) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.setFlySpeed(0.0f);
-                        InventoryBase.clearInventory(player);
                         player.teleport(MapUtils.getLocation(player.getLocation().getWorld().getName(), player.getLocation().getX() + 5, player.getLocation().getY() + 5, player.getLocation().getZ() + 5, player.getLocation()));
                     }
                 } else {
@@ -467,6 +468,7 @@ public class Level {
                         } else if (times == 40) {
                             cancel();
                             if (unload) {
+                                Level.currentLevel = null;
                                 for (Player player : Bukkit.getOnlinePlayers()) {
                                     player.setFlySpeed(0.1f);
                                     player.teleport(getPortalSpec());
@@ -513,7 +515,6 @@ public class Level {
                                 @Override
                                 public void run() {
                                     if (unload) {
-                                        Level.currentLevel = null;
                                         for (Player player : Bukkit.getOnlinePlayers()) {
                                             MapUtils.playSound(player, MapSound.CASTLE_MUSIC, SoundCategory.AMBIENT);
                                         }

@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +58,7 @@ public class Door {
                 if (open) {
 
                     int to = z + 5;
+                    int Y = y;
 
                     Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
 
@@ -68,9 +68,11 @@ public class Door {
                             loc.getBlock().setType(Material.AIR);
                         }
 
-                    }, to * y);
+                        if (to * Y == 90) {
+                            onOpenDoor();
+                        }
 
-                    onOpenDoor();
+                    }, to * y);
 
                 } else {
                     if (loc.getBlock().getType().equals(Material.AIR)) {
@@ -89,36 +91,32 @@ public class Door {
     public static void loadDoors() {
         new Door("2", 10, new Location(Bukkit.getWorlds().get(0), 41, 53, -77)) {
             public void onOpenDoor() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    CustomAdvancement.SECOND_DOOR.awardPlayer(player);
-                    CustomAdvancement.SECOND_DOOR_FOLDER.awardPlayer(player);
-                }
+                CustomAdvancement.SECOND_DOOR.awardAllPlayers();
+                CustomAdvancement.SECOND_DOOR_FOLDER.awardAllPlayers();
             }
         };
         new Door("3", 25, new Location(Bukkit.getWorlds().get(0), 41, 53, 33)) {
             public void onOpenDoor() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    CustomAdvancement.THIRD_DOOR.awardPlayer(player);
-                    CustomAdvancement.THIRD_DOOR_FOLDER.awardPlayer(player);
-                }
+                CustomAdvancement.THIRD_DOOR.awardAllPlayers();
+                CustomAdvancement.THIRD_DOOR_FOLDER.awardAllPlayers();
             }
         };
         new Door("4", 50, new Location(Bukkit.getWorlds().get(0), -30, 53, -22)) {
             public void onOpenDoor() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    CustomAdvancement.FOURTH_DOOR.awardPlayer(player);
-                    CustomAdvancement.FOURTH_DOOR_FOLDER.awardPlayer(player);
-                }
+                CustomAdvancement.FOURTH_DOOR.awardAllPlayers();
+                CustomAdvancement.FOURTH_DOOR_FOLDER.awardAllPlayers();
             }
         };
         new Door("Final", 70, new Location(Bukkit.getWorlds().get(0), 8, 122, -22)) {
             public void onOpenDoor() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    CustomAdvancement.BOSS_DOOR.awardPlayer(player);
-                }
+                CustomAdvancement.BOSS_DOOR.awardAllPlayers();
             }
         };
-        new Door("Intro", 120, new Location(Bukkit.getWorlds().get(0), -321, 76, -149));
+        new Door("120 Estrelas", 120, new Location(Bukkit.getWorlds().get(0), -321, 76, -149)) {
+            public void onOpenDoor() {
+                CustomAdvancement.FIND_THE_GATE.awardAllPlayers();
+            }
+        };
     }
 
 }

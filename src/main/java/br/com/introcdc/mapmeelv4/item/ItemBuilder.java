@@ -32,7 +32,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addEnchantment(Enchantment ench, int level) {
-        this.item.addEnchantment(ench, level);
+        this.item.addUnsafeEnchantment(ench, level);
         return this;
     }
 

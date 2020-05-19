@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,13 +30,19 @@ public class NPCTalk {
     private Location location;
     private List<String> stringList;
     private NPC npc;
+    private String skin;
 
-    public NPCTalk(String name, Location location, List<String> stringList) {
+    public NPCTalk(String name, Location location, List<String> stringList, String skin) {
         this.name = name;
         this.location = location;
         this.stringList = stringList;
         this.npc = findOrCreateNpc();
+        this.skin = skin;
         allNpcs.add(this);
+    }
+
+    public NPCTalk(String name, Location location, List<String> stringList) {
+        this(name, location, stringList, null);
     }
 
     public String getName() {
@@ -54,18 +61,29 @@ public class NPCTalk {
         return npc;
     }
 
+    public String getSkin() {
+        return skin;
+    }
+
     public void talk(Player player) {
         getNpc().faceLocation(player.getLocation());
 
         NPC npc = MapUtils.createNPC(EntityType.PLAYER, player.getName(), player.getLocation());
 
         Location location = MapUtils.getLocation("world", getLocation().getX() + 3, getLocation().getY() + 3, getLocation().getZ() + 3, getLocation());
+        if (location.getBlock().getType().isSolid()) {
+            location = MapUtils.getLocation("world", getLocation().getX() - 3, getLocation().getY() + 3, getLocation().getZ() - 3, getLocation());
+        }
 
+        ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
+        armorStand.setGravity(false);
+        armorStand.setVisible(false);
         for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
             otherPlayer.setGameMode(GameMode.SPECTATOR);
             otherPlayer.teleport(location);
             otherPlayer.setFlySpeed(0);
             MapUtils.playSound(otherPlayer, MapSound.EFFECT_MESSAGE);
+            otherPlayer.setSpectatorTarget(armorStand);
         }
 
         int current = 0;
@@ -74,7 +92,9 @@ public class NPCTalk {
             Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
 
                 for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
-                    otherPlayer.teleport(location);
+                    if (otherPlayer.getSpectatorTarget() == null || otherPlayer.getSpectatorTarget() != armorStand) {
+                        otherPlayer.setSpectatorTarget(armorStand);
+                    }
                     otherPlayer.sendMessage("§b§o§l" + getName() + "§f: " + message);
                 }
 
@@ -87,6 +107,7 @@ public class NPCTalk {
                     }
 
                     npc.destroy();
+                    armorStand.remove();
                     postTalk();
                 }
 
@@ -105,7 +126,7 @@ public class NPCTalk {
                 return npc;
             }
         }
-        return MapUtils.createNPC(EntityType.PLAYER, name, location);
+        return MapUtils.createNPC(EntityType.PLAYER, name, location, skin);
     }
 
     public static void loadNpcs() {
@@ -135,7 +156,7 @@ public class NPCTalk {
                 "Vai ser do v4 para baixo", "não o v5 kk", "Mas enfim...",
                 "Então...",
                 "Sim!", "Obrigado por jogar no MapMeel v4!", "Parabéns, você finalizou o MapMeel v4 com sucesso!", ":)", ";)", ":D", ";D", "."
-        )) {
+        ), "Introo") {
 
             @Override
             public void postTalk() {
@@ -160,57 +181,67 @@ public class NPCTalk {
             }
         };
 
-        new NPCTalk("SombraXD", new Location(Bukkit.getWorld("world"), -15, 49, 43, -335, 4), Arrays.asList(
+        new NPCTalk("Sombra", new Location(Bukkit.getWorld("world"), -15, 49, 43, -335, 4), Arrays.asList(
                 "Oi!", "Eu estava lhe esperando...", "Seja bem-vindo ao castelo do MapMeel v4", "Infelizmente a mesma não se encontra agora",
                 "Mas...", "Ok", "Vou falar", "A Meel foi raptada por um Wither", "e foi presa na torre do castelo", "então você precisa ajuda-la para sair de lá!",
                 "ela está presa no último nível deste castelo", "mas para você ir abrindo as portas e portões", "você vai precisar do poder das estrelas!",
                 "no caso...", "do poder das meels!", "comece jogando pela 'Mountain Village'", "que a porta está logo a atrás de você a sua direita",
                 "basta entrar na pintura que você entrará na fase!",
                 "Quando você conseguir pegar 1 estrela", "as outras portas vão começar a abrir", "então o que está esperando?", "Boa sorte!"
-        )) {
+        ), "LookAtTheSky_") {
             @Override
             public void postTalk() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    CustomAdvancement.FIRST_SOMBRA.awardPlayer(player);
-                }
+                CustomAdvancement.FIRST_SOMBRA.awardAllPlayers();
             }
         };
 
-        new NPCTalk("SombraXD", new Location(Bukkit.getWorld("world"), 29, 49, -80, -72, -19), Arrays.asList(
+        new NPCTalk("Sombra", new Location(Bukkit.getWorld("world"), -67.5, 51.0, -18.5, -125, 0), Arrays.asList(
+                "Oi!", "Seja bem-vindo a nova loja de itens do castelo da Meel!", "Aqui você consegue comprar seus itens nos melhores descontos!",
+                "A única coisa que você precisa é de suas moedas em mãos", "as mesmas moedas onde você consegue jogando!",
+                "Porém cuidado! quando você está jogando e morre ou digita /lobby, você as perde!",
+                "Aqui você comprar itens para lhe ajudar no alcance dos objetivos do mapa", "então não perca tempo e comece os negócios!",
+                "ainda está aqui?", "ah! me esperando? ok...", "Boas compras!"
+        ), "LookAtTheSky_") {
+            public void postTalk() {
+                CustomAdvancement.STILL_HERE.awardAllPlayers();
+            }
+        };
+
+        new NPCTalk("Sombra", new Location(Bukkit.getWorld("world"), 29, 49, -80, -72, -19), Arrays.asList(
                 "Oi!", "Parece que você conseguiu mais algumas estrelas", "bem...", "Seja bem-vindo ao nível 2!",
                 "Aqui você irá passar por nível do mesmo estilo", "Basicamente você já sabe como andar pelo mapa e como se virar", "então boa sorte!",
                 "ah, espere...", "eu ouvi falar por aí", "que possui estrelas secretas escondidas pelo mapa",
                 "guardadas pelo Diego", "não sei se esses boatos são verdadeiros", "por que sempre tive medo de sair do castelo",
                 "mas enfim", "Boa sorte!"
-        ));
+        ), "LookAtTheSky_");
 
-        new NPCTalk("SombraXD", new Location(Bukkit.getWorld("world"), 29, 49, 30, -73, -19), Arrays.asList(
+        new NPCTalk("Sombra", new Location(Bukkit.getWorld("world"), 29, 49, 30, -73, -19), Arrays.asList(
                 "Oi!", "Seu progresso pelo mapa está indo muito bem", "Parabéns!", "mas não é hora de descanso", "precisamos salvar a Meel do Wither!",
                 "Você acaba de chegar no nível 3", "não preciso dizer que basicamente é a mesma coisa",
                 "ah, estou começando a desconfiar que essa história", "das estrelas secretas são reais", "e eu desconfio que uma dessas",
                 "está no jardim desta torre", "tente depois subir até lá com seu super pulo!", "mas enfim", "Boa Sorte!"
-        ));
+        ), "LookAtTheSky_");
 
-        new NPCTalk("SombraXD", new Location(Bukkit.getWorld("world"), -17, 50, -35, -45, 1), Arrays.asList(
+        new NPCTalk("Sombra", new Location(Bukkit.getWorld("world"), -17, 50, -35, -45, 1), Arrays.asList(
                 "Oi!", "Estou realmente impressionado com seu progresso!", "Uau!", "Mais de 50 estrelas!", "Mas enfim...",
                 "Não podemos negar o fato que a Meel continua presa com o Wither", "Vamos lá!", "Ah...", "Sobre as estrelas secretas?",
                 "Pesquisando mais sobre", "descobri que as estrelas secretas não estão só aqui perto do castelo",
                 "Podem está no meio da floresta!", "Então como eu tenho bastante medo de sair do castelo", "não posso te dizer com certeza...",
                 "Mas segundo algumas fontes que eu pesquisei", "Possui no total 7 estrelas escondidas!", "Incluindo a do alto da torre sul!",
                 "Mas enfim...", "Seja bem-vindo ao nível 4!", "Boa sorte no resgate da Meel!"
-        ));
+        ), "LookAtTheSky_");
 
-        new NPCTalk("SombraXD", new Location(Bukkit.getWorld("world"), -6, 122, -29, -65, 1), Arrays.asList(
+        new NPCTalk("Sombra", new Location(Bukkit.getWorld("world"), -6, 122, -29, -65, 1), Arrays.asList(
                 "Oi!", "Você está bem próximo da fase do Wither!", "mas você precisa treinar...", "Treine nesta última fase", "tenho certeza que estará preparado!",
                 "Logo depois use qualquer uma das esponjas e suba para a plataforma superior", "Lá é a entrada da fase onde a Meel está presa!",
                 "Rápido!", "Ela precisa de você!"
-        ));
+        ), "LookAtTheSky_");
 
-        new NPCTalk("SombraXD", new Location(Bukkit.getWorld("world"), 2, 145, -18, -230, -1), Arrays.asList(
+        new NPCTalk("Sombra", new Location(Bukkit.getWorld("world"), 2, 145, -18, -230, -1), Arrays.asList(
                 "Oi!", "Preciso falar uma coisa...", "Que estou superando vários medos de está aqui...",
                 "Perto da entrada da fase que a Meel está presa!", "Precisa fazer isso depressa", "Ela já está presa faz muito tempo!",
                 "Então o que está esperando?", "Vá e salve a Meel!", "Boa Sorte!"
-        ));
+        ), "LookAtTheSky_");
 
         new NPCTalk("DiegoSVP", new Location(Bukkit.getWorld("world"), 22, 100, 29, -52, -1), Arrays.asList(
                 "Seja bem-vindo ao gramado da torre sul!", "Parabéns!", "Você encontrou a fase de uma estrela escondida!", "Basicamente...",
@@ -218,10 +249,8 @@ public class NPCTalk {
                 "Mas enfim...", "Não perca tempo e vá pegar a primeira estrela secreta!"
         )) {
             public void postTalk() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    CustomAdvancement.SECRET_LEVELS.awardPlayer(player);
-                    CustomAdvancement.SECRET_LEVELS_FOLDER.awardPlayer(player);
-                }
+                CustomAdvancement.SECRET_LEVELS.awardAllPlayers();
+                CustomAdvancement.SECRET_LEVELS_FOLDER.awardAllPlayers();
             }
         };
 

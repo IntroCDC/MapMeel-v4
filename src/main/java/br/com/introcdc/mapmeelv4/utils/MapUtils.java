@@ -4,12 +4,14 @@ import br.com.introcdc.mapmeelv4.MapMain;
 import br.com.introcdc.mapmeelv4.coin.CoinType;
 import br.com.introcdc.mapmeelv4.coin.MapCoin;
 import br.com.introcdc.mapmeelv4.item.ItemBuilder;
+import br.com.introcdc.mapmeelv4.listeners.coin.CoinEvents;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.profile.MapProfile;
 import br.com.introcdc.mapmeelv4.warp.Warp;
 import com.google.gson.JsonParser;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.npc.skin.SkinnableEntity;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -61,15 +63,39 @@ public class MapUtils {
         Bukkit.broadcastMessage(message);
     }
 
-
     public static NPC createNPC(EntityType type, String name, Location location) {
+        return createNPC(type, name, location, null);
+    }
+
+    public static NPC createNPC(EntityType type, String name, Location location, String skin) {
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(type, name);
         npc.spawn(location);
+        if (type == EntityType.PLAYER && skin != null) {
+            try {
+                SkinnableEntity skinnable = (SkinnableEntity) npc.getEntity();
+                if (skinnable != null) {
+                    skinnable.setSkinName(skin);
+                }
+            } catch (Exception ignored) {
+            }
+        }
         return npc;
     }
 
     public static MapCoin coin(Warp warp, double x, double y, double z, CoinType coinType) {
         return new MapCoin(new Location(warp.getLocation().getWorld(), x, y, z), coinType);
+    }
+
+    public static void playSoundToAll(Sound sound) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.playSound(player.getLocation(), sound, 1, 1);
+        }
+    }
+
+    public static void playSoundToAll(MapSound sound) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            playSound(player, sound);
+        }
     }
 
     public static String convertToBarProgress(long max, long use, int size) {
@@ -570,7 +596,11 @@ public class MapUtils {
     }
 
     public static MerchantRecipe createRecipe(Material material, int coins) {
-        return createRecipe(new ItemStack(material), 100, new ItemStack(CoinType.X1.getMaterial(), coins));
+        return createRecipe(new ItemStack(material), 100, itemBuilder(CoinEvents.COIN).setAmount(coins).toItem());
+    }
+
+    public static MerchantRecipe createRecipe(ItemStack itemStack, int coins) {
+        return createRecipe(itemStack, 100, itemBuilder(CoinEvents.COIN).setAmount(coins).toItem());
     }
 
     public static MerchantRecipe createRecipe(Material material, int maxUses, ItemStack... ingredients) {

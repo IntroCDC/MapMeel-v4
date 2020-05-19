@@ -44,10 +44,6 @@ public class LevelLoaderEvents implements Listener {
             }
         }
 
-        if (player.getGameMode().equals(GameMode.CREATIVE)) {
-            return;
-        }
-
         if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (event.getClickedBlock() != null && BUTTONS.isTagged(event.getClickedBlock()) && world.getName().equalsIgnoreCase("world")) {
                 event.setCancelled(true);
@@ -76,16 +72,6 @@ public class LevelLoaderEvents implements Listener {
                         }
                     }
                 }
-            }
-        }
-
-        if (event.getClickedBlock() != null && event.getClickedBlock().getType().toString().contains("CHEST") && event.getAction().toString().contains("RIGHT")) {
-            event.setCancelled(true);
-        }
-
-        if (event.getClickedBlock() != null && event.getAction().toString().contains("LEFT")) {
-            if (event.getClickedBlock().getType().equals(Material.PAINTING) || event.getClickedBlock().getType().equals(Material.ITEM_FRAME)) {
-                event.setCancelled(true);
             }
         }
 

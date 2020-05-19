@@ -3,13 +3,10 @@ package br.com.introcdc.mapmeelv4.mob;
  * Written by IntroCDC, Bruno Coêlho at 28/04/2019 - 01:36
  */
 
-import br.com.introcdc.mapmeelv4.utils.MapUtils;
-import br.com.introcdc.mapmeelv4.villager.VillagerTrade;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Villager;
 
 public class MapMob {
 
@@ -44,15 +41,6 @@ public class MapMob {
 
         this.entity = (LivingEntity) getLocation().getWorld().spawnEntity(getLocation(), getEntityType());
         this.entity.setRemoveWhenFarAway(false);
-
-        if (this.entity.getType().equals(EntityType.VILLAGER)) {
-            Villager villager = (Villager) this.entity;
-            VillagerTrade trade = MapUtils.getRandom(VillagerTrade.values());
-            villager.setVillagerType(Villager.Type.PLAINS);
-            villager.setProfession(trade.getProfession());
-            villager.setVillagerLevel(5);
-            villager.setRecipes(trade.getRecipes());
-        }
 
     }
 

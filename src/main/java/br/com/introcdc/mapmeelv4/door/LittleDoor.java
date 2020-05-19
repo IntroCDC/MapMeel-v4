@@ -6,7 +6,6 @@ package br.com.introcdc.mapmeelv4.door;
 import br.com.introcdc.mapmeelv4.advancement.CustomAdvancement;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +43,8 @@ public class LittleDoor {
     public static void loadDoors() {
         new LittleDoor("1A", 0, new Location(Bukkit.getWorlds().get(0), -44, 50, 72)) {
             public void onEnterDoor() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    CustomAdvancement.OBJECTIVES.awardPlayer(player);
-                    CustomAdvancement.OBJECTIVES_FOLDER.awardPlayer(player);
-                }
+                CustomAdvancement.OBJECTIVES.awardAllPlayers();
+                CustomAdvancement.OBJECTIVES_FOLDER.awardAllPlayers();
             }
         };
         new LittleDoor("1B", 1, new Location(Bukkit.getWorlds().get(0), -43, 50, 33));

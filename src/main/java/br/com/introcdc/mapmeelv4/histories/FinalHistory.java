@@ -257,34 +257,30 @@ public class FinalHistory implements Listener {
 
         String playerName = ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName();
 
-        NPC sombraOne = MapUtils.createNPC(EntityType.PLAYER, "SombraXD", new Location(Bukkit.getWorld("world"), -36.5, 49, -17.5, -229, 0));
-        NPC sombraTwo = MapUtils.createNPC(EntityType.PLAYER, "SombraXD", new Location(Bukkit.getWorld("world"), -36.5, 49, -25.5, -313, 0));
+        NPC sombraOne = MapUtils.createNPC(EntityType.PLAYER, "Sombra", new Location(Bukkit.getWorld("world"), -36.5, 49, -17.5, -229, 0), "LookAtTheSky_");
+        NPC sombraTwo = MapUtils.createNPC(EntityType.PLAYER, "Sombra", new Location(Bukkit.getWorld("world"), -36.5, 49, -25.5, -313, 0), "LookAtTheSky_");
 
         NPC playerViewer = MapUtils.createNPC(EntityType.PLAYER, playerName, new Location(Bukkit.getWorld("world"), -40.5, 49, -21.5, 269, 0));
 
+        NPC meel = MapUtils.createNPC(EntityType.PLAYER, "iMeel", new Location(Bukkit.getWorld("world"), -24.5, 149, -21.5, 90, 0));
+        Location loc = new Location(Bukkit.getWorld("world"), -30, 53, -22);
+
+        for (int z = -4; z <= 4; z++) {
+            for (int y = 0; y <= 10; y++) {
+                if (loc.clone().add(0, y, z).getBlock().getType().equals(Material.IRON_BARS)) {
+                    loc.clone().add(0, y, z).getBlock().setType(Material.AIR);
+                }
+            }
+        }
+
         new BukkitRunnable() {
 
-            NPC meel = null;
             int times = 0;
 
             @Override
             public void run() {
 
                 times++;
-
-                if (meel == null) {
-                    meel = MapUtils.createNPC(EntityType.PLAYER, "iMeel", new Location(Bukkit.getWorld("world"), -24.5, 149, -21.5, 90, 0));
-
-                    Location loc = new Location(Bukkit.getWorld("world"), -30, 53, -22);
-
-                    for (int z = -4; z <= 4; z++) {
-                        for (int y = 0; y <= 10; y++) {
-                            if (loc.clone().add(0, y, z).getBlock().getType().equals(Material.IRON_BARS)) {
-                                loc.clone().add(0, y, z).getBlock().setType(Material.AIR);
-                            }
-                        }
-                    }
-                }
 
                 Player meelEntity = (Player) meel.getEntity();
 
@@ -299,118 +295,128 @@ public class FinalHistory implements Listener {
 
                 if (times < 83) {
                     meel.teleport(meel.getStoredLocation().clone().add(-0.15, 0, 0), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                    meelEntity.setGravity(false);
-                    meelEntity.setCollidable(false);
+                    if (meelEntity.hasGravity()) {
+                        meelEntity.setAllowFlight(true);
+                        meelEntity.setFlying(true);
+                        meelEntity.setGravity(false);
+                        meelEntity.setCollidable(false);
+                    }
                     meelEntity.setInvulnerable(true);
                 }
                 if (times >= 83 && times <= 148) {
                     meel.teleport(meel.getStoredLocation().clone().add(0, -1.5, 0), PlayerTeleportEvent.TeleportCause.PLUGIN);
-                    meelEntity.setGravity(false);
-                    meelEntity.setCollidable(false);
+                    if (meelEntity.hasGravity()) {
+                        meelEntity.setGravity(false);
+                        meelEntity.setAllowFlight(true);
+                        meelEntity.setFlying(true);
+                        meelEntity.setCollidable(false);
+                    }
                     meelEntity.setInvulnerable(true);
                 }
                 if (times == 149) {
                     meelEntity.setGravity(true);
+                    meelEntity.setAllowFlight(false);
+                    meelEntity.setFlying(false);
                 }
 
-                if (times == 215) {
+                if (times == 200) {
                     meel.faceLocation(playerViewer.getStoredLocation());
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: " + playerName + "!");
                     }
                 }
 
-                if (times == 230) {
+                if (times == 220) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendMessage("§d§liMeel§f: O poder das estrelas me salvaram do wither!");
+                        player.sendMessage("§d§liMeel§f: O poder das estrelas me salvaram do base64!");
                     }
                 }
 
-                if (times == 250) {
+                if (times == 240) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Eu pensava que ia ficar presa no meu próprio castelo para sempre...");
                     }
                 }
 
-                if (times == 270) {
+                if (times == 260) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Mas o rumo dessa história mudou!");
                     }
                 }
 
-                if (times == 290) {
+                if (times == 280) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Graças a você, obrigada " + playerName + "...");
                     }
                 }
 
-                if (times == 310) {
+                if (times == 300) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Eu admiro a sua caminhada até aqui!");
                     }
                 }
 
-                if (times == 310) {
+                if (times == 320) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Mesmo estando presa nas paredes do castelo...");
                     }
                 }
 
-                if (times == 330) {
+                if (times == 340) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Eu vim te observando...");
                     }
                 }
 
-                if (times == 350) {
+                if (times == 360) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: É lindo saber que mesmo depois de tantos erros,");
                     }
                 }
 
-                if (times == 370) {
+                if (times == 380) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Você continuou de pé até chegar ao seu destino...");
                     }
                 }
 
-                if (times == 390) {
+                if (times == 400) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Muito obrigada mesmo com todos os seus erros, você continuou de pé até me salvar...");
                     }
                 }
 
-                if (times == 410) {
+                if (times == 420) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Precisamos fazer alguma coisa para lhe agradecer...");
                     }
                 }
 
-                if (times == 420) {
+                if (times == 430) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Já sei! Sombras!");
                     }
                     meel.faceLocation(sombraOne.getStoredLocation());
                 }
 
-                if (times == 430) {
+                if (times == 440) {
                     meel.faceLocation(sombraTwo.getStoredLocation());
                 }
 
-                if (times == 440) {
+                if (times == 450) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Vamos fazer um bolo delicioso!");
                     }
                     meel.faceLocation(playerViewer.getStoredLocation());
                 }
 
-                if (times == 450) {
+                if (times == 460) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
                         player.sendMessage("§d§liMeel§f: Para " + playerName + "...");
                     }
                 }
 
-                if (times == 460) {
+                if (times == 470) {
                     meel.getNavigator().setTarget(new Location(Bukkit.getWorld("world"), -22, 53, -21, -90, 1));
                     sombraOne.getNavigator().setTarget(new Location(Bukkit.getWorld("world"), -21, 53, -16, -90, 0));
                     sombraTwo.getNavigator().setTarget(new Location(Bukkit.getWorld("world"), -22, 53, -26, -90, 0));

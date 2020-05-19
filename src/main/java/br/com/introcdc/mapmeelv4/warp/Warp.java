@@ -207,7 +207,7 @@ public enum Warp {
             public void run() {
                 if (Warp.this.getLocation().getWorld() != null) {
                     if (Warp.this.getLocation().getWorld().getTime() != Warp.this.getTime()) {
-                        Warp.this.getLocation().getWorld().setTime(Warp.this.getTime());
+                        // Warp.this.getLocation().getWorld().setTime(Warp.this.getTime());
                         Warp.this.getLocation().getWorld().setGameRuleValue("doDayCycle", "false");
                     }
                 }

@@ -19,6 +19,13 @@ public enum MapSound {
     EFFECT_JOINING("mapmeelv4.effect.joining", 1),
     EFFECT_LETSGO("mapmeelv4.effect.lets_go", 1),
 
+    FNAF_1("mapmeelv4.effect.fnaf_1", 1),
+    FNAF_2("mapmeelv4.effect.fnaf_2", 1),
+    FNAF_3("mapmeelv4.effect.fnaf_3", 1),
+    FNAF_4("mapmeelv4.effect.fnaf_4", 1),
+    FNAF_5("mapmeelv4.effect.fnaf_5", 1),
+    FNAF_6("mapmeelv4.effect.fnaf_6", 1),
+
     MUSIC_THEME("mapmeelv4.music.theme", 207),
     CASTLE_MUSIC("mapmeelv4.music.castle_music", 117),
     MUSIC_ONE("mapmeelv4.music.music_one", 138),

@@ -1,10 +1,15 @@
 package br.com.introcdc.mapmeelv4.hologram;
 
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -12,9 +17,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
 
 public class MapHologram implements Listener {
 
@@ -70,6 +72,17 @@ public class MapHologram implements Listener {
 
     @EventHandler
     public void onInteractAtEntity(PlayerInteractAtEntityEvent event) {
+
+        if (event.getRightClicked().getType().equals(EntityType.PAINTING) && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
+            event.setCancelled(true);
+        }
+        if (event.getRightClicked().getType().equals(EntityType.ITEM_FRAME)) {
+            ItemFrame itemFrame = (ItemFrame) event.getRightClicked();
+            if (!itemFrame.getItem().getType().equals(Material.MAP)) {
+                event.setCancelled(true);
+            }
+        }
+
         if (event.getRightClicked() != getArmorStand()) {
             return;
         }

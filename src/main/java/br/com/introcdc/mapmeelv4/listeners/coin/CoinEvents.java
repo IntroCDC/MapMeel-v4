@@ -9,18 +9,26 @@ import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class CoinEvents implements Listener {
 
     public static long coins = 0;
     public static long redCoins = 0;
     public static long blueCoins = 0;
+
+    public static ItemStack COIN;
+
+    static {
+        COIN = MapUtils.itemBuilder(new ItemStack(Material.ACACIA_PLANKS)).setName("§lMoeda").setLore(new String[]{"§f§oUse essa moeda para trocar com os Villagers", "§f§ono Lobby do servidor!"}).toItem();
+    }
 
     @EventHandler(priority = EventPriority.LOW)
     public void onPick(PlayerPickupItemEvent event) {
@@ -53,9 +61,10 @@ public class CoinEvents implements Listener {
 
                 if (coinType.equals(CoinType.X1)) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-
                         MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS);
-
+                    }
+                    for (int i = 1; i <= 1; i++) {
+                        event.getPlayer().getInventory().addItem(COIN);
                     }
                 }
 
@@ -65,6 +74,10 @@ public class CoinEvents implements Listener {
                         MapUtils.sendTitle(player, "§f", "§c§l" + redCoins, 0, 20, 10);
 
                         MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS, 1);
+                    }
+
+                    for (int i = 1; i <= 2; i++) {
+                        event.getPlayer().getInventory().addItem(COIN);
                     }
 
                     if (level != null) {
@@ -82,6 +95,10 @@ public class CoinEvents implements Listener {
                         MapUtils.sendTitle(player, "§f", "§9§l" + blueCoins, 0, 20, 10);
 
                         MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS);
+                    }
+
+                    for (int i = 1; i <= 5; i++) {
+                        event.getPlayer().getInventory().addItem(COIN);
                     }
                 }
             }

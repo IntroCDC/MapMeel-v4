@@ -4,9 +4,8 @@ package br.com.introcdc.mapmeelv4.listeners.finallevel;
  */
 
 import br.com.introcdc.mapmeelv4.MapMain;
+import br.com.introcdc.mapmeelv4.boss.BossBattle;
 import br.com.introcdc.mapmeelv4.level.Level;
-import br.com.introcdc.mapmeelv4.level.LevelObjective;
-import br.com.introcdc.mapmeelv4.listeners.music.MusicUpdaterEvents;
 import br.com.introcdc.mapmeelv4.music.MapSound;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import org.bukkit.*;
@@ -16,10 +15,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Wither;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class FinalLevelEvents implements Listener {
@@ -44,6 +43,7 @@ public class FinalLevelEvents implements Listener {
                     MapUtils.playSound(player, MapSound.EFFECT_JOINING);
                     player.addPotionEffect(Level.blindness);
                 }
+                Bukkit.broadcastMessage(MapUtils.PREFIX + "§oPrepare-se... você tem 10 segundos para se preparar!");
 
                 new BukkitRunnable() {
                     @Override
@@ -56,26 +56,15 @@ public class FinalLevelEvents implements Listener {
                         for (Player player : Bukkit.getOnlinePlayers()) {
                             player.teleport(location);
                             MapUtils.playSound(player, MapSound.MUSIC_TWELVE, SoundCategory.AMBIENT);
-
-                            // Temp Itens
-                            player.getInventory().addItem(new ItemStack(Material.DIAMOND_SWORD));
-                            player.getInventory().addItem(new ItemStack(Material.BOW));
-                            player.getInventory().addItem(new ItemStack(Material.ARROW, 64));
-                            player.getInventory().addItem(new ItemStack(Material.GOLDEN_APPLE, 64));
-                            player.getInventory().addItem(new ItemStack(Material.DIAMOND_HELMET));
-                            player.getInventory().addItem(new ItemStack(Material.DIAMOND_CHESTPLATE));
-                            player.getInventory().addItem(new ItemStack(Material.DIAMOND_LEGGINGS));
-                            player.getInventory().addItem(new ItemStack(Material.DIAMOND_BOOTS));
-
                         }
 
                         for (Entity entity : location.getWorld().getEntitiesByClass(Wither.class)) {
                             entity.remove();
                         }
-                        location.getWorld().spawnEntity(location.clone().add(0, 30, 0), EntityType.WITHER);
+                        BossBattle.getInstance().start();
 
                     }
-                }.runTaskLater(MapMain.getPlugin(), 30);
+                }.runTaskLater(MapMain.getPlugin(), 10 * 20);
 
             }
         }
@@ -93,24 +82,18 @@ public class FinalLevelEvents implements Listener {
         }
 
         if (event.getEntity().getWorld().getName().equalsIgnoreCase("FINAL-BOSS")) {
-
-            MusicUpdaterEvents.musicPause = true;
-
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                MapUtils.playSound(player, MapSound.STOP);
-            }
-
-            Level level = Level.getLevel(event.getEntity().getWorld().getName());
-            LevelObjective levelObjective = level.getObjectives().get("Mate o Chefão");
-
-            levelObjective.spawnStar(true, null);
-
+            BossBattle.getInstance().spawnBase();
         }
 
     }
 
     @EventHandler
     public void onExplode(EntityExplodeEvent event) {
+        event.blockList().clear();
+    }
+
+    @EventHandler
+    public void onExplodeBlock(BlockExplodeEvent event) {
         event.blockList().clear();
     }
 

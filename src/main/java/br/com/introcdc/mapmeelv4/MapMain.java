@@ -1,6 +1,7 @@
 package br.com.introcdc.mapmeelv4;
 
 import br.com.introcdc.mapmeelv4.advancement.CustomAdvancement;
+import br.com.introcdc.mapmeelv4.boss.BossBattle;
 import br.com.introcdc.mapmeelv4.classes.MapClassGetter;
 import br.com.introcdc.mapmeelv4.door.Door;
 import br.com.introcdc.mapmeelv4.door.LittleDoor;
@@ -88,6 +89,7 @@ public class MapMain extends JavaPlugin {
             @Override
             public void run() {
                 NPCTalk.loadNpcs();
+                new BossBattle();
             }
         }.runTaskLater(getPlugin(), 10);
 

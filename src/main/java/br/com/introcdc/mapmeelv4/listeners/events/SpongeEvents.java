@@ -6,6 +6,7 @@ package br.com.introcdc.mapmeelv4.listeners.events;
 import br.com.introcdc.mapmeelv4.MapMain;
 import br.com.introcdc.mapmeelv4.events.UpdateEvent;
 import br.com.introcdc.mapmeelv4.timer.UpdateType;
+import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -40,6 +41,9 @@ public class SpongeEvents implements Listener {
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
+            if (CitizensAPI.getNPCRegistry().isNPC(event.getEntity())) {
+                return;
+            }
             Player player = (Player) event.getEntity();
 
             if (event.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
