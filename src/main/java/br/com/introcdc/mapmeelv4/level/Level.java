@@ -341,7 +341,18 @@ public class Level {
     }
 
     public void loadMobs() {
-        getLoadedMobs().forEach(MapMob::spawn);
+        // getLoadedMobs().forEach(MapMob::spawn);
+        List<EntityType> types = new ArrayList<>();
+        for (MapMob mapMob : getLoadedMobs()) {
+            if (!types.contains(mapMob.getEntityType())) {
+                types.add(mapMob.getEntityType());
+            }
+        }
+        for (MapCoin mapCoin : getLoadedCoins()) {
+            if (MapUtils.RANDOM.nextBoolean()) {
+                mapCoin.getLocation().getWorld().spawnEntity(mapCoin.getLocation(), MapUtils.getRandom(types));
+            }
+        }
     }
 
     public void unloadCoins() {

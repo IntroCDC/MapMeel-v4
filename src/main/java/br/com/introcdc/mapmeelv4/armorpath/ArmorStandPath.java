@@ -79,7 +79,6 @@ public class ArmorStandPath {
 
     public void update() {
         ArmorStand entity = this.entity;
-        entity.setVisible(false);
 
         Location from = this.from;
         Location to = this.to;
@@ -111,6 +110,7 @@ public class ArmorStandPath {
 
             times++;
             if (times == 5) {
+                entity.setVisible(false);
                 times = 0;
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.setSpectatorTarget(null);

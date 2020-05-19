@@ -165,7 +165,7 @@ public class LevelObjective {
 
         Item item = location.getWorld().dropItem(location, MapUtils.itemBuilder(new ItemStack(Material.PLAYER_HEAD)).setOwner("iMeel").setName(getStringObjective()).toItem());
 
-        item.setGravity(true);
+        item.setGravity(false);
         item.setInvulnerable(true);
         item.setVelocity(nullVector);
         item.setPickupDelay(5 * 20);
