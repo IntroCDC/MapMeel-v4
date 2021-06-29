@@ -22,7 +22,8 @@ public class LevelEgSky extends Level {
                 null,
                 new Location(Bukkit.getWorld("world"), 162, 120, 259, 100, 10),
                 new LevelObjective[]{
-                        new LevelObjective("No Centro Da Ilha", new Location(Bukkit.getWorld("EG-SKY"), -423, 93, -850, 89, 90), true)
+                        new LevelObjective("No Centro Da Ilha",
+                                new Location(Bukkit.getWorld("EG-SKY"), -423, 93, -850, 89, 90), true)
                 });
     }
 

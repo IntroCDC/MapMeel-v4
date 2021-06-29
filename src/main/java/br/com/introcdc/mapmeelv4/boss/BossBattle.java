@@ -10,7 +10,6 @@ import br.com.introcdc.mapmeelv4.timer.UpdateType;
 import br.com.introcdc.mapmeelv4.utils.MapUtils;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.nms.v1_15_R1.entity.EntityHumanNPC;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -22,6 +21,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -34,7 +34,8 @@ import java.util.function.BiConsumer;
 public class BossBattle implements Listener {
 
     private static BossBattle instance;
-    private static MapSound[] FNAF = new MapSound[]{MapSound.FNAF_1, MapSound.FNAF_2, MapSound.FNAF_3, MapSound.FNAF_4, MapSound.FNAF_5, MapSound.FNAF_6};
+    private static MapSound[] FNAF = new MapSound[]{MapSound.FNAF_1, MapSound.FNAF_2,
+            MapSound.FNAF_3, MapSound.FNAF_4, MapSound.FNAF_5, MapSound.FNAF_6};
 
     public static BossBattle getInstance() {
         return instance;
@@ -119,6 +120,7 @@ public class BossBattle implements Listener {
             EnderCrystal enderCrystal = center.getWorld().spawn(center.clone().add(3, 0, 0), EnderCrystal.class);
             enderCrystal.setBeamTarget(center.clone().add(0, 25, 0));
             crystals.add(enderCrystal);
+            enderCrystal.setInvulnerable(true);
         }, 12 * 20);
 
         Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
@@ -126,6 +128,7 @@ public class BossBattle implements Listener {
             EnderCrystal enderCrystal = center.getWorld().spawn(center.clone().add(-3, 0, 0), EnderCrystal.class);
             enderCrystal.setBeamTarget(center.clone().add(0, 25, 0));
             crystals.add(enderCrystal);
+            enderCrystal.setInvulnerable(true);
             MapUtils.playSoundToAll(MapUtils.getRandom(FNAF));
             broadcast("Te prepara...", true);
         }, 16 * 20);
@@ -135,6 +138,7 @@ public class BossBattle implements Listener {
             EnderCrystal enderCrystal = center.getWorld().spawn(center.clone().add(0, 0, 3), EnderCrystal.class);
             enderCrystal.setBeamTarget(center.clone().add(0, 25, 0));
             crystals.add(enderCrystal);
+            enderCrystal.setInvulnerable(true);
         }, 20 * 20);
 
         Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
@@ -142,6 +146,7 @@ public class BossBattle implements Listener {
             EnderCrystal enderCrystal = center.getWorld().spawn(center.clone().add(0, 0, -3), EnderCrystal.class);
             enderCrystal.setBeamTarget(center.clone().add(0, 25, 0));
             crystals.add(enderCrystal);
+            enderCrystal.setInvulnerable(true);
         }, 24 * 20);
 
         Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> MapUtils.playSoundToAll(MapUtils.getRandom(FNAF)), 26 * 20);
@@ -163,15 +168,15 @@ public class BossBattle implements Listener {
         Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
             baseActived = true;
             MapUtils.playSoundToAll(MapUtils.getRandom(FNAF));
-            EntityHumanNPC.PlayerNPC playerNPC = (EntityHumanNPC.PlayerNPC) baseNpc.getEntity();
-            playerNPC.setMaxHealth(1000);
-            playerNPC.setHealth(1000);
-            playerNPC.setSprinting(true);
+            Player player = (Player) baseNpc.getEntity();
+            player.setMaxHealth(1000);
+            player.setHealth(1000);
+            player.setSprinting(true);
             baseNpc.setProtected(false);
             bossBar = Bukkit.createBossBar("Base64", BarColor.RED, BarStyle.SOLID);
             bossBar.setVisible(true);
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                bossBar.addPlayer(player);
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                bossBar.addPlayer(online);
             }
             bossBar.setProgress(1);
         }, 40 * 20);
@@ -180,10 +185,14 @@ public class BossBattle implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player && CitizensAPI.getNPCRegistry().isNPC(event.getEntity())) {
-            if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) && !event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) && !event.getCause().equals(EntityDamageEvent.DamageCause.POISON) && !event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)) {
-                event.setCancelled(true);
-            }
+        if (!(event.getEntity() instanceof Player) || !CitizensAPI.getNPCRegistry().isNPC(event.getEntity())) {
+            return;
+        }
+        if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK) &&
+                !event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) &&
+                !event.getCause().equals(EntityDamageEvent.DamageCause.POISON) &&
+                !event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)) {
+            event.setCancelled(true);
         }
     }
 
@@ -194,75 +203,92 @@ public class BossBattle implements Listener {
 
     @EventHandler
     public void onDeath(EntityDeathEvent event) {
-        if (event.getEntity() instanceof Player && CitizensAPI.getNPCRegistry().isNPC(event.getEntity()) && event.getEntity().getName().equalsIgnoreCase("Base64")) {
-            Player player = (Player) event.getEntity();
-            CitizensAPI.getNPCRegistry().getNPC(player).destroy();
-            center.getWorld().setDifficulty(Difficulty.PEACEFUL);
-            for (int x = -5; x <= 5; x++) {
-                for (int z = -5; z <= 5; z++) {
-                    center.clone().add(x, 0, z).getBlock().setType(Material.AIR);
-                }
+        if (!(event.getEntity() instanceof Player) || !CitizensAPI.getNPCRegistry().isNPC(event.getEntity()) ||
+                !event.getEntity().getName().equalsIgnoreCase("Base64")) {
+            return;
+        }
+        Player player = (Player) event.getEntity();
+        CitizensAPI.getNPCRegistry().getNPC(player).destroy();
+        center.getWorld().setDifficulty(Difficulty.PEACEFUL);
+        for (int x = -5; x <= 5; x++) {
+            for (int z = -5; z <= 5; z++) {
+                center.clone().add(x, 0, z).getBlock().setType(Material.AIR);
             }
-            MusicUpdaterEvents.musicPause = true;
-            MapUtils.playSoundToAll(MapSound.STOP);
-            bossBar.removeAll();
-            if (baseActived) {
-                baseActived = false;
-                MapUtils.playSoundToAll(Sound.ENTITY_ENDER_DRAGON_DEATH);
-                NPC npc = MapUtils.createNPC(EntityType.PLAYER, "Base64", player.getLocation(), "Intro_GamerHD");
-                npc.setProtected(false);
-                Player playerNpc = (Player) npc.getEntity();
-                ArmorStand armorStand = npc.getStoredLocation().getWorld().spawn(MapUtils.getLocation("FINAL-BOSS", npc.getStoredLocation().getX() + 3, npc.getStoredLocation().getY() + 3, npc.getStoredLocation().getZ() + 3, npc.getStoredLocation()), ArmorStand.class);
-                armorStand.setVisible(false);
-                armorStand.setGravity(false);
-                for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
-                    otherPlayer.setGameMode(GameMode.SPECTATOR);
-                    otherPlayer.setSpectatorTarget(armorStand);
-                }
-                broadcast("Você me paga...");
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        npc.faceLocation(armorStand.getLocation());
-                        npc.getStoredLocation().getWorld().strikeLightningEffect(npc.getStoredLocation());
-                        playerNpc.setHealth(playerNpc.getHealth() - 2);
-                        if (playerNpc.getHealth() <= 1) {
-                            cancel();
-                            Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
-                                armorStand.remove();
-                                center.getWorld().setDifficulty(Difficulty.NORMAL);
-                                for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
-                                    otherPlayer.setGameMode(GameMode.ADVENTURE);
-                                }
-                            }, 40);
-                        }
+        }
+        MusicUpdaterEvents.musicPause = true;
+        MapUtils.playSoundToAll(MapSound.STOP);
+        bossBar.removeAll();
+        if (baseActived) {
+            baseActived = false;
+            MapUtils.playSoundToAll(Sound.ENTITY_ENDER_DRAGON_DEATH);
+            NPC npc = MapUtils.createNPC(EntityType.PLAYER, "Base64", player.getLocation(), "Intro_GamerHD");
+            npc.setProtected(false);
+            Player playerNpc = (Player) npc.getEntity();
+            ArmorStand armorStand = npc.getStoredLocation().getWorld()
+                    .spawn(MapUtils.getLocation("FINAL-BOSS", npc.getStoredLocation().getX() + 3,
+                            npc.getStoredLocation().getY() + 3, npc.getStoredLocation().getZ() + 3,
+                            npc.getStoredLocation()), ArmorStand.class);
+            armorStand.setVisible(false);
+            armorStand.setGravity(false);
+            for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
+                otherPlayer.setGameMode(GameMode.SPECTATOR);
+                otherPlayer.setSpectatorTarget(armorStand);
+            }
+            broadcast("Você me paga...");
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    npc.faceLocation(armorStand.getLocation());
+                    npc.getStoredLocation().getWorld().strikeLightningEffect(npc.getStoredLocation());
+                    playerNpc.setHealth(playerNpc.getHealth() - 2);
+                    if (playerNpc.getHealth() <= 1) {
+                        cancel();
+                        Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
+                            armorStand.remove();
+                            center.getWorld().setDifficulty(Difficulty.NORMAL);
+                            for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
+                                otherPlayer.setGameMode(GameMode.ADVENTURE);
+                            }
+                        }, 40);
                     }
-                }.runTaskTimer(MapMain.getPlugin(), 1, 5);
-            } else {
-                Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
-                    Level level = Level.getLevel(event.getEntity().getWorld().getName());
-                    LevelObjective levelObjective = level.getObjectives().get("Mate o Chefão");
-                    levelObjective.spawnStar(true, null);
-                }, 10 * 20);
-            }
+                }
+            }.runTaskTimer(MapMain.getPlugin(), 1, 5);
+        } else {
+            Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
+                Level level = Level.getLevel(event.getEntity().getWorld().getName());
+                LevelObjective levelObjective = level.getObjectives().get("Mate o Chefão");
+                levelObjective.spawnStar(true, null);
+            }, 10 * 20);
         }
     }
 
     @EventHandler
     public void onUpdate(UpdateEvent event) {
-        if (event.getType() == UpdateType.SECONDS && event.getTimes() == 2 && baseActived && baseNpc.isSpawned()) {
-            if (MapUtils.RANDOM.nextBoolean()) {
-                MapUtils.playSoundToAll(MapUtils.getRandom(FNAF));
-            }
-            BaseAttack attack = MapUtils.getRandom(BaseAttack.values());
-            attack.getRunnableAttack().accept(baseNpc, MapUtils.getRandom(Bukkit.getOnlinePlayers()));
-            if (baseNpc.getStoredLocation().distance(center) > 50) {
-                baseNpc.teleport(center, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                center.getWorld().strikeLightning(center);
-                MapUtils.playSoundToAll(MapUtils.getRandom(FNAF));
-            }
-            bossBar.setProgress(((LivingEntity) baseNpc.getEntity()).getHealth() / 1000);
+        if (event.getType() != UpdateType.SECONDS || event.getTimes() != 2 || !baseActived || !baseNpc.isSpawned()) {
+            return;
         }
+        if (MapUtils.RANDOM.nextBoolean()) {
+            MapUtils.playSoundToAll(MapUtils.getRandom(FNAF));
+        }
+        Player target = MapUtils.getRandom(Bukkit.getOnlinePlayers());
+        if (target.getName().equalsIgnoreCase("Introo") && MapUtils.RANDOM.nextBoolean()) {
+            baseNpc.faceLocation(target.getLocation());
+            ((Player) baseNpc.getEntity()).getInventory().setItemInMainHand(new ItemStack(Material.DIAMOND));
+            Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
+                ((Player) baseNpc.getEntity()).getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                Item item = baseNpc.getEntity().getWorld().dropItem(baseNpc.getEntity().getLocation(), new ItemStack(Material.DIAMOND));
+                item.setVelocity(baseNpc.getEntity().getLocation().getDirection());
+            }, 10);
+        } else {
+            BaseAttack attack = MapUtils.getRandom(BaseAttack.values());
+            attack.getRunnableAttack().accept(baseNpc, target);
+        }
+        if (baseNpc.getStoredLocation().distance(center) > 50) {
+            baseNpc.teleport(center, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            center.getWorld().strikeLightning(center);
+            MapUtils.playSoundToAll(MapUtils.getRandom(FNAF));
+        }
+        bossBar.setProgress(((LivingEntity) baseNpc.getEntity()).getHealth() / 1000);
     }
 
     public void broadcast(String message) {
@@ -310,7 +336,7 @@ public class BossBattle implements Listener {
                 BossBattle.getInstance().broadcast("Eu tenho a alma do dragão, " + player.getName() + "!");
             }
             npc.faceLocation(player.getLocation());
-            EntityHumanNPC.PlayerNPC playerNPC = (EntityHumanNPC.PlayerNPC) npc.getEntity();
+            Player playerNPC = (Player) npc.getEntity();
             Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
                 playerNPC.launchProjectile(DragonFireball.class);
                 MapUtils.playSoundToAll(MapUtils.getRandom(FNAF));
@@ -323,7 +349,7 @@ public class BossBattle implements Listener {
                 BossBattle.getInstance().broadcast("Você está com frio, deixa eu te esquentar " + player.getName() + "!");
             }
             npc.faceLocation(player.getLocation());
-            EntityHumanNPC.PlayerNPC playerNPC = (EntityHumanNPC.PlayerNPC) npc.getEntity();
+            Player playerNPC = (Player) npc.getEntity();
             Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
                 playerNPC.launchProjectile(Fireball.class);
                 MapUtils.playSoundToAll(MapUtils.getRandom(FNAF));
@@ -376,7 +402,7 @@ public class BossBattle implements Listener {
                 BossBattle.getInstance().broadcast("Você perto de mim não é nada " + player.getName() + "!");
             }
             npc.faceLocation(player.getLocation());
-            EntityHumanNPC.PlayerNPC playerNPC = (EntityHumanNPC.PlayerNPC) npc.getEntity();
+            Player playerNPC = (Player) npc.getEntity();
             Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
                 MapUtils.playSoundToAll(Sound.ENTITY_LLAMA_SPIT);
                 playerNPC.launchProjectile(LlamaSpit.class);
@@ -473,7 +499,9 @@ public class BossBattle implements Listener {
                 BossBattle.getInstance().broadcast("Ataquem fantasmas!");
             }
 
-            EntityType[] entityType = new EntityType[]{EntityType.ZOMBIE, EntityType.VEX, EntityType.SKELETON, EntityType.PILLAGER, EntityType.EVOKER, EntityType.VINDICATOR, EntityType.CREEPER, EntityType.WITHER_SKELETON, EntityType.GHAST};
+            EntityType[] entityType = new EntityType[]{EntityType.ZOMBIE, EntityType.VEX, EntityType.SKELETON,
+                    EntityType.PILLAGER, EntityType.EVOKER, EntityType.VINDICATOR, EntityType.CREEPER,
+                    EntityType.WITHER_SKELETON, EntityType.GHAST};
             EntityType selected = MapUtils.getRandom(entityType);
 
             npc.getStoredLocation().getWorld().spawnEntity(npc.getStoredLocation().clone().add(1, 2, 0), selected);

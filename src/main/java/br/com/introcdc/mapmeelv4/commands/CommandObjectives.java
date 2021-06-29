@@ -28,12 +28,18 @@ public class CommandObjectives extends CommandBase {
         Inventory inventory = Bukkit.createInventory(new ObjectivesHolder(getPlayerSender(sender).getInventory()), 54, "Objetivos");
 
         for (String[] levelName : new String[][]{
-                new String[]{"1A", "2"}, new String[]{"1B", "3"}, new String[]{"1C", "5"}, new String[]{"1D", "6"},
-                new String[]{"2A", "11"}, new String[]{"2B", "12"}, new String[]{"2C", "14"}, new String[]{"2D", "15"},
-                new String[]{"3A", "20"}, new String[]{"3B", "21"}, new String[]{"3C", "23"}, new String[]{"3D", "24"},
-                new String[]{"4A", "29"}, new String[]{"4B", "30"}, new String[]{"4C", "32"}, new String[]{"4D", "33"},
-                new String[]{"EG-SKY", "37"}, new String[]{"EG-CASTLE", "38"}, new String[]{"EG-CAVE", "39"}, new String[]{"EG-FOREST", "40"}, new String[]{"EG-HELL", "41"}, new String[]{"EG-UNDERWATER", "42"}, new String[]{"EG-WATER", "43"},
-                new String[]{"FINAL-BOSS", "49"}}) {
+                new String[]{"1A", "2"}, new String[]{"1B", "3"},
+                new String[]{"1C", "5"}, new String[]{"1D", "6"},
+                new String[]{"2A", "11"}, new String[]{"2B", "12"},
+                new String[]{"2C", "14"}, new String[]{"2D", "15"},
+                new String[]{"3A", "20"}, new String[]{"3B", "21"},
+                new String[]{"3C", "23"}, new String[]{"3D", "24"},
+                new String[]{"4A", "29"}, new String[]{"4B", "30"},
+                new String[]{"4C", "32"}, new String[]{"4D", "33"},
+                new String[]{"EG-SKY", "37"}, new String[]{"EG-CASTLE", "38"},
+                new String[]{"EG-CAVE", "39"}, new String[]{"EG-FOREST", "40"},
+                new String[]{"EG-HELL", "41"}, new String[]{"EG-UNDERWATER", "42"},
+                new String[]{"EG-WATER", "43"}, new String[]{"FINAL-BOSS", "49"}}) {
 
             Level level = Level.getLevel(levelName[0]);
             if (level == null) {
@@ -48,7 +54,8 @@ public class CommandObjectives extends CommandBase {
             lore.add("§fWarp: §a" + level.getWarp().toString());
             lore.add("§f");
             for (LevelObjective levelObjective : level.getObjectives().values()) {
-                lore.add("§f§o" + levelObjective.getStringObjective() + ": " + (levelObjective.isFinished() ? "§aFinalizado §f(§b" + levelObjective.getWhoFinished() + "§f)" : "§cNão Finalizado!"));
+                lore.add("§f§o" + levelObjective.getStringObjective() + ": " +
+                        (levelObjective.isFinished() ? "§aFinalizado §f(§b" + levelObjective.getWhoFinished() + "§f)" : "§cNão Finalizado!"));
             }
 
             inventory.setItem(Integer.parseInt(levelName[1]), itemBuilder.setLore(lore).toItem());

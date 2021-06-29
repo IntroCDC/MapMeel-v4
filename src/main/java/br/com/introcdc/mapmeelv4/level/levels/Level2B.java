@@ -24,12 +24,18 @@ public class Level2B extends Level {
                 null,
                 new Location(Bukkit.getWorld("world"), -4, 68, -72, -244, 5),
                 new LevelObjective[]{
-                        new LevelObjective("O Fim da linha do trem", MapUtils.getLocation("2B", 404, 77, 129, -263, 90), true),
-                        new LevelObjective("A Baleia na entrada do Natal", MapUtils.getLocation("2B", -27, 52, 281, -355, 90), true),
-                        new LevelObjective("O Papai Noel", MapUtils.getLocation("2B", -37, 111, -349, 0, 0), true),
-                        new LevelObjective("A Praça no meio do Nada", MapUtils.getLocation("2B", 167, 72, -147, -171, 90), true),
-                        new LevelObjective("A Árvore de Natal", MapUtils.getLocation("2B", 25, 105, -46, -276, 90), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("2B", 26, 68, -33, -180, 90), false, true)});
+                        new LevelObjective("O Fim da linha do trem",
+                                MapUtils.getLocation("2B", 404, 77, 129, -263, 90), true),
+                        new LevelObjective("A Baleia na entrada do Natal",
+                                MapUtils.getLocation("2B", -27, 52, 281, -355, 90), true),
+                        new LevelObjective("O Papai Noel",
+                                MapUtils.getLocation("2B", -37, 111, -349, 0, 0), true),
+                        new LevelObjective("A Praça no meio do Nada",
+                                MapUtils.getLocation("2B", 167, 72, -147, -171, 90), true),
+                        new LevelObjective("A Árvore de Natal",
+                                MapUtils.getLocation("2B", 25, 105, -46, -276, 90), true),
+                        new LevelObjective("Pegue 8 Corações",
+                                MapUtils.getLocation("2B", 26, 68, -33, -180, 90), false, true)});
     }
 
 }

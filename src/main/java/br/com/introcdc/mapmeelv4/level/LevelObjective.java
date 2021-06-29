@@ -124,7 +124,8 @@ public class LevelObjective {
                 float fly = player.getFlySpeed();
                 player.setFlySpeed(0.0f);
                 player.setGameMode(GameMode.SPECTATOR);
-                player.teleport(MapUtils.getLocation(level.getWarp().getWorld(), location.getX() + 3, location.getY() + 3, location.getZ() + 3, location));
+                player.teleport(MapUtils.getLocation(level.getWarp().getWorld(), location.getX() + 3,
+                        location.getY() + 3, location.getZ() + 3, location));
                 MapUtils.playSound(player, MapSound.EFFECT_STAR);
                 new BukkitRunnable() {
                     @Override
@@ -163,12 +164,27 @@ public class LevelObjective {
         this.despawn();
         location.getChunk().load();
 
-        Item item = location.getWorld().dropItem(location, MapUtils.itemBuilder(new ItemStack(Material.PLAYER_HEAD)).setOwner("iMeel").setName(getStringObjective()).toItem());
+        Item item = location.getWorld().dropItem(location, MapUtils.itemBuilder(
+                new ItemStack(Material.PLAYER_HEAD)).setOwner("iMeel").setName(getStringObjective()).toItem());
 
-        item.setGravity(false);
+        // item.setGravity(false);
         item.setInvulnerable(true);
         item.setVelocity(nullVector);
         item.setPickupDelay(5 * 20);
+
+        boolean air = true;
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                for (int z = -1; z <= 1; z++) {
+                    if (location.clone().add(x, y, z).getBlock().getType() != Material.AIR) {
+                        air = false;
+                    }
+                }
+            }
+        }
+        if (air) {
+            item.setGravity(false);
+        }
 
         this.item = item;
     }

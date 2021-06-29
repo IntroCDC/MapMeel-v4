@@ -28,38 +28,46 @@ public class DoorEvents implements Listener {
         if (event.getAction().toString().contains("BLOCK") && event.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
             if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.IRON_BARS)) {
                 for (Door door : Door.allDoors) {
-                    if (event.getClickedBlock().getLocation().distance(door.getLocation()) < 5) {
-                        if (cooldown) {
-                            return;
+                    if (!(event.getClickedBlock().getLocation().distance(door.getLocation()) < 5)) {
+                        continue;
+                    }
+                    if (cooldown) {
+                        return;
+                    }
+
+                    cooldown = true;
+                    Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> cooldown = false, 100);
+
+                    if (Level.stars < door.getNeedStars()) {
+                        door.openDoor(false);
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            MapUtils.playSound(player, MapSound.EFFECT_BAD_MESSAGE);
+                            MapUtils.sendTitle(player, "§4§l§oPortão Trancado!",
+                                    "§c§oVocê precisa ter " + door.getNeedStars() +
+                                            " estrelas! (falta: " + (door.getNeedStars() - Level.stars) + ")",
+                                    10, 40, 20);
+                        }
+                    } else {
+                        door.openDoor(true);
+
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            MapUtils.playSound(player, MapSound.EFFECT_JOINING);
+                            MapUtils.sendTitle(player, "§b§l§oAbrindo...",
+                                    "§f§oAbrindo portão com o poder das estrelas...",
+                                    5, 40, 20);
                         }
 
-                        cooldown = true;
-                        Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> cooldown = false, 100);
-
-                        if (Level.stars < door.getNeedStars()) {
-                            door.openDoor(false);
-                            for (Player player : Bukkit.getOnlinePlayers()) {
-                                MapUtils.playSound(player, MapSound.EFFECT_BAD_MESSAGE);
-                                MapUtils.sendTitle(player, "§4§l§oPortão Trancado!", "§c§oVocê precisa ter " + door.getNeedStars() + " estrelas! (falta: " + (door.getNeedStars() - Level.stars) + ")", 10, 40, 20);
-                            }
-                        } else {
-                            door.openDoor(true);
-
-                            for (Player player : Bukkit.getOnlinePlayers()) {
-                                MapUtils.playSound(player, MapSound.EFFECT_JOINING);
-                                MapUtils.sendTitle(player, "§b§l§oAbrindo...", "§f§oAbrindo portão com o poder das estrelas...", 5, 40, 20);
-                            }
-
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    for (Player player : Bukkit.getOnlinePlayers()) {
-                                        MapUtils.playSound(player, MapSound.EFFECT_OPEN_DOOR);
-                                        MapUtils.sendTitle(player, "§a§lPortão Aberto!", "§f§oPortão aberto com o poder das estrelas!", 5, 40, 20);
-                                    }
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                for (Player player : Bukkit.getOnlinePlayers()) {
+                                    MapUtils.playSound(player, MapSound.EFFECT_OPEN_DOOR);
+                                    MapUtils.sendTitle(player, "§a§lPortão Aberto!",
+                                            "§f§oPortão aberto com o poder das estrelas!",
+                                            5, 40, 20);
                                 }
-                            }.runTaskLater(MapMain.getPlugin(), 100);
-                        }
+                            }
+                        }.runTaskLater(MapMain.getPlugin(), 100);
                     }
                 }
             }
@@ -80,7 +88,10 @@ public class DoorEvents implements Listener {
 
                         for (Player player : Bukkit.getOnlinePlayers()) {
                             MapUtils.playSound(player, MapSound.EFFECT_BAD_MESSAGE);
-                            MapUtils.sendTitle(player, "§4§lPorta Trancada!", "§c§oVocê precisa ter " + littleDoor.getNeedStars() + " estrelas! (falta: " + (littleDoor.getNeedStars() - Level.stars) + ")", 10, 40, 20);
+                            MapUtils.sendTitle(player, "§4§lPorta Trancada!",
+                                    "§c§oVocê precisa ter " + littleDoor.getNeedStars() +
+                                            " estrelas! (falta: " + (littleDoor.getNeedStars() - Level.stars) + ")",
+                                    10, 40, 20);
                         }
                     } else {
                         littleDoor.onEnterDoor();

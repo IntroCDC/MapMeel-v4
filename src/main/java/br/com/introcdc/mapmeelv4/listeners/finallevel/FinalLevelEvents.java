@@ -32,42 +32,43 @@ public class FinalLevelEvents implements Listener {
             return;
         }
 
-        if (event.getTo().getWorld().getName().equalsIgnoreCase("FINAL-BOSS")) {
-            if (event.getTo().getBlock().getType() == Material.END_PORTAL) {
-                teleport = true;
+        if (!event.getTo().getWorld().getName().equalsIgnoreCase("FINAL-BOSS")) {
+            return;
+        }
+        if (event.getTo().getBlock().getType() != Material.END_PORTAL) {
+            return;
+        }
+        teleport = true;
 
-                Level.getLevel(event.getTo().getWorld().getName()).setTempBackgroungMapSound(MapSound.MUSIC_TWELVE);
+        Level.getLevel(event.getTo().getWorld().getName()).setTempBackgroungMapSound(MapSound.MUSIC_TWELVE);
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            MapUtils.playSound(player, MapSound.STOP);
+            MapUtils.playSound(player, MapSound.EFFECT_JOINING);
+            player.addPotionEffect(Level.blindness);
+        }
+        Bukkit.broadcastMessage(MapUtils.PREFIX + "§oPrepare-se... você tem 10 segundos para se preparar!");
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                Location location = new Location(Bukkit.getWorld("FINAL-BOSS"), 5000, 102, 5000);
+
+                location.getWorld().setDifficulty(Difficulty.NORMAL);
 
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    MapUtils.playSound(player, MapSound.STOP);
-                    MapUtils.playSound(player, MapSound.EFFECT_JOINING);
-                    player.addPotionEffect(Level.blindness);
+                    player.teleport(location);
+                    MapUtils.playSound(player, MapSound.MUSIC_TWELVE, SoundCategory.AMBIENT);
                 }
-                Bukkit.broadcastMessage(MapUtils.PREFIX + "§oPrepare-se... você tem 10 segundos para se preparar!");
 
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-
-                        Location location = new Location(Bukkit.getWorld("FINAL-BOSS"), 5000, 102, 5000);
-
-                        location.getWorld().setDifficulty(Difficulty.NORMAL);
-
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            player.teleport(location);
-                            MapUtils.playSound(player, MapSound.MUSIC_TWELVE, SoundCategory.AMBIENT);
-                        }
-
-                        for (Entity entity : location.getWorld().getEntitiesByClass(Wither.class)) {
-                            entity.remove();
-                        }
-                        BossBattle.getInstance().start();
-
-                    }
-                }.runTaskLater(MapMain.getPlugin(), 10 * 20);
+                for (Entity entity : location.getWorld().getEntitiesByClass(Wither.class)) {
+                    entity.remove();
+                }
+                BossBattle.getInstance().start();
 
             }
-        }
+        }.runTaskLater(MapMain.getPlugin(), 10 * 20);
 
     }
 

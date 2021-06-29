@@ -24,12 +24,18 @@ public class Level4A extends Level {
                 null,
                 new Location(Bukkit.getWorld("world"), -5, 52, -31, 205, 11),
                 new LevelObjective[]{
-                        new LevelObjective("O Lago Central do Palácio", MapUtils.getLocation("4A", -149, 22, 571, -178, 90), true),
-                        new LevelObjective("No Rabo do Dragão", MapUtils.getLocation("4A", -312, 27, 614, -181, 90), true),
-                        new LevelObjective("Siga Para a Floresta Do Outro Lado", MapUtils.getLocation("4A", -321, 20, 435, -12, 90), true),
-                        new LevelObjective("O Grande Montanha de Gelo", MapUtils.getLocation("4A", -52, 164, 645, -236, 90), true),
-                        new LevelObjective("O Fim do Mapa", MapUtils.getLocation("4A", -233, 21, 778, -166, 90), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("4A", -189, 20, 467, -91, 90), false, true)
+                        new LevelObjective("O Lago Central do Palácio",
+                                MapUtils.getLocation("4A", -149, 22, 571, -178, 90), true),
+                        new LevelObjective("No Rabo do Dragão",
+                                MapUtils.getLocation("4A", -312, 27, 614, -181, 90), true),
+                        new LevelObjective("Siga Para a Floresta Do Outro Lado",
+                                MapUtils.getLocation("4A", -321, 20, 435, -12, 90), true),
+                        new LevelObjective("O Grande Montanha de Gelo",
+                                MapUtils.getLocation("4A", -52, 164, 645, -236, 90), true),
+                        new LevelObjective("O Fim do Mapa",
+                                MapUtils.getLocation("4A", -233, 21, 778, -166, 90), true),
+                        new LevelObjective("Pegue 8 Corações",
+                                MapUtils.getLocation("4A", -189, 20, 467, -91, 90), false, true)
                 });
     }
 

@@ -93,11 +93,14 @@ public class JoinEvents implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onLogin(AsyncPlayerPreLoginEvent event) throws Exception {
         if (!MapUtils.getProfile(event.getName()).existsProfile() && !avaibledForAll) {
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, MapUtils.PREFIX + "§cO projeto MapMeel v4 é um projeto privado e não liberado para pessoas de fora!\n\n§c§o(Sua conta não foi encontrada!)");
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, MapUtils.PREFIX +
+                    "§cO projeto MapMeel v4 é um projeto privado e não liberado para pessoas de fora!\n\n" +
+                    "§c§o(Sua conta não foi encontrada!)");
             return;
         }
         if (!MapUtils.getProfile(event.getName()).getCargo().isStaff() && onlyStaff) {
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, MapUtils.PREFIX + "§cO servidor MapMeel v4 atualmente está liberado apenas para Staffers!");
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, MapUtils.PREFIX +
+                    "§cO servidor MapMeel v4 atualmente está liberado apenas para Staffers!");
         }
     }
 

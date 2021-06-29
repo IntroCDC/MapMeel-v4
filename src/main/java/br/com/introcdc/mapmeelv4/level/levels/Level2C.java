@@ -26,12 +26,18 @@ public class Level2C extends Level {
                 new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 100),
                 new Location(Bukkit.getWorld("world"), 31, 50, -70, -17, 3),
                 new LevelObjective[]{
-                        new LevelObjective("Escombros da grande torre ao lado", MapUtils.getLocation("2C", 763, 121, 649, -258, 15), true),
-                        new LevelObjective("Desca para o Norte e siga o caminho", MapUtils.getLocation("2C", 708, 133, 622, -12, 25), true),
-                        new LevelObjective("A Grande Torre vizinha", MapUtils.getLocation("2C", 699, 76, 666, 155, 53), true),
-                        new LevelObjective("Na lingua do grande animal ao Norte", MapUtils.getLocation("2C", 640, 137, 549, -13, 53), true),
-                        new LevelObjective("A última torre do Sul", MapUtils.getLocation("2C", 780, 207, 1087, -197, 90), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("2C", 754, 249, 653, 253, 90), false, true)
+                        new LevelObjective("Escombros da grande torre ao lado",
+                                MapUtils.getLocation("2C", 763, 121, 649, -258, 15), true),
+                        new LevelObjective("Desca para o Norte e siga o caminho",
+                                MapUtils.getLocation("2C", 708, 133, 622, -12, 25), true),
+                        new LevelObjective("A Grande Torre vizinha",
+                                MapUtils.getLocation("2C", 699, 76, 666, 155, 53), true),
+                        new LevelObjective("Na lingua do grande animal ao Norte",
+                                MapUtils.getLocation("2C", 640, 137, 549, -13, 53), true),
+                        new LevelObjective("A última torre do Sul",
+                                MapUtils.getLocation("2C", 780, 207, 1087, -197, 90), true),
+                        new LevelObjective("Pegue 8 Corações",
+                                MapUtils.getLocation("2C", 754, 249, 653, 253, 90), false, true)
                 });
     }
 

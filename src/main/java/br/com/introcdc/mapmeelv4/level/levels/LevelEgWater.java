@@ -22,7 +22,8 @@ public class LevelEgWater extends Level {
                 null,
                 new Location(Bukkit.getWorld("world"), 134, 53, -226, -168, 10),
                 new LevelObjective[]{
-                        new LevelObjective("No Centro do Templo", new Location(Bukkit.getWorld("EG-WATER"), -91, 91, -14, 200, 90), true)
+                        new LevelObjective("No Centro do Templo",
+                                new Location(Bukkit.getWorld("EG-WATER"), -91, 91, -14, 200, 90), true)
                 });
     }
 

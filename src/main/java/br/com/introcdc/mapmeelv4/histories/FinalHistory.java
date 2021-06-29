@@ -257,12 +257,16 @@ public class FinalHistory implements Listener {
 
         String playerName = ((Player) Bukkit.getOnlinePlayers().toArray()[0]).getName();
 
-        NPC sombraOne = MapUtils.createNPC(EntityType.PLAYER, "Sombra", new Location(Bukkit.getWorld("world"), -36.5, 49, -17.5, -229, 0), "LookAtTheSky_");
-        NPC sombraTwo = MapUtils.createNPC(EntityType.PLAYER, "Sombra", new Location(Bukkit.getWorld("world"), -36.5, 49, -25.5, -313, 0), "LookAtTheSky_");
+        NPC sombraOne = MapUtils.createNPC(EntityType.PLAYER, "Sombra",
+                new Location(Bukkit.getWorld("world"), -36.5, 49, -17.5, -229, 0), "SombraXD");
+        NPC sombraTwo = MapUtils.createNPC(EntityType.PLAYER, "Sombra",
+                new Location(Bukkit.getWorld("world"), -36.5, 49, -25.5, -313, 0), "SombraXD");
 
-        NPC playerViewer = MapUtils.createNPC(EntityType.PLAYER, playerName, new Location(Bukkit.getWorld("world"), -40.5, 49, -21.5, 269, 0));
+        NPC playerViewer = MapUtils.createNPC(EntityType.PLAYER, playerName,
+                new Location(Bukkit.getWorld("world"), -40.5, 49, -21.5, 269, 0));
 
-        NPC meel = MapUtils.createNPC(EntityType.PLAYER, "iMeel", new Location(Bukkit.getWorld("world"), -24.5, 149, -21.5, 90, 0));
+        NPC meel = MapUtils.createNPC(EntityType.PLAYER, "iMeel",
+                new Location(Bukkit.getWorld("world"), -24.5, 149, -21.5, 90, 0));
         Location loc = new Location(Bukkit.getWorld("world"), -30, 53, -22);
 
         for (int z = -4; z <= 4; z++) {

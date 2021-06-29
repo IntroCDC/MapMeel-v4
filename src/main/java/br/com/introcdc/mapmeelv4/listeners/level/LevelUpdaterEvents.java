@@ -17,18 +17,23 @@ public class LevelUpdaterEvents implements Listener {
 
     @EventHandler
     public void onUpdate(UpdateEvent event) {
-        if (event.getType().equals(UpdateType.SECONDS) && event.getTimes() == 1) {
-            Bukkit.getOnlinePlayers().forEach(player -> {
-                World world = player.getWorld();
-
-                if (Level.getLevel(world.getName()) != null) {
-                    try {
-                        MapUtils.sendActionBar(player, "Total de Moedas: §b§l" + CoinEvents.coins + " §f- Moedas: §e" + (CoinEvents.coins - ((CoinEvents.redCoins * 2) + (CoinEvents.blueCoins * 5))) + " §f- Corações: §c" + CoinEvents.redCoins + " §f- Cubos: §9" + CoinEvents.blueCoins);
-                    } catch (Exception ignored) {
-                    }
-                }
-            });
+        if (!event.getType().equals(UpdateType.SECONDS) || event.getTimes() != 1) {
+            return;
         }
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            World world = player.getWorld();
+
+            if (Level.getLevel(world.getName()) == null) {
+                return;
+            }
+            try {
+                MapUtils.sendActionBar(player, "Total de Moedas: §b§l" +
+                        CoinEvents.coins + " §f- Moedas: §e" + (CoinEvents.coins -
+                        ((CoinEvents.redCoins * 2) + (CoinEvents.blueCoins * 5))) +
+                        " §f- Corações: §c" + CoinEvents.redCoins + " §f- Cubos: §9" + CoinEvents.blueCoins);
+            } catch (Exception ignored) {
+            }
+        });
     }
 
 }

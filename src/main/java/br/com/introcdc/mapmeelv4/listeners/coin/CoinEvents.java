@@ -27,79 +27,82 @@ public class CoinEvents implements Listener {
     public static ItemStack COIN;
 
     static {
-        COIN = MapUtils.itemBuilder(new ItemStack(Material.ACACIA_PLANKS)).setName("§lMoeda").setLore(new String[]{"§f§oUse essa moeda para trocar com os Villagers", "§f§ono Lobby do servidor!"}).toItem();
+        COIN = MapUtils.itemBuilder(new ItemStack(Material.ACACIA_PLANKS)).setName("§lMoeda")
+                .setLore(new String[]{"§f§oUse essa moeda para trocar com os Villagers", "§f§ono Lobby do servidor!"}).toItem();
     }
 
     @EventHandler(priority = EventPriority.LOW)
     public void onPick(PlayerPickupItemEvent event) {
         for (CoinType coinType : CoinType.values()) {
-            if (event.getItem().getItemStack().getType().equals(coinType.getMaterial())) {
-                event.setCancelled(true);
-                if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
-                    return;
+            if (!event.getItem().getItemStack().getType().equals(coinType.getMaterial())) {
+                continue;
+            }
+            event.setCancelled(true);
+            if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
+                return;
+            }
+
+            event.getItem().remove();
+
+            long toAdd = ((long) coinType.getCoins() * event.getItem().getItemStack().getAmount());
+            long old = coins;
+            coins += toAdd;
+
+            int air = coinType.getCoins() * 100;
+
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.setRemainingAir(Math.min(player.getRemainingAir() + air, 300));
+                player.setHealth(Math.min(player.getHealth() + (coinType.getCoins() * 2), 20));
+            }
+
+            Level level = Level.getLevel(event.getPlayer().getWorld().getName());
+
+            if (old < 100 && coins >= 100 && level != null) {
+                if (level.getObjectives().get("Colete 100 Moedas") != null) {
+                    level.getObjectives().get("Colete 100 Moedas").spawnStar(true, event.getPlayer().getLocation().clone());
                 }
+            }
 
-                event.getItem().remove();
-
-                long old = coins;
-                coins += coinType.getCoins();
-
-                int air = coinType.getCoins() * 100;
-
+            if (coinType.equals(CoinType.X1)) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.setRemainingAir(Math.min(player.getRemainingAir() + air, 300));
-                    player.setHealth(Math.min(player.getHealth() + (coinType.getCoins() * 2), 20));
+                    MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS);
+                }
+                for (int i = 1; i <= toAdd; i++) {
+                    event.getPlayer().getInventory().addItem(COIN);
+                }
+            }
+
+            if (coinType.equals(CoinType.X2)) {
+                redCoins++;
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    MapUtils.sendTitle(player, "§f", "§c§l" + redCoins, 0, 20, 10);
+
+                    MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS, 1);
                 }
 
-                Level level = Level.getLevel(event.getPlayer().getWorld().getName());
-
-                if (old < 100 && coins >= 100 && level != null) {
-                    if (level.getObjectives().get("Colete 100 Moedas") != null) {
-                        level.getObjectives().get("Colete 100 Moedas").spawnStar(true, event.getPlayer().getLocation().clone());
-                    }
+                for (int i = 1; i <= toAdd; i++) {
+                    event.getPlayer().getInventory().addItem(COIN);
                 }
 
-                if (coinType.equals(CoinType.X1)) {
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS);
-                    }
-                    for (int i = 1; i <= 1; i++) {
-                        event.getPlayer().getInventory().addItem(COIN);
-                    }
-                }
-
-                if (coinType.equals(CoinType.X2)) {
-                    redCoins++;
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        MapUtils.sendTitle(player, "§f", "§c§l" + redCoins, 0, 20, 10);
-
-                        MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS, 1);
-                    }
-
-                    for (int i = 1; i <= 2; i++) {
-                        event.getPlayer().getInventory().addItem(COIN);
-                    }
-
-                    if (level != null) {
-                        if (redCoins == 8) {
-                            if (level.getObjectives().containsKey("Pegue 8 Corações")) {
-                                level.getObjectives().get("Pegue 8 Corações").spawnStar(true, null);
-                            }
+                if (level != null) {
+                    if (redCoins == 8) {
+                        if (level.getObjectives().containsKey("Pegue 8 Corações")) {
+                            level.getObjectives().get("Pegue 8 Corações").spawnStar(true, null);
                         }
                     }
-
                 }
-                if (coinType.equals(CoinType.X5)) {
-                    blueCoins++;
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        MapUtils.sendTitle(player, "§f", "§9§l" + blueCoins, 0, 20, 10);
 
-                        MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS);
-                    }
+            }
+            if (coinType.equals(CoinType.X5)) {
+                blueCoins++;
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    MapUtils.sendTitle(player, "§f", "§9§l" + blueCoins, 0, 20, 10);
 
-                    for (int i = 1; i <= 5; i++) {
-                        event.getPlayer().getInventory().addItem(COIN);
-                    }
+                    MapUtils.playSound(player, MapSound.EFFECT_COIN, SoundCategory.BLOCKS);
+                }
+
+                for (int i = 1; i <= toAdd; i++) {
+                    event.getPlayer().getInventory().addItem(COIN);
                 }
             }
         }

@@ -15,7 +15,9 @@ public class ChatFormatter implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
 
         event.setCancelled(true);
-        Bukkit.broadcastMessage("§f§l" + (event.getPlayer().isOp() ? "§o" : "") + event.getPlayer().getName() + "§f: " + ChatColor.translateAlternateColorCodes('&', event.getMessage()));
+        Bukkit.broadcastMessage("§f§l" + (event.getPlayer().isOp() ? "§o" : "") +
+                event.getPlayer().getName() + "§f: " +
+                ChatColor.translateAlternateColorCodes('&', event.getMessage()));
 
     }
 

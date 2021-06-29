@@ -23,7 +23,8 @@ public class FinalLevel extends Level {
                 null,
                 new Location(Bukkit.getWorld("world"), -4, 150, -18, -140, 61),
                 new LevelObjective[]{
-                        new LevelObjective("Mate o Chefão", new Location(Bukkit.getWorld("FINAL-BOSS"), 5000, 102, 5000), false, true)
+                        new LevelObjective("Mate o Chefão", new Location(Bukkit.getWorld("FINAL-BOSS"),
+                                5000, 102, 5000), false, true)
                 });
     }
 

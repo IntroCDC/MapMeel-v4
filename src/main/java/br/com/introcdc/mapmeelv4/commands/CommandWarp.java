@@ -36,10 +36,12 @@ public class CommandWarp extends CommandBase {
                         return;
                     }
                     getPlayer(args[1]).teleport(selected.getLocation());
-                    sender.sendMessage(MapUtils.PREFIX + "§fVocê teleportou §a" + getPlayer(args[1]).getName() + "§f para a warp §a" + selected.getName() + "§f com sucesso!");
+                    sender.sendMessage(MapUtils.PREFIX + "§fVocê teleportou §a" +
+                            getPlayer(args[1]).getName() + "§f para a warp §a" + selected.getName() + "§f com sucesso!");
                 } else {
                     getPlayerSender(sender).teleport(selected.getLocation());
-                    sender.sendMessage(MapUtils.PREFIX + "§fVocê teleportou-se para a warp §a" + selected.getName() + "§f com sucesso!");
+                    sender.sendMessage(MapUtils.PREFIX + "§fVocê teleportou-se para a warp §a" +
+                            selected.getName() + "§f com sucesso!");
                 }
                 return;
             } else {
@@ -50,7 +52,8 @@ public class CommandWarp extends CommandBase {
         TextComponent warps = new TextComponent(MapUtils.PREFIX + "§fWarps: §a");
         for (Warp warp : Warp.values()) {
             TextComponent warpp = new TextComponent("§a" + warp.getName() + "§f, ");
-            warpp.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§fClique para teleportar-se para a warp!").create()));
+            warpp.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new ComponentBuilder("§fClique para teleportar-se para a warp!").create()));
             warpp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/warp " + warp.getName()));
             warps.addExtra(warpp);
         }

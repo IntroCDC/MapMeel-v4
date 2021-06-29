@@ -24,12 +24,18 @@ public class Level4B extends Level {
                 null,
                 new Location(Bukkit.getWorld("world"), 7, 53, -24, 286, 14),
                 new LevelObjective[]{
-                        new LevelObjective("A Plantação das Plantações", MapUtils.getLocation("4B", 67, 126, 309, -136, 15), true),
-                        new LevelObjective("O Templo da Floresta", MapUtils.getLocation("4B", 150, 69, 171, -198, 90), true),
-                        new LevelObjective("A Estrela Engarrafada", MapUtils.getLocation("4B", 276, 63, 207, -183, 90), true),
-                        new LevelObjective("A Casa Solitária", MapUtils.getLocation("4B", 125, 130, 211, -359, 90), true),
-                        new LevelObjective("A Caverna do Extremo Positivo", MapUtils.getLocation("4B", 287, 65, 359, -264, 12), true),
-                        new LevelObjective("Pegue 8 Corações", MapUtils.getLocation("4B", 261, 63, 193, -359, 90), false, true)
+                        new LevelObjective("A Plantação das Plantações",
+                                MapUtils.getLocation("4B", 67, 126, 309, -136, 15), true),
+                        new LevelObjective("O Templo da Floresta",
+                                MapUtils.getLocation("4B", 150, 69, 171, -198, 90), true),
+                        new LevelObjective("A Estrela Engarrafada",
+                                MapUtils.getLocation("4B", 276, 63, 207, -183, 90), true),
+                        new LevelObjective("A Casa Solitária",
+                                MapUtils.getLocation("4B", 125, 130, 211, -359, 90), true),
+                        new LevelObjective("A Caverna do Extremo Positivo",
+                                MapUtils.getLocation("4B", 287, 65, 359, -264, 12), true),
+                        new LevelObjective("Pegue 8 Corações",
+                                MapUtils.getLocation("4B", 261, 63, 193, -359, 90), false, true)
                 });
     }
 

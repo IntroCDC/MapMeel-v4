@@ -25,7 +25,8 @@ public class ObjectiveEgCave extends LevelObjective {
     private List<NPC> npcs = new ArrayList<>();
 
     public ObjectiveEgCave() {
-        super("Perdida na Caverna", new Location(Bukkit.getWorld("EG-CAVE"), -342, 99, -727, 88, 90), true, true, false);
+        super("Perdida na Caverna", new Location(Bukkit.getWorld("EG-CAVE"),
+                -342, 99, -727, 88, 90), true, true, false);
     }
 
     @Override
@@ -42,8 +43,8 @@ public class ObjectiveEgCave extends LevelObjective {
 
         List<String> messages = Arrays.asList(
                 "Medos", "Socorro", "Alguém está aí?", "Is anyone there?", "é, parece que to sozinho",
-                "eu sou uma piada", "não perca tempo comigo", "não posso alcançar meu sonho...", "por que está aqui?", "por que ta jogando isso?",
-                "Intro is dead", "ele está morto"
+                "eu sou uma piada", "não perca tempo comigo", "não posso alcançar meu sonho...", "por que está aqui?",
+                "por que ta jogando isso?", "Intro is dead", "ele está morto"
         );
 
         new BukkitRunnable() {

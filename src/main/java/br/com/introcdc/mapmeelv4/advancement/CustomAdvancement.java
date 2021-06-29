@@ -1,5 +1,6 @@
 package br.com.introcdc.mapmeelv4.advancement;
 
+import br.com.introcdc.mapmeelv4.MapMain;
 import com.google.gson.JsonObject;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -50,33 +51,78 @@ public class CustomAdvancement implements Advancement {
     public static CustomAdvancement FINISHED_GAME;
 
     public static void installAdvancements() {
-        FIRST_ENTRACE = new CustomAdvancement("root", "O Início", "Entre no mapa pela primeira vez", Material.APPLE, null, "mapmeel", false, true, FrameType.TASK).install();
-        CASTLE = new CustomAdvancement("castle", "Um Belo Castelo", "Entre no Castelo da Meel", Material.STONE_BRICKS, "mapmeel/root", "mapmeel", false, true, FrameType.TASK).install();
-        FIRST_SOMBRA = new CustomAdvancement("first_sombra", "Socialize com o Sombra", "Converse com o Sombra na entrada do Castelo", Material.BOOK, "mapmeel/castle", "mapmeel", false, true, FrameType.TASK).install();
-        STILL_HERE = new CustomAdvancement("still_here", "Ainda está aqui?!", "Espere o Sombra parar de falar...", Material.BOOK, "mapmeel/first_sombra", "mapmeel", true, true, FrameType.TASK).install();
+        FIRST_ENTRACE = new CustomAdvancement("root", "O Início", "Entre no mapa pela primeira vez",
+                Material.APPLE, null, "mapmeel", false, true, FrameType.TASK).install();
 
-        OBJECTIVES = new CustomAdvancement("objectives", "O Início de Tudo", "Encontre a entrada do primeiro nível!", Material.BOOK, "mapmeel/first_sombra", "mapmeel", false, true, FrameType.TASK).install();
-        OBJECTIVES_FOLDER = new CustomAdvancement("root", "O Primeiro Nível", "Encontre a entrada do primeiro nível!", Material.BOOK, null, "level1", false, false, FrameType.TASK).install();
+        CASTLE = new CustomAdvancement("castle", "Um Belo Castelo", "Entre no Castelo da Meel",
+                Material.STONE_BRICKS, "mapmeel/root", "mapmeel", false, true, FrameType.TASK).install();
 
-        SECOND_DOOR = new CustomAdvancement("seconddoor", "O Segundo Nível", "Consiga 10 estrelas e abra a porta do segundo nível!", Material.BOOK, "mapmeel/objectives", "mapmeel", false, true, FrameType.CHALLENGE).install();
-        SECOND_DOOR_FOLDER = new CustomAdvancement("root", "O Segundo Nível", "Consiga 10 estrelas e abra a porta do segundo nível!", Material.BOOK, null, "level2", false, false, FrameType.CHALLENGE).install();
+        FIRST_SOMBRA = new CustomAdvancement("first_sombra", "Socialize com o Sombra",
+                "Converse com o Sombra na entrada do Castelo", Material.BOOK,
+                "mapmeel/castle", "mapmeel", false, true, FrameType.TASK).install();
 
-        THIRD_DOOR = new CustomAdvancement("thirddoor", "O Terceiro Nível", "Consiga 25 estrelas e abra a porta do terceiro nível!", Material.BOOK, "mapmeel/seconddoor", "mapmeel", false, true, FrameType.CHALLENGE).install();
-        THIRD_DOOR_FOLDER = new CustomAdvancement("root", "O Terceiro Nível", "Consiga 25 estrelas e abra a porta do terceiro nível!", Material.BOOK, null, "level3", false, false, FrameType.CHALLENGE).install();
+        STILL_HERE = new CustomAdvancement("still_here", "Ainda está aqui?!",
+                "Espere o Sombra parar de falar...", Material.BOOK,
+                "mapmeel/first_sombra", "mapmeel", true, true, FrameType.TASK).install();
 
-        FOURTH_DOOR = new CustomAdvancement("fourthdoor", "O Último Nível", "Consiga 50 estrelas e abra a porta do último nível!", Material.BOOK, "mapmeel/thirddoor", "mapmeel", false, true, FrameType.CHALLENGE).install();
-        FOURTH_DOOR_FOLDER = new CustomAdvancement("root", "O Último Nível", "Consiga 50 estrelas e abra a porta do último nível!", Material.BOOK, null, "level4", false, false, FrameType.CHALLENGE).install();
+        OBJECTIVES = new CustomAdvancement("objectives", "O Início de Tudo",
+                "Encontre a entrada do primeiro nível!", Material.BOOK,
+                "mapmeel/first_sombra", "mapmeel", false, true, FrameType.TASK).install();
 
-        SECRET_LEVELS = new CustomAdvancement("secret_levels", "Tem ainda mais?!", "Encontre o primeiro nível escondido!", Material.GLASS, "mapmeel/first_sombra", "mapmeel", true, true, FrameType.CHALLENGE).install();
-        SECRET_LEVELS_FOLDER = new CustomAdvancement("root", "Níveis Escondidos", "Encontre o primeiro nível escondido!", Material.GLASS, null, "niveisescondidos", true, false, FrameType.CHALLENGE).install();
+        OBJECTIVES_FOLDER = new CustomAdvancement("root", "O Primeiro Nível",
+                "Encontre a entrada do primeiro nível!", Material.BOOK,
+                null, "level1", false, false, FrameType.TASK).install();
 
-        BOSS_DOOR = new CustomAdvancement("boss_door", "Não se preocupe Meel, to indo!", "Consiga 70 estrelas e abra a porta do topo do castelo!", Material.IRON_BARS, "mapmeel/fourthdoor", "mapmeel", false, true, FrameType.CHALLENGE).install();
-        GET_120_STARS = new CustomAdvancement("get120stars", "Finalize o jogo!", "Consiga todas as 120 estrelas do jogo!", Material.PLAYER_HEAD, "mapmeel/boss_level", "mapmeel", false, true, FrameType.CHALLENGE).install();
-        FIND_THE_GATE = new CustomAdvancement("findthegate", "O Portão das 120 Estrelas!", "Procure e encontre o portão das 120 estrelas!", Material.IRON_BARS, "mapmeel/get120stars", "mapmeel", false, true, FrameType.CHALLENGE).install();
-        FINISHED_GAME = new CustomAdvancement("finishedgame", "MapMeel v4 Finalizado!", "Converse com o Intro e finalize o jogo!", Material.DIAMOND, "mapmeel/findthegate", "mapmeel", true, true, FrameType.CHALLENGE).install();
+        SECOND_DOOR = new CustomAdvancement("seconddoor", "O Segundo Nível",
+                "Consiga 10 estrelas e abra a porta do segundo nível!", Material.BOOK,
+                "mapmeel/objectives", "mapmeel", false, true, FrameType.CHALLENGE).install();
+
+        SECOND_DOOR_FOLDER = new CustomAdvancement("root", "O Segundo Nível",
+                "Consiga 10 estrelas e abra a porta do segundo nível!", Material.BOOK,
+                null, "level2", false, false, FrameType.CHALLENGE).install();
+
+        THIRD_DOOR = new CustomAdvancement("thirddoor", "O Terceiro Nível",
+                "Consiga 25 estrelas e abra a porta do terceiro nível!", Material.BOOK,
+                "mapmeel/seconddoor", "mapmeel", false, true, FrameType.CHALLENGE).install();
+
+        THIRD_DOOR_FOLDER = new CustomAdvancement("root", "O Terceiro Nível",
+                "Consiga 25 estrelas e abra a porta do terceiro nível!", Material.BOOK,
+                null, "level3", false, false, FrameType.CHALLENGE).install();
+
+        FOURTH_DOOR = new CustomAdvancement("fourthdoor", "O Último Nível",
+                "Consiga 50 estrelas e abra a porta do último nível!", Material.BOOK,
+                "mapmeel/thirddoor", "mapmeel", false, true, FrameType.CHALLENGE).install();
+
+        FOURTH_DOOR_FOLDER = new CustomAdvancement("root", "O Último Nível",
+                "Consiga 50 estrelas e abra a porta do último nível!", Material.BOOK,
+                null, "level4", false, false, FrameType.CHALLENGE).install();
+
+        SECRET_LEVELS = new CustomAdvancement("secret_levels", "Tem ainda mais?!",
+                "Encontre o primeiro nível escondido!", Material.GLASS,
+                "mapmeel/first_sombra", "mapmeel", true, true, FrameType.CHALLENGE).install();
+
+        SECRET_LEVELS_FOLDER = new CustomAdvancement("root", "Níveis Escondidos",
+                "Encontre o primeiro nível escondido!", Material.GLASS,
+                null, "niveisescondidos", true, false, FrameType.CHALLENGE).install();
+
+        BOSS_DOOR = new CustomAdvancement("boss_door", "Não se preocupe Meel, to indo!",
+                "Consiga 70 estrelas e abra a porta do topo do castelo!", Material.IRON_BARS,
+                "mapmeel/fourthdoor", "mapmeel", false, true, FrameType.CHALLENGE).install();
+
+        GET_120_STARS = new CustomAdvancement("get120stars", "Finalize o jogo!",
+                "Consiga todas as 120 estrelas do jogo!", Material.PLAYER_HEAD,
+                "mapmeel/boss_level", "mapmeel", false, true, FrameType.CHALLENGE).install();
+
+        FIND_THE_GATE = new CustomAdvancement("findthegate", "O Portão das 120 Estrelas!",
+                "Procure e encontre o portão das 120 estrelas!", Material.IRON_BARS,
+                "mapmeel/get120stars", "mapmeel", false, true, FrameType.CHALLENGE).install();
+
+        FINISHED_GAME = new CustomAdvancement("finishedgame", "MapMeel v4 Finalizado!",
+                "Converse com o Intro e finalize o jogo!", Material.DIAMOND,
+                "mapmeel/findthegate", "mapmeel", true, true, FrameType.CHALLENGE).install();
     }
 
-    private final String name = "mapmeelv4";
+    private final String name = "mapmeel";
     private String fileName;
     private String title;
     private String description;
@@ -146,7 +192,7 @@ public class CustomAdvancement implements Advancement {
 
     @Override
     public NamespacedKey getKey() {
-        return new NamespacedKey("mmv4", getFolder() + "/" + getFileName());
+        return new NamespacedKey(MapMain.getPlugin(), getFolder() + "/" + getFileName());
     }
 
     public String getJson() {
@@ -178,7 +224,7 @@ public class CustomAdvancement implements Advancement {
         advancementJson.add("criteria", criteriaJson);
 
         if (getParent() != null) {
-            advancementJson.addProperty("parent", "mmv4:" + getParent());
+            advancementJson.addProperty("parent", "mapmeel:" + getParent());
         }
 
         return advancementJson.toString();
@@ -186,8 +232,7 @@ public class CustomAdvancement implements Advancement {
 
     public CustomAdvancement install() {
         try {
-            new File("world/datapacks/mapmeelv4/data/mmv4/advancements/" + folder).mkdirs();
-            File jsonFile = new File("world/datapacks/mapmeelv4/data/mmv4/advancements/" + folder + "/" + fileName + ".json");
+            File jsonFile = new File("world/datapacks/mapmeel/data/mapmeel/advancements/" + folder + "/" + fileName + ".json");
             PrintWriter writer = new PrintWriter(jsonFile);
             writer.print(getJson());
             writer.flush();

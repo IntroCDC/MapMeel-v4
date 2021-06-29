@@ -18,10 +18,9 @@ public class NPCEvents implements Listener {
         }
 
         for (NPCTalk npc : NPCTalk.allNpcs) {
-            if (event.getNPC().getName().equalsIgnoreCase(npc.getName()) && event.getClicker().getLocation().distance(npc.getLocation()) < 10) {
-
+            if (event.getNPC().getName().equalsIgnoreCase(npc.getName()) &&
+                    event.getClicker().getLocation().distance(npc.getLocation()) < 10) {
                 npc.talk(event.getClicker());
-
             }
         }
     }

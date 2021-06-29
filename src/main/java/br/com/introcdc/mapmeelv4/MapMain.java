@@ -63,8 +63,10 @@ public class MapMain extends JavaPlugin {
             }
             if (world.getName().equalsIgnoreCase("world")) {
                 for (int i = 0; i < 100; i++) {
-                    Parrot parrot = world.spawn(DEFAULT.clone().add((MapUtils.RANDOM.nextInt(500) - 250), 0, (MapUtils.RANDOM.nextInt(500) - 250)), Parrot.class);
-                    parrot.setCustomName(SerjaoInteract.removeEventTags(SerjaoInteract.getRandomMessage(SerjaoInteract.getRandomMessageFile())));
+                    Parrot parrot = world.spawn(DEFAULT.clone().add((MapUtils.RANDOM.nextInt(500) - 250), 0,
+                            (MapUtils.RANDOM.nextInt(500) - 250)), Parrot.class);
+                    // parrot.setCustomName(SerjaoInteract.removeEventTags(SerjaoInteract
+                    // .getRandomMessage(SerjaoInteract.getRandomMessageFile())));
                     parrot.setCustomNameVisible(true);
                 }
             }

@@ -29,11 +29,12 @@ public class SpongeEvents implements Listener {
 
     @EventHandler
     public void eachSecond(UpdateEvent event) {
-        if (event.getType() == UpdateType.SECONDS && event.getTimes() == 1) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                if (player.isOnGround() && hasFallProtection(player)) {
-                    Bukkit.getScheduler().runTask(MapMain.getPlugin(), () -> removeFallProtection(player));
-                }
+        if (event.getType() != UpdateType.SECONDS || event.getTimes() != 1) {
+            return;
+        }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.isOnGround() && hasFallProtection(player)) {
+                Bukkit.getScheduler().runTask(MapMain.getPlugin(), () -> removeFallProtection(player));
             }
         }
     }
@@ -86,7 +87,7 @@ public class SpongeEvents implements Listener {
     }
 
     public static void removeFallProtection(final Player player) {
-        // fallProtection.remove(player.getUniqueId());
+        fallProtection.remove(player.getUniqueId());
     }
 
 }

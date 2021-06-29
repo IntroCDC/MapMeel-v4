@@ -79,23 +79,37 @@ public class CommandTest extends CommandBase {
 
             if (args[0].equalsIgnoreCase("4")) {
                 profession = Villager.Profession.CLERIC;
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60 * 20, 0)).toItem(), 50));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 60 * 20, 0)).toItem(), 50));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30 * 20, 0)).toItem(), 55));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60 * 20, 0)).toItem(), 50));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 60 * 20, 0)).toItem(), 50));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 30 * 20, 0)).toItem(), 55));
 
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.SPEED, 120 * 20, 0)).toItem(), 40));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.JUMP, 120 * 20, 0)).toItem(), 40));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 120 * 20, 0)).toItem(), 40));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 120 * 20, 0)).toItem(), 40));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 120 * 20, 0)).toItem(), 40));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.LEVITATION, 15 * 20, 0)).toItem(), 40));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.GLOWING, 120 * 20, 0)).toItem(), 40));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.SPEED, 120 * 20, 0)).toItem(), 40));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.JUMP, 120 * 20, 0)).toItem(), 40));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 120 * 20, 0)).toItem(), 40));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 120 * 20, 0)).toItem(), 40));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 120 * 20, 0)).toItem(), 40));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.LEVITATION, 15 * 20, 0)).toItem(), 40));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.GLOWING, 120 * 20, 0)).toItem(), 40));
 
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.REGENERATION, 10 * 20, 0)).toItem(), 55));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.SATURATION, 10 * 20, 0)).toItem(), 55));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, 10 * 20, 0)).toItem(), 55));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.REGENERATION, 10 * 20, 0)).toItem(), 55));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.SATURATION, 10 * 20, 0)).toItem(), 55));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, 10 * 20, 0)).toItem(), 55));
 
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION)).addCustonEffect(new PotionEffect(PotionEffectType.HERO_OF_THE_VILLAGE, 300 * 20, 0)).toItem(), 60));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.POTION))
+                        .addCustonEffect(new PotionEffect(PotionEffectType.HERO_OF_THE_VILLAGE, 300 * 20, 0)).toItem(), 60));
             }
 
             if (args[0].equalsIgnoreCase("5")) {
@@ -111,26 +125,42 @@ public class CommandTest extends CommandBase {
 
                 recipes.add(MapUtils.createRecipe(new ItemStack(Material.LAPIS_LAZULI, 16), 5));
                 recipes.add(MapUtils.createRecipe(new ItemStack(Material.EXPERIENCE_BOTTLE, 16), 30));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.DURABILITY, 1).toItem(), 25));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.MENDING, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.DURABILITY, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).
+                        addEnchantment(Enchantment.MENDING, 1).toItem(), 25));
 
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItem(), 25));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 1).toItem(), 25));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.THORNS, 1).toItem(), 30));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.OXYGEN, 1).toItem(), 25));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.FROST_WALKER, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.PROTECTION_EXPLOSIONS, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.THORNS, 1).toItem(), 30));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.OXYGEN, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.FROST_WALKER, 1).toItem(), 25));
 
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.DAMAGE_ALL, 1).toItem(), 25));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.FIRE_ASPECT, 1).toItem(), 25));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.KNOCKBACK, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.DAMAGE_ALL, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.FIRE_ASPECT, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.KNOCKBACK, 1).toItem(), 25));
 
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.ARROW_DAMAGE, 1).toItem(), 25));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.ARROW_KNOCKBACK, 1).toItem(), 25));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.ARROW_INFINITE, 1).toItem(), 75));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.QUICK_CHARGE, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.ARROW_DAMAGE, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.ARROW_KNOCKBACK, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.ARROW_INFINITE, 1).toItem(), 75));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.QUICK_CHARGE, 1).toItem(), 25));
 
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.CHANNELING, 1).toItem(), 25));
-                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK)).addEnchantment(Enchantment.LOYALTY, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.CHANNELING, 1).toItem(), 25));
+                recipes.add(MapUtils.createRecipe(MapUtils.itemBuilder(new ItemStack(Material.ENCHANTED_BOOK))
+                        .addEnchantment(Enchantment.LOYALTY, 1).toItem(), 25));
             }
         }
 

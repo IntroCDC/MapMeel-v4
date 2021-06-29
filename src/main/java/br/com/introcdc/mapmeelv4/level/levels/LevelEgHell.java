@@ -22,7 +22,8 @@ public class LevelEgHell extends Level {
                 null,
                 new Location(Bukkit.getWorld("world"), 225, 215, -185, -181, 0),
                 new LevelObjective[]{
-                        new LevelObjective("No Ponto Mais Alto", new Location(Bukkit.getWorld("EG-HELL"), -104, 256, -639, -181, 90), true)
+                        new LevelObjective("No Ponto Mais Alto",
+                                new Location(Bukkit.getWorld("EG-HELL"), -104, 256, -639, -181, 90), true)
                 });
     }
 

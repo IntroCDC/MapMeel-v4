@@ -22,7 +22,8 @@ public class LevelEgForest extends Level {
                 null,
                 new Location(Bukkit.getWorld("world"), -96, 57, -276, 88, 4),
                 new LevelObjective[]{
-                        new LevelObjective("A Sala Escondida", new Location(Bukkit.getWorld("EG-FOREST"), 341, 85, 379, -172, 90), true)
+                        new LevelObjective("A Sala Escondida",
+                                new Location(Bukkit.getWorld("EG-FOREST"), 341, 85, 379, -172, 90), true)
                 });
     }
 

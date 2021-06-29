@@ -26,8 +26,8 @@ public class CommandTeleportToLevel extends CommandBase {
         }
         if (args.length > 0) {
             Level level = null;
-            for(Level otherLevel : Level.getLeveis().values()) {
-                if(otherLevel.getWarp().getName().equalsIgnoreCase(args[0])) {
+            for (Level otherLevel : Level.getLeveis().values()) {
+                if (otherLevel.getWarp().getName().equalsIgnoreCase(args[0])) {
                     level = otherLevel;
                 }
             }
@@ -43,7 +43,8 @@ public class CommandTeleportToLevel extends CommandBase {
         TextComponent textLevel = new TextComponent(MapUtils.PREFIX + "§fLeveis: §a");
         for (Level leveel : Level.getLeveis().values()) {
             TextComponent levell = new TextComponent("§a" + leveel.getWarp().getName() + "§f, ");
-            levell.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§fClique para teleportar-se para o portal do level!").create()));
+            levell.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                    new ComponentBuilder("§fClique para teleportar-se para o portal do level!").create()));
             levell.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/teleporttolevel " + leveel.getWarp().getName()));
             textLevel.addExtra(levell);
         }

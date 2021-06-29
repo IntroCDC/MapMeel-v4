@@ -37,12 +37,14 @@ public class ObjectveEgHell extends LevelObjective {
         List<String> messages = Arrays.asList(
                 "Why i'm alive?", "Who are you?", "WHY THE FUCK I STILL ALIVE", "pls help pls",
                 "Search for a Better Person", "Lies...", "They all lied to me...", "STOP",
-                "NOW", "", "self judging...", "the biggest dream", "i'm shit", "i'm joke", "FUCK I HATE THAT", "in a better place", "die", "to die",
+                "NOW", "", "self judging...", "the biggest dream", "i'm shit", "i'm joke",
+                "FUCK I HATE THAT", "in a better place", "die", "to die",
                 "don't lose time with me", "here forever", "bad ending", "good ending",
-                "Nível Darkness: 0.0 (Neutro)", "Nível Darkness: -50.0 (Darkness)", "Nível Darkness: -100.0 (Darkness)", "Nível Darkness: +50.0 (Brightness)", "Nível Darkness: +100.0 (The Golden Day)",
-                "The Golden Day", "The Brightness Day", "Darkness", "Brightness", "pls kill me...", "i don't need to be happy", "vida.exe",
-                "22-04-2019", "13-03-2019",
-                "#MapMeel", "#IntroCDC", "#TheBases", "#IntroBase64", "#TheBasesReturns"
+                "Nível Darkness: 0.0 (Neutro)", "Nível Darkness: -50.0 (Darkness)",
+                "Nível Darkness: -100.0 (Darkness)", "Nível Darkness: +50.0 (Brightness)",
+                "Nível Darkness: +100.0 (The Golden Day)", "The Golden Day", "The Brightness Day",
+                "Darkness", "Brightness", "pls kill me...", "i don't need to be happy", "vida.exe",
+                "22-04-2019", "13-03-2019", "#MapMeel", "#IntroCDC", "#TheBases", "#IntroBase64", "#TheBasesReturns"
         );
 
         new BukkitRunnable() {

@@ -32,7 +32,7 @@ public interface SerjaoInteract {
     /**
      * Configs
      */
-    String PRIMARY_FOLDER = "/home/SkypeBot";
+    String PRIMARY_FOLDER = "/home/serjao";
     String WORDS_FOLDER = System.getProperty("wordsFolder", "words");
 
     /**
@@ -161,7 +161,8 @@ public interface SerjaoInteract {
             File selected = possible.get(RANDOM.nextInt(possible.size()));
             if (LOG)
                 System.out
-                        .println("Retornando resposta para a palavra '" + selected.getName().replace(".txt", "") + "'");
+                        .println("Retornando resposta para a palavra '" + selected.getName()
+                                .replace(".txt", "") + "'");
             return getRandomMessage(selected);
         }
         return superRandomMessage();
@@ -253,11 +254,20 @@ public interface SerjaoInteract {
      * Remove other characters from string
      */
     static String removeOtherCharacters(String message) {
-        return message.replace("!", "").replace(",", "").replace(".", "").replace("@", "").replace("?", "")
-                .replace("#", "").replace("$", "").replace("%", "").replace("¨", "").replace("~", "").replace("&", "")
-                .replace("/", "").replace("\\", "").replace("*", "").replace("+", "").replace("-", "").replace("'", "")
-                .replace("\"", "").replace("^", "").replace("_", "").replace("=", "").replace(";", "").replace(":", "")
-                .replace("(", "").replace(")", "").replace("[", "").replace("]", "").replace("{", "").replace("}", "");
+        return message.replace("!", "").replace(",", "")
+                .replace(".", "").replace("@", "").replace("?", "")
+                .replace("#", "").replace("$", "")
+                .replace("%", "").replace("¨", "")
+                .replace("~", "").replace("&", "")
+                .replace("/", "").replace("\\", "")
+                .replace("*", "").replace("+", "")
+                .replace("-", "").replace("'", "")
+                .replace("\"", "").replace("^", "")
+                .replace("_", "").replace("=", "")
+                .replace(";", "").replace(":", "")
+                .replace("(", "").replace(")", "")
+                .replace("[", "").replace("]", "")
+                .replace("{", "").replace("}", "");
     }
 
     /**
@@ -280,10 +290,15 @@ public interface SerjaoInteract {
             );
             for (String rawMessage : replies) {
 
-                String message = removeAcents(rawMessage.toLowerCase()).replace("1", "i").replace("3", "e")
-                        .replace("4", "a").replace("5", "s").replace("0", "o").replace("!", "").replace("?", "")
-                        .replace("&", "").replace("/", "").replace("\\", "").replace("*", "").replace("+", "")
-                        .replace("-", "").replace("_", "").replace("=", "").replace(" ", "");
+                String message = removeAcents(rawMessage.toLowerCase())
+                        .replace("1", "i").replace("3", "e")
+                        .replace("4", "a").replace("5", "s")
+                        .replace("0", "o").replace("!", "")
+                        .replace("?", "").replace("&", "")
+                        .replace("/", "").replace("\\", "")
+                        .replace("*", "").replace("+", "")
+                        .replace("-", "").replace("_", "")
+                        .replace("=", "").replace(" ", "");
 
                 for (String alphabet : alphabetList) {
                     while (message.contains(alphabet + alphabet)) {

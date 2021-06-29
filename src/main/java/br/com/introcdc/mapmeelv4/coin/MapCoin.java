@@ -46,7 +46,8 @@ public class MapCoin {
         if (!this.location.getChunk().isLoaded()) {
             this.location.getChunk().load();
         }
-        Item item = this.location.getWorld().dropItem(this.location, MapUtils.itemBuilder(new ItemStack(this.type.getMaterial())).setName("§fMoeda").toItem());
+        Item item = this.location.getWorld().dropItem(this.location,
+                MapUtils.itemBuilder(new ItemStack(this.type.getMaterial())).setName("§fMoeda").toItem());
         item.setGravity(false);
         item.setInvulnerable(true);
         item.setVelocity(VECTOR);

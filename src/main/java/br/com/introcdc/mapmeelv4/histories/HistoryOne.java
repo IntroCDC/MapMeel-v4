@@ -54,16 +54,20 @@ public class HistoryOne implements Listener {
                             MapUtils.sendTitle(player, "§f§l§oIntroCDC", "", 3, 100, 20), 50);
 
                     Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () ->
-                            MapUtils.sendTitle(player, "§f§l§oIntroCDC", "§f§oApresenta...", 0, 100, 20), 92);
+                            MapUtils.sendTitle(player, "§f§l§oIntroCDC",
+                                    "§f§oApresenta...", 0, 100, 20), 92);
 
                     Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () ->
-                            MapUtils.sendTitle(player, "§f§l§oIntroCDC", "§f§oMais uma versão...", 0, 100, 20), 136);
+                            MapUtils.sendTitle(player, "§f§l§oIntroCDC",
+                                    "§f§oMais uma versão...", 0, 100, 20), 136);
 
                     Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () ->
-                            MapUtils.sendTitle(player, "§f§l§oIntroCDC", "§f§oDe um projeto tão grande...", 0, 100, 20), 180);
+                            MapUtils.sendTitle(player, "§f§l§oIntroCDC",
+                                    "§f§oDe um projeto tão grande...", 0, 100, 20), 180);
 
                     Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () ->
-                            MapUtils.sendTitle(player, "§5§l§oMapMeel §f§ov4", "§f§oO Fim da História", 0, 263, 130), 224);
+                            MapUtils.sendTitle(player, "§5§l§oMapMeel §f§ov4",
+                                    "§f§oO Fim da História", 0, 263, 130), 224);
 
                 }
             }.runTaskLater(MapMain.getPlugin(), 100);

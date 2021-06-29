@@ -25,7 +25,9 @@ public class CommandSetTempBlock extends CommandBase {
     @Override
     public void onExecute(CommandSender sender, String label, String[] args) throws Exception {
         if (args.length == 6) {
-            if (Bukkit.getWorld(args[0]) != null && MapUtils.isNumber(args[1]) && MapUtils.isNumber(args[2]) && MapUtils.isNumber(args[3]) && Material.valueOf(args[4]) != null) {
+            if (Bukkit.getWorld(args[0]) != null && MapUtils.isNumber(args[1])
+                    && MapUtils.isNumber(args[2]) && MapUtils.isNumber(args[3])
+                    && Material.valueOf(args[4]) != null) {
                 int x = Integer.parseInt(args[1]), y = Integer.parseInt(args[2]), z = Integer.parseInt(args[3]);
                 Block block = Bukkit.getWorld(args[0]).getBlockAt(x, y, z);
                 if (cooldown.contains(block)) {
@@ -37,7 +39,7 @@ public class CommandSetTempBlock extends CommandBase {
                 Bukkit.getScheduler().runTaskLater(MapMain.getPlugin(), () -> {
                     block.setType(type);
                     cooldown.remove(block);
-                }, Integer.parseInt(args[5]) * 20);
+                }, Integer.parseInt(args[5]) * 20L);
                 return;
             }
         }

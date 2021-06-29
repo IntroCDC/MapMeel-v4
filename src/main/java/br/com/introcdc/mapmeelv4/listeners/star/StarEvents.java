@@ -20,57 +20,70 @@ public class StarEvents implements Listener {
 
     @EventHandler
     public void onPickUp(PlayerPickupItemEvent event) {
-        if (event.getItem() != null && event.getItem().getItemStack() != null && event.getItem().getItemStack().getItemMeta() != null && event.getItem().getItemStack().getItemMeta().getDisplayName() != null) {
-            if (event.getItem().getItemStack().getType().equals(Material.PLAYER_HEAD)) {
-                if (Level.getLevel(event.getPlayer().getWorld().getName()) != null) {
-                    if (Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().containsKey(event.getItem().getItemStack().getItemMeta().getDisplayName())) {
-                        event.setCancelled(true);
+        if (event.getItem() == null || event.getItem().getItemStack() == null ||
+                event.getItem().getItemStack().getItemMeta() == null ||
+                event.getItem().getItemStack().getItemMeta().getDisplayName() == null) {
+            return;
+        }
+        if (!event.getItem().getItemStack().getType().equals(Material.PLAYER_HEAD)) {
+            return;
+        }
+        if (Level.getLevel(event.getPlayer().getWorld().getName()) == null) {
+            return;
+        }
+        if (!Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives()
+                .containsKey(event.getItem().getItemStack().getItemMeta().getDisplayName())) {
+            return;
+        }
+        event.setCancelled(true);
 
-                        if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
-                            return;
-                        }
+        if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
+            return;
+        }
 
-                        event.getItem().remove();
+        event.getItem().remove();
 
-                        LevelObjective objective = Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get(event.getItem().getItemStack().getItemMeta().getDisplayName());
+        LevelObjective objective = Level.getLevel(event.getPlayer().getWorld().getName())
+                .getObjectives().get(event.getItem().getItemStack().getItemMeta().getDisplayName());
 
-                        MusicUpdaterEvents.musicPause = false;
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            player.setGameMode(GameMode.SPECTATOR);
-                        }
-
-                        if (event.getItem().getItemStack().getItemMeta().getDisplayName().equalsIgnoreCase("Mate o Chefão")) {
-
-                            LevelObjective bossObjective = Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get("Mate o Chefão");
-
-                            if (!bossObjective.isFinished()) {
-                                bossObjective.setFinished(true, event.getPlayer().getName());
-                                Level.stars++;
-                            }
-
-                            Level.getLevel(event.getPlayer().getWorld().getName()).save();
-                            CoinEvents.coins = 0;
-                            CoinEvents.redCoins = 0;
-                            CoinEvents.blueCoins = 0;
-                            for (Player player : Bukkit.getOnlinePlayers()) {
-                                player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
-                            }
-                            Level.getLevel(event.getPlayer().getWorld().getName()).unloadCoins();
-                            Level.getLevel(event.getPlayer().getWorld().getName()).unloadMobs();
-
-                            FinalHistory.startFinalHistory();
-
-                        } else {
-                            Level.getLevel(event.getPlayer().getWorld().getName())
-                                    .unloadLevel(
-                                            Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get(event.getItem().getItemStack().getItemMeta().getDisplayName()), event.getPlayer().getName()
-                                    );
-                        }
-
-                    }
-                }
+        MusicUpdaterEvents.musicPause = false;
+        if (objective.isUnloadLevel()) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.setGameMode(GameMode.SPECTATOR);
             }
         }
+
+        if (event.getItem().getItemStack().getItemMeta().getDisplayName()
+                .equalsIgnoreCase("Mate o Chefão")) {
+
+            LevelObjective bossObjective = Level.getLevel(event.getPlayer().getWorld().getName()).getObjectives().get("Mate o Chefão");
+
+            if (!bossObjective.isFinished()) {
+                bossObjective.setFinished(true, event.getPlayer().getName());
+                Level.stars++;
+            }
+
+            Level.getLevel(event.getPlayer().getWorld().getName()).save();
+            CoinEvents.coins = 0;
+            CoinEvents.redCoins = 0;
+            CoinEvents.blueCoins = 0;
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
+            }
+            Level.getLevel(event.getPlayer().getWorld().getName()).unloadCoins();
+            Level.getLevel(event.getPlayer().getWorld().getName()).unloadMobs();
+
+            FinalHistory.startFinalHistory();
+
+        } else {
+            Level.getLevel(event.getPlayer().getWorld().getName())
+                    .unloadLevel(
+                            Level.getLevel(event.getPlayer().getWorld().getName())
+                                    .getObjectives().get(event.getItem().getItemStack()
+                                    .getItemMeta().getDisplayName()), event.getPlayer().getName()
+                    );
+        }
+
     }
 
 }

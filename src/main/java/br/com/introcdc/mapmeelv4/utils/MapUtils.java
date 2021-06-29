@@ -49,7 +49,9 @@ public class MapUtils {
 
     public static Calendar calendar = Calendar.getInstance();
 
-    public static Color[] colors = new Color[]{Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.WHITE, Color.YELLOW};
+    public static Color[] colors = new Color[]{Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY,
+            Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE,
+            Color.RED, Color.SILVER, Color.WHITE, Color.YELLOW};
     public static JsonParser parser = new JsonParser();
 
     public static String PREFIX = "§5§l§oMap§f§l§oMeel §5§l§o>§f§l§o> §f";
@@ -57,7 +59,11 @@ public class MapUtils {
 
     public static Random RANDOM = new Random();
 
-    private static DateTimeFormatter TIME_FORMATTER = new DateTimeFormatterBuilder().appendValue(DAY_OF_MONTH, 2).appendLiteral('/').appendValue(MONTH_OF_YEAR, 2).appendLiteral('/').appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD).appendLiteral(" - ").appendValue(HOUR_OF_DAY, 2).appendLiteral(':').appendValue(MINUTE_OF_HOUR, 2).appendLiteral(':').appendValue(SECOND_OF_MINUTE, 2).toFormatter();
+    private static DateTimeFormatter TIME_FORMATTER = new DateTimeFormatterBuilder()
+            .appendValue(DAY_OF_MONTH, 2).appendLiteral('/').appendValue(MONTH_OF_YEAR, 2)
+            .appendLiteral('/').appendValue(YEAR, 4, 10, SignStyle.EXCEEDS_PAD)
+            .appendLiteral(" - ").appendValue(HOUR_OF_DAY, 2).appendLiteral(':')
+            .appendValue(MINUTE_OF_HOUR, 2).appendLiteral(':').appendValue(SECOND_OF_MINUTE, 2).toFormatter();
 
     public static void broadcastMessage(String message) {
         Bukkit.broadcastMessage(message);
@@ -254,7 +260,8 @@ public class MapUtils {
         }
         URLConnection connection = new URL(URL).openConnection();
         connection.addRequestProperty("User-Agent", "Kindome/IntroCDC");
-        try (BufferedInputStream in = new BufferedInputStream(connection.getInputStream()); FileOutputStream fout = new FileOutputStream(destiny)) {
+        try (BufferedInputStream in = new BufferedInputStream(connection.getInputStream()); FileOutputStream fout =
+                new FileOutputStream(destiny)) {
             byte[] data = new byte[1024];
             int count;
             while ((count = in.read(data, 0, 1024)) != -1) {
@@ -339,7 +346,8 @@ public class MapUtils {
         try {
             Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
             FireworkMeta fMeta = firework.getFireworkMeta();
-            FireworkEffect effect = FireworkEffect.builder().withFade(getRandom(colors), getRandom(colors)).withColor(getRandom(colors), getRandom(colors)).flicker(true).trail(true).build();
+            FireworkEffect effect = FireworkEffect.builder().withFade(getRandom(colors), getRandom(colors))
+                    .withColor(getRandom(colors), getRandom(colors)).flicker(true).trail(true).build();
             fMeta.addEffect(effect);
             firework.setFireworkMeta(fMeta);
             firework.setCustomName("Kindome");
@@ -456,14 +464,17 @@ public class MapUtils {
             return;
         }
 
-        if (cooldownTime.containsKey(player.getUniqueId()) && soundCategory.equals(SoundCategory.AMBIENT) && cooldownTime.getOrDefault(player.getUniqueId(), System.currentTimeMillis()) < System.currentTimeMillis()) {
+        if (cooldownTime.containsKey(player.getUniqueId()) && soundCategory.equals(SoundCategory.AMBIENT) &&
+                cooldownTime.getOrDefault(player.getUniqueId(), System.currentTimeMillis()) < System.currentTimeMillis()) {
             cooldownPlay.remove(player.getUniqueId());
             cooldownTime.remove(player.getUniqueId());
         }
-        if (cooldownPlay.containsKey(player.getUniqueId()) && soundCategory.equals(SoundCategory.AMBIENT) && cooldownPlay.getOrDefault(player.getUniqueId(), MapSound.STOP).equals(mapSound)) {
+        if (cooldownPlay.containsKey(player.getUniqueId()) && soundCategory.equals(SoundCategory.AMBIENT) &&
+                cooldownPlay.getOrDefault(player.getUniqueId(), MapSound.STOP).equals(mapSound)) {
             return;
         }
-        if (cooldownTime.containsKey(player.getUniqueId()) && soundCategory.equals(SoundCategory.AMBIENT) && cooldownTime.getOrDefault(player.getUniqueId(), 0L) < System.currentTimeMillis()) {
+        if (cooldownTime.containsKey(player.getUniqueId()) && soundCategory.equals(SoundCategory.AMBIENT) &&
+                cooldownTime.getOrDefault(player.getUniqueId(), 0L) < System.currentTimeMillis()) {
             return;
         }
 
@@ -471,7 +482,7 @@ public class MapUtils {
             lastSound.put(player.getUniqueId(), mapSound.getFile());
 
             cooldownPlay.put(player.getUniqueId(), mapSound);
-            cooldownTime.put(player.getUniqueId(), System.currentTimeMillis() + (mapSound.getSeconds() * 1000));
+            cooldownTime.put(player.getUniqueId(), System.currentTimeMillis() + (mapSound.getSeconds() * 1000L));
         }
 
         player.playSound(player.getLocation(), mapSound.getFile(), soundCategory, 50000, tom);
@@ -535,7 +546,9 @@ public class MapUtils {
         long minutes = totalTime % 3600 / 60;
         long seconds = totalTime % 60;
         if (totalTime > 0) {
-            return (years > 0 ? placeZero(years) + "A " : "") + (months > 0 ? placeZero(months) + "M " : "") + (days > 0 ? placeZero(days) + "d " : "") + (hours > 0 ? placeZero(hours) + "h " : "") + (minutes > 0 ? placeZero(minutes) + "m " : "") + (seconds > 0 ? placeZero(seconds) + "s " : "");
+            return (years > 0 ? placeZero(years) + "A " : "") + (months > 0 ? placeZero(months) + "M " : "") +
+                    (days > 0 ? placeZero(days) + "d " : "") + (hours > 0 ? placeZero(hours) + "h " : "") +
+                    (minutes > 0 ? placeZero(minutes) + "m " : "") + (seconds > 0 ? placeZero(seconds) + "s " : "");
         }
         return "0s";
     }
@@ -596,11 +609,11 @@ public class MapUtils {
     }
 
     public static MerchantRecipe createRecipe(Material material, int coins) {
-        return createRecipe(new ItemStack(material), 100, itemBuilder(CoinEvents.COIN).setAmount(coins).toItem());
+        return createRecipe(new ItemStack(material), 100, itemBuilder(CoinEvents.COIN.clone()).setAmount(coins).toItem());
     }
 
     public static MerchantRecipe createRecipe(ItemStack itemStack, int coins) {
-        return createRecipe(itemStack, 100, itemBuilder(CoinEvents.COIN).setAmount(coins).toItem());
+        return createRecipe(itemStack, 100, itemBuilder(CoinEvents.COIN.clone()).setAmount(coins).toItem());
     }
 
     public static MerchantRecipe createRecipe(Material material, int maxUses, ItemStack... ingredients) {

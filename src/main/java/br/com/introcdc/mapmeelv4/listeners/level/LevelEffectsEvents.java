@@ -17,17 +17,23 @@ public class LevelEffectsEvents implements Listener {
 
     @EventHandler
     public void onUpdate(UpdateEvent event) {
-        if (event.getType().equals(UpdateType.SECONDS) && event.getTimes() == 3) {
-            Bukkit.getOnlinePlayers().forEach(player -> {
-                World world = player.getWorld();
-
-                if (Level.getLevel(world.getName()) != null && Level.getLevel(world.getName()).getPotionEffect() != null && player.getGameMode().equals(GameMode.ADVENTURE)) {
-                    PotionEffect potionEffect = new PotionEffect(Level.getLevel(world.getName()).getPotionEffect().getType(), 1000, Level.getLevel(world.getName()).getPotionEffect().getAmplifier());
-                    player.removePotionEffect(potionEffect.getType());
-                    player.addPotionEffect(potionEffect);
-                }
-            });
+        if (!event.getType().equals(UpdateType.SECONDS) || event.getTimes() != 3) {
+            return;
         }
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            World world = player.getWorld();
+
+            if (Level.getLevel(world.getName()) == null ||
+                    Level.getLevel(world.getName()).getPotionEffect() == null ||
+                    !player.getGameMode().equals(GameMode.ADVENTURE)) {
+                return;
+            }
+            PotionEffect potionEffect = new PotionEffect(Level.getLevel(world.getName())
+                    .getPotionEffect().getType(), 1000,
+                    Level.getLevel(world.getName()).getPotionEffect().getAmplifier());
+            player.removePotionEffect(potionEffect.getType());
+            player.addPotionEffect(potionEffect);
+        });
     }
 
 }

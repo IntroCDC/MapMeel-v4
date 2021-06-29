@@ -28,7 +28,8 @@ public class ScoreManager implements Listener {
 
                 (Level.getLevel(world.getName()) != null ?
                         Level.getLevel(world.getName()).getWarp().getName() :
-                        world.getName()) + "\n" + "§b§l§o" + (Level.getLevel(world.getName()) != null ? Level.getLevel(world.getName()).getName() : "Não Localizado"))
+                        world.getName()) + "\n" + "§b§l§o" + (Level.getLevel(world.getName()) != null ?
+                        Level.getLevel(world.getName()).getName() : "Não Localizado"))
 
                 + "\n" +
                 "\n" +
@@ -43,7 +44,8 @@ public class ScoreManager implements Listener {
                 for (String key : Level.getLevel(world.getName()).getObjectives().keySet()) {
                     LevelObjective levelObjective = Level.getLevel(world.getName()).getObjectives().get(key);
                     if (levelObjective.isFinished() || Level.getLevel(world.getName()).getObjectives().size() == 1) {
-                        footer.append("§f§l").append(levelObjective.getStringObjective()).append(": §b").append(levelObjective.getWhoFinished()).append("\n");
+                        footer.append("§f§l").append(levelObjective.getStringObjective()).append(": §b")
+                                .append(levelObjective.getWhoFinished()).append("\n");
                     }
                 }
                 footer.append(" ");

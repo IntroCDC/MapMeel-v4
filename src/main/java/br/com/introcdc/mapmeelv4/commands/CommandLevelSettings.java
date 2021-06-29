@@ -67,4 +67,5 @@ public class CommandLevelSettings extends CommandBase {
         correctUse(sender, "/" + label + " addcoin [tipo]");
         correctUse(sender, "/" + label + " loadcoins/unloadcoins");
     }
+
 }

@@ -32,7 +32,8 @@ public class MapProfile {
     public MapProfile(String name) {
         this.name = name;
         this.loaded = false;
-        this.configFile = new File(MapUtils.getPlugin().getDataFolder().getAbsolutePath() + "/profiles/" + this.getName() + ".json");
+        this.configFile = new File(MapUtils.getPlugin().getDataFolder().getAbsolutePath() +
+                "/profiles/" + this.getName() + ".json");
         if (this.configFile.exists()) {
             try {
                 this.config = MapUtils.parser.parse(new FileReader(configFile)).getAsJsonObject();

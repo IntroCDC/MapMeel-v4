@@ -24,7 +24,8 @@ public class LevelEgUnderWater extends Level {
                 new PotionEffect(PotionEffectType.NIGHT_VISION, 100, 100),
                 new Location(Bukkit.getWorld("world"), -157, 5, 48, -90, 0),
                 new LevelObjective[]{
-                        new LevelObjective("No Topo Da Piramide", new Location(Bukkit.getWorld("EG-UNDERWATER"), -183, 52, -200, 88, 42), true)
+                        new LevelObjective("No Topo Da Piramide",
+                                new Location(Bukkit.getWorld("EG-UNDERWATER"), -183, 52, -200, 88, 42), true)
                 });
     }
 

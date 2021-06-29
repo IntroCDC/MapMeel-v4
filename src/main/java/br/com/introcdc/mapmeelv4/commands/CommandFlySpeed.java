@@ -28,4 +28,5 @@ public class CommandFlySpeed extends CommandBase {
         }
         correctUse(sender, "/" + label + " [velocidade]");
     }
+
 }

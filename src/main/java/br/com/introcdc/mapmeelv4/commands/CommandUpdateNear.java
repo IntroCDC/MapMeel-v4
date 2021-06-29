@@ -30,7 +30,8 @@ public class CommandUpdateNear extends CommandBase {
             int blocks = 0;
             HashSet<Block> blocksList = MapUtils.nearBlocks(player.getLocation(), Integer.parseInt(args[0]));
             for (Block block : blocksList) {
-                if (block.getType().toString().contains("WATER") && block.getLocation().clone().add(0, -1, 0).getBlock().getType().toString().contains("AIR")) {
+                if (block.getType().toString().contains("WATER") && block.getLocation()
+                        .clone().add(0, -1, 0).getBlock().getType().toString().contains("AIR")) {
                     blocks++;
                     block.getLocation().clone().add(0, -1, 0).getBlock().setType(Material.WATER);
                 }
@@ -40,4 +41,5 @@ public class CommandUpdateNear extends CommandBase {
         }
         correctUse(sender, "/" + label + " [número]");
     }
+
 }
